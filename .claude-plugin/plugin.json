@@ -2,6 +2,7 @@
   "name": "dudelis-skills",
   "skills": [
     "skills/engineering/grill-me/SKILL.md",
+    "skills/engineering/grill-with-docs/SKILL.md",
     "skills/productivity/write-a-skill/SKILL.md"
   ]
 }
