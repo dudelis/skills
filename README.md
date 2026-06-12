@@ -43,6 +43,7 @@ General workflow tools, not code-specific.
 | Skill | Description |
 | ----- | ----------- |
 | **[write-a-skill](./skills/productivity/write-a-skill/SKILL.md)** | Create new agent skills with proper structure, progressive disclosure, and bundled resources. |
+| **[teach-me](./skills/productivity/teach-me/SKILL.md)** | Teach the user a new skill or concept over multiple sessions, with lessons, learning records, and a mission. |
 
 ### Misc
 
