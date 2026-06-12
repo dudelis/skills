@@ -13,7 +13,7 @@ Thank you for contributing to this skills repository! Follow these guidelines to
 2. **Use the template:** Copy [`templates/skill-template.md`](./templates/skill-template.md) to `skills/<skill-name>/skill.md` and fill it in.
 
 3. **Follow the skill format:**
-   - **Description** — One or two sentences summarising the skill.
+   - **Description** — One or two sentences summarizing the skill.
    - **Instructions** — Numbered steps with clear directives the agent should follow.
    - **Guidelines** — Bullet-point rules that apply throughout the skill.
    - **Out of Scope** — Explicitly list what the skill should NOT do.

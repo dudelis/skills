@@ -8,7 +8,7 @@ Generates comprehensive, well-structured unit and integration tests for existing
 
 When generating tests:
 
-1. **Analyse the code** — Read the function, class, or module to be tested. Understand its inputs, outputs, side effects, and failure modes.
+1. **Analyze the code** — Read the function, class, or module to be tested. Understand its inputs, outputs, side effects, and failure modes.
 2. **Use the existing test framework** — Identify which testing library and conventions are already used in the project (e.g. Jest, pytest, JUnit, Go testing) and follow the same patterns.
 3. **Cover all cases** — Write tests for:
    - Happy path (expected inputs producing expected outputs)
