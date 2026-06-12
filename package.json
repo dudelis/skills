@@ -1,0 +1,21 @@
+{
+  "name": "dudelis-skills",
+  "version": "1.0.0",
+  "description": "Personal AI skills for GitHub Copilot CLI and Claude Code",
+  "type": "module",
+  "bin": {
+    "dudelis-skills": "./scripts/install.mjs"
+  },
+  "scripts": {
+    "link": "bash scripts/link-skills.sh"
+  },
+  "engines": {
+    "node": ">=18"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/dudelis/skills"
+  },
+  "keywords": ["ai", "skills", "copilot", "claude"],
+  "license": "MIT"
+}
