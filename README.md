@@ -4,25 +4,23 @@ Personal AI skills for [GitHub Copilot CLI](https://docs.github.com/copilot/how-
 
 ## Quickstart
 
-Install all skills with a single `npx` command:
+Install all skills with a single command:
 
 ```bash
-npx github:dudelis/skills
+npx skills@latest add dudelis/skills
 ```
 
-The installer will ask where to install — GitHub Copilot CLI (`~/.copilot/skills`), Claude Code (`~/.claude/skills`), or both — then copy skills to the selected destinations.
+Then run `/skills reload` in your AI tool to pick up the changes.
 
-After installing, run `/skills reload` in your AI tool to pick up the changes.
-
-## Local development
+## Local development (symlinks)
 
 Clone the repo and symlink skills so edits take effect immediately:
 
 ```bash
 git clone https://github.com/dudelis/skills
-bash skills/scripts/link-skills.sh         # links to both tools
-bash skills/scripts/link-skills.sh --copilot  # Copilot CLI only
-bash skills/scripts/link-skills.sh --claude   # Claude Code only
+bash skills/scripts/link-skills.sh             # links to both tools
+bash skills/scripts/link-skills.sh --copilot   # Copilot CLI only
+bash skills/scripts/link-skills.sh --claude    # Claude Code only
 ```
 
 ## Skills
