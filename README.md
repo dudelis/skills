@@ -29,9 +29,10 @@ bash skills/scripts/link-skills.sh --claude    # Claude Code only
 
 Skills for ecommerce product research workflows.
 
-| Skill | Description |
-| ----- | ----------- |
-| **[product-research](./skills/ecommerce/product-research/SKILL.md)** | Researches one skincare or dermocosmetics product, compiles a structured YuliSkin brief, and downloads 2 to 5 main product images into the same product folder with sequential names. |
+| Skill                                                                | Description                                                                                                                                                                                                                                                |
+| -------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| **[product-research](./skills/ecommerce/product-research/SKILL.md)** | Researches one skincare or dermocosmetics product, compiles a structured YuliSkin brief, and downloads 2 to 5 main product images into the same product folder with sequential names.                                                                      |
+| **[company-research](./skills/ecommerce/company-research/SKILL.md)** | Researches one skincare or dermocosmetics brand, produces a Shopify-ready collection-page brief in German and English, downloads the brand logo, and discovers products from the brand site into a manifest ready for parallel `product-research` fan-out. |
 
 ### Engineering
 
@@ -39,20 +40,20 @@ Skills for daily code work.
 
 <!-- Add rows as you create skills: | **[name](./skills/engineering/name/SKILL.md)** | description | -->
 
-| Skill | Description |
-| ----- | ----------- |
-| **[grill-me](./skills/engineering/grill-me/SKILL.md)** | Interview the user relentlessly about a plan or design until reaching shared understanding, resolving each branch of the decision tree. |
+| Skill                                                                | Description                                                                                                                                                                       |
+| -------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| **[grill-me](./skills/engineering/grill-me/SKILL.md)**               | Interview the user relentlessly about a plan or design until reaching shared understanding, resolving each branch of the decision tree.                                           |
 | **[grill-with-docs](./skills/engineering/grill-with-docs/SKILL.md)** | Grilling session that challenges your plan against the existing domain model, sharpens terminology, and updates documentation (CONTEXT.md, ADRs) inline as decisions crystallise. |
-| **[to-issues](./skills/engineering/to-issues/SKILL.md)** | Break a plan, spec, or PRD into independently-grabbable issues on the project issue tracker using tracer-bullet vertical slices. |
+| **[to-issues](./skills/engineering/to-issues/SKILL.md)**             | Break a plan, spec, or PRD into independently-grabbable issues on the project issue tracker using tracer-bullet vertical slices.                                                  |
 
 ### Productivity
 
 General workflow tools, not code-specific.
 
-| Skill | Description |
-| ----- | ----------- |
-| **[write-a-skill](./skills/productivity/write-a-skill/SKILL.md)** | Create new agent skills with proper structure, progressive disclosure, and bundled resources. |
-| **[teach-me](./skills/productivity/teach-me/SKILL.md)** | Teach the user a new skill or concept over multiple sessions, with lessons, learning records, and a mission. |
+| Skill                                                             | Description                                                                                                  |
+| ----------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------ |
+| **[write-a-skill](./skills/productivity/write-a-skill/SKILL.md)** | Create new agent skills with proper structure, progressive disclosure, and bundled resources.                |
+| **[teach-me](./skills/productivity/teach-me/SKILL.md)**           | Teach the user a new skill or concept over multiple sessions, with lessons, learning records, and a mission. |
 
 ### Misc
 
