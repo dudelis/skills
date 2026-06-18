@@ -1,6 +1,27 @@
-# Create Product Output Contract
+# Product Research Output Contract
 
-Use this contract when generating `[CompanyName]/[ProductName].txt` for YuliSkin product creation.
+Use this contract when generating `Products/[CompanyName]/[ProductName]/brief.txt` for YuliSkin product research output.
+
+## Image Download Output
+
+In addition to `brief.txt`, download the main product images and store them in the same folder:
+
+```text
+Products/[CompanyName]/[ProductName]/[CompanyName]-[ProductName]-01.[ext]
+Products/[CompanyName]/[ProductName]/[CompanyName]-[ProductName]-02.[ext]
+Products/[CompanyName]/[ProductName]/[CompanyName]-[ProductName]-03.[ext]
+Products/[CompanyName]/[ProductName]/[CompanyName]-[ProductName]-04.[ext]
+Products/[CompanyName]/[ProductName]/[CompanyName]-[ProductName]-05.[ext]
+```
+
+Rules:
+
+- Prioritize source order: official brand/product page, distributor page, then competitor page.
+- Download 2 to 5 images when available.
+- Use only images that clearly match the exact product.
+- Prefer primary product packshots and key gallery images.
+- Skip logos, banners, watermarked ads, and unrelated lifestyle images.
+- Preserve source extension when possible (`.jpg`, `.jpeg`, `.png`, `.webp`).
 
 ## Required File Structure
 
@@ -279,6 +300,7 @@ Use reviews or aggregateRating only if real review data exists.
 - Strategy sections come first.
 - German section comes before English.
 - Each language contains all 12 requested sections.
+- 2 to 5 product images were downloaded when available and saved with sequential names (`-01` to `-05`) in the product folder.
 - General Description uses allowed HTML and no `<h1>`.
 - Plain text sections use labelled lines.
 - SEO title is 70 characters or less.

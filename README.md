@@ -25,6 +25,14 @@ bash skills/scripts/link-skills.sh --claude    # Claude Code only
 
 ## Skills
 
+### Ecommerce
+
+Skills for ecommerce product research workflows.
+
+| Skill | Description |
+| ----- | ----------- |
+| **[product-research](./skills/ecommerce/product-research/SKILL.md)** | Researches one skincare or dermocosmetics product, compiles a structured YuliSkin brief, and downloads 2 to 5 main product images into the same product folder with sequential names. |
+
 ### Engineering
 
 Skills for daily code work.

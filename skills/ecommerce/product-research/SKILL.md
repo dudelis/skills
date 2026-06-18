@@ -1,13 +1,13 @@
 ---
-name: product-create
-description: Prepares researched, SEO-ready bilingual product details for YuliSkin Shopify product creation. Use when the user wants to create or optimize online shop product content, provides a product name and optional URLs, or asks for product details in the YuliSkin SEO format.
+name: product-research
+description: Researches one skincare or dermocosmetics product, compiles verified findings into a structured YuliSkin brief, and downloads 2 to 5 main product images with sequential file names. Use when the user provides a product name and company and wants facts, keyword direction, image assets, and ready-to-use bilingual content sections in the YuliSkin format.
 ---
 
-# Create Product
+# Product Research
 
 ## Quick Start
 
-Use this skill to research one skincare or dermocosmetics product and generate a ready-to-use product content file for `yuliskin.de`.
+Use this skill to research one skincare or dermocosmetics product and generate a structured product research file for `yuliskin.de`.
 
 Required input:
 
@@ -20,7 +20,17 @@ URLs: [optional official, distributor, competitor, or YuliSkin URLs]
 Final output file:
 
 ```text
-[CompanyName]/[ProductName].txt
+Products/[CompanyName]/[ProductName]/brief.txt
+```
+
+Final image output files:
+
+```text
+Products/[CompanyName]/[ProductName]/[CompanyName]-[ProductName]-01.[ext]
+Products/[CompanyName]/[ProductName]/[CompanyName]-[ProductName]-02.[ext]
+Products/[CompanyName]/[ProductName]/[CompanyName]-[ProductName]-03.[ext]
+Products/[CompanyName]/[ProductName]/[CompanyName]-[ProductName]-04.[ext]
+Products/[CompanyName]/[ProductName]/[CompanyName]-[ProductName]-05.[ext]
 ```
 
 Create the folder if needed. Sanitize the folder and file names only enough to make them valid paths; keep product and company names readable.
@@ -34,16 +44,21 @@ Create the folder if needed. Sanitize the folder and file names only enough to m
 5. Perform keyword research in German and English before writing content.
 6. Prepare a short Product Strategy explaining why the product exists, who it is for, which exact ingredients matter, and how it fits into the company routine.
 7. Generate the required German and English product sections using the contract in [OUTPUT-CONTRACT.md](OUTPUT-CONTRACT.md).
-8. Write the final content to `Products/[CompanyName]/[ProductName].txt`.
-9. Validate title/meta lengths, HTML structure, language separation, claim safety, and allowed metadata values before finishing.
+8. Download the main product images from verified official sources first, then distributor sources, then competitor sources when needed.
+9. Save 2 to 5 images when available in `Products/[CompanyName]/[ProductName]/` as `[CompanyName]-[ProductName]-01.[ext]`, `[CompanyName]-[ProductName]-02.[ext]`, and so on.
+10. Write the final content to `Products/[CompanyName]/[ProductName]/brief.txt`.
+11. Validate title/meta lengths, HTML structure, language separation, claim safety, allowed metadata values, and image outputs before finishing.
 
 ## Research Rules
 
 - Prefer official brand/product pages, distributor pages, verified YuliSkin pages, and credible retailer pages.
 - Use source facts for terminology, product-category logic, routine logic, ingredient language, positioning, and claim boundaries.
+- Use source assets for image files. Prioritize official brand or product pages, then distributor pages, then competitor pages.
 - Do not copy long source passages. Rewrite in original YuliSkin-appropriate language.
 - Do not invent hero ingredients, full INCI, usage frequency, texture, claims, routine position, product code/SKU, Shopify handles, internal links, or related-product URLs.
 - Use only verified YuliSkin URLs for internal links and related products. If a URL cannot be verified, use the product name without a link.
+- Download only real product images for the exact product. Prefer front packshot and key gallery images, avoid logos, banners, and unrelated lifestyle images.
+- Keep the source extension where possible (`.jpg`, `.jpeg`, `.png`, `.webp`).
 - Claims must remain cosmetic and evidence-aware. Avoid medical promises such as curing acne, healing rosacea, or treating disease.
 
 ## Writing Rules
@@ -64,7 +79,8 @@ Create the folder if needed. Sanitize the folder and file names only enough to m
 
 Before returning the final answer, check:
 
-- The file was created at `Products/[CompanyName]/[ProductName].txt`.
+- The file was created at `Products/[CompanyName]/[ProductName]/brief.txt`.
+- 2 to 5 product images were downloaded when available and saved as `[CompanyName]-[ProductName]-01.[ext]` through `[CompanyName]-[ProductName]-05.[ext]` in `Products/[CompanyName]/[ProductName]/`.
 - Research Summary, Keyword Research, and Product Strategy appear before language sections.
 - German and English sections are separated and no section mixes languages.
 - HTML description has no `<h1>`.
