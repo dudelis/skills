@@ -34,7 +34,7 @@ Create the folder if needed. Sanitize the folder and file names only enough to m
 5. Perform keyword research in German and English before writing content.
 6. Prepare a short Product Strategy explaining why the product exists, who it is for, which exact ingredients matter, and how it fits into the company routine.
 7. Generate the required German and English product sections using the contract in [OUTPUT-CONTRACT.md](OUTPUT-CONTRACT.md).
-8. Write the final content to `[CompanyName]/[ProductName].txt`.
+8. Write the final content to `Products/[CompanyName]/[ProductName].txt`.
 9. Validate title/meta lengths, HTML structure, language separation, claim safety, and allowed metadata values before finishing.
 
 ## Research Rules
@@ -64,7 +64,7 @@ Create the folder if needed. Sanitize the folder and file names only enough to m
 
 Before returning the final answer, check:
 
-- The file was created at `[CompanyName]/[ProductName].txt`.
+- The file was created at `Products/[CompanyName]/[ProductName].txt`.
 - Research Summary, Keyword Research, and Product Strategy appear before language sections.
 - German and English sections are separated and no section mixes languages.
 - HTML description has no `<h1>`.
