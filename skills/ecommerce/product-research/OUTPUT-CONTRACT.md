@@ -323,9 +323,28 @@ Use the product name as it should appear in Shopify.
 HTML only. Allowed tags: `<h2>`, `<h3>`, `<p>`, `<ul>`, `<li>`, and verified
 `<a href="">` links. Do not use `<h1>` (Shopify renders the product title as H1).
 
-Must include: product name and company, product type, main skin concern or use case,
-key benefits, exact verified hero ingredients, texture when verified, routine fit,
-internal YuliSkin links only when URLs are verified.
+`descriptionHtml` is the **always-visible top zone** and must not duplicate the
+collapsible metafields below it (`application`, `effect`, `ingredients`) or the
+structured tag lists (`skin_problem`, `skin_type`, `skin_application_areas`). Those are
+SEO-indexed and own the mechanical detail; the description owns persuasion, trust,
+concept, and self-qualification. Build it as **four blocks**:
+
+1. **Hook + concept** — opening `<h2>` (the product name) + a `<p>` that leads with the
+   concept/benefit and who it is for, naming the verified hero ingredients in plain
+   language. Carries the primary keyword.
+2. **Curation note** — a short `<p>` explaining why YuliSkin selected the product:
+   a sincere, boutique-owner remark referencing real-world use in the studio. Never a
+   repeated slogan; never implies clinical/dermatological testing unless the
+   manufacturer states it.
+3. **Concern → mechanism → benefit** — an `<h3>` + `<ul>` where each `<li>` takes one
+   _verified_ target concern and explains _how_ a hero ingredient or property works on
+   it, ending in a claim-safe benefit. Only narrate concerns verified for this product;
+   never invent a mechanism for a broad taxonomy mapping.
+4. **Für wen geeignet** — an `<h3>` + `<ul>` with persona/concern guidance; include a
+   "weniger geeignet, wenn …" line when honestly applicable.
+
+Target depth: ~110–180 words DE (EN similar). For thin-data products (e.g. supplements),
+merge blocks rather than padding with filler or inventing facts.
 
 **Opening `<h2>` heading rule:** When the product name already starts with the brand
 name, the opening `<h2>` must use the product name alone — do not append
@@ -336,8 +355,9 @@ the brand name.
 - ✓ `<h2>Clear Lotion von Plamine</h2>` (product name does not contain brand)
 - ✗ `<h2>Plamine Clear Lotion von Plamine</h2>` (brand repeated)
 
-Follow Product Strategy, Description Direction DE, Keyword Direction DE, and Claim
-Boundaries. Do not write a generic category description.
+Apply the Claim-Safety Lexicon (see "Voice & Claim-Safety Lexicon" below). Follow
+Product Strategy, Description Direction DE, Keyword Direction DE, and Claim Boundaries.
+Do not write a generic category description.
 
 #### `=== handle ===`
 
@@ -380,11 +400,12 @@ Choose exactly one product type. Prefer one of these existing Shopify values:
 
 ```text
 Augenpflege, Brush, Cleanser, Concentrate, Creme, Gel, Geschenkset, Gesichtsgerät,
-Haarpflege, Heimpflegeset, Körperpflege, Lippenpflege, Maske, Nachtcreme, Oil,
-Online consultation, Other, Peeling, Produktset, Serum, Sonnenschutz, Spot Gel,
-Tagescreme, Tonic
+Haarpflege, Heimpflegeset, Körperpflege, Lippenpflege, Maske, Nachtcreme,
+Nahrungsergänzung, Oil, Online consultation, Other, Peeling, Produktset, Serum,
+Sonnenschutz, Spot Gel, Tagescreme, Tonic
 ```
 
+Use `Nahrungsergänzung` for any ingestible product (supplement, beauty drink, powder).
 If no existing value fits, output one proposed new value and add a note in
 `brief.txt` Research Summary that the Shopify product type must be created.
 
@@ -576,6 +597,10 @@ Komfort-Effekt:
 Geeignet für:
 ```
 
+Keep `Geeignet für:` a short skin-type / suitability note (e.g. "Alle Hauttypen;
+empfindliche Haut"). The persona/concern guidance prose lives in description block 4
+("Für wen geeignet"), so this line must not duplicate it.
+
 #### `=== metafields.custom.ingredients ===`
 
 ```text
@@ -595,6 +620,11 @@ Rules:
 ```text
 # Admin UI: Skin application areas | List of body_area | One per line
 ```
+
+**Non-topical rule:** for ingestible products (supplements, beauty drinks, powders)
+and tools/devices, leave this field, `skin_problem`, and `skin_type` **empty**. Never
+force a skin tag onto a product whose nature does not support it — an empty structured
+field keeps the store's faceted filters honest.
 
 Allowed values only:
 
@@ -647,32 +677,36 @@ Allowed values only: `Mischhaut`, `Trocken`, `Oelig`, `Normal`.
 # Admin UI: SEO title | Max 70 chars | Required format: {Company} | {Product Name} | Catchy SEO phrase
 ```
 
-**Required format, unless the product name already contains the company name:**
+**Required format (always three segments):**
 
 ```text
-{CompanyName} | {Product Name} | {Catchy SEO phrase}
+{Company} | {Product} | {Catchy phrase}
 ```
 
-All three segments are separated by `|` (space, pipe, space). If `{Product Name}`
-already begins with `{CompanyName}`, omit the separate company segment and use:
+All three segments are separated by `|` (space, pipe, space). The company always
+leads. If `{Product}` already begins with `{Company}`, strip the company **from the
+product segment only** so the brand appears exactly once, in the lead:
 
-```text
-{Product Name} | {Catchy SEO phrase}
-```
+- Company `Plamine`, product `Plamine Core Care IKI-IKI` → `Plamine | Core Care IKI-IKI | {Catchy phrase}`
+- Company `Plamine`, product `Hybrid Oil` → `Plamine | Hybrid Oil | {Catchy phrase}`
 
-The catchy SEO phrase is a German benefit-, concern-, or product-type phrase
+This stripping is `seo.title`-only. Never strip or add the company in the `title`
+field or the description `<h2>` — those keep the full natural product name. Never
+prepend the company to a product name that does not already contain it.
+
+The catchy phrase is a German benefit-, concern-, or product-type phrase
 pulled from Product Strategy, Keyword Direction DE, and Meta Direction DE — never
-a store slogan. Tune the phrase length so the full string stays ≤ 70 characters.
+a store slogan. Aim for 55–70 characters total so the SERP budget is used.
 
 **Catchy phrase rules (applies to both locales):**
 
 - Must read like a real ad headline fragment — a human-written phrase, not a
-  bare keyword or keyword + verb.
+  bare keyword, a keyword + verb, or the product type alone.
 - Forbidden patterns: `[keyword] kaufen`, `[keyword] online`, `[keyword] bestellen`,
   `[keyword] kaufen bei`, `[keyword] günstig kaufen`.
 - The primary keyword must appear _inside_ a natural phrase, not stand alone as
   the entire segment.
-- ✓ `Klärender Tonic für reine Haut` — ✗ `Clear Lotion kaufen`
+- ✓ `Sanftes Enzympeeling für empfindliche Haut` — ✗ `Core Care Supplement` (bare keyword) — ✗ `Clear Lotion kaufen`
 
 #### `=== seo.description ===`
 
@@ -682,8 +716,11 @@ a store slogan. Tune the phrase length so the full string stays ≤ 70 character
 
 Include company, product name, product type, target concern, and one or two hero
 ingredients when verified, but never duplicate the company if the product name
-already contains it. End with a soft YuliSkin or shopping benefit. Follow Product
-Strategy, Keyword Direction DE, Meta Direction DE, and Claim Boundaries.
+already contains it. Lead with the product substance; the curated-boutique
+credibility is conveyed through a confident, expert tone — do **not** append a literal
+trust tag such as "handverlesen und getestet". Weave the primary keyword and one
+secondary keyword naturally. Follow Product Strategy, Keyword Direction DE, Meta
+Direction DE, the Claim-Safety Lexicon, and Claim Boundaries.
 
 #### `=== media[].alt ===`
 
@@ -808,27 +845,25 @@ Best for:
 # Admin UI (EN locale): SEO title | Max 70 chars | Required format: {Company} | {Product Name} | Catchy SEO phrase
 ```
 
-**Required format, unless the product name already contains the company name:**
+**Required format (always three segments):**
 
 ```text
-{CompanyName} | {Product Name} | {Catchy SEO phrase}
+{Company} | {Product} | {Catchy phrase}
 ```
 
-All three segments are separated by `|` (space, pipe, space). If `{Product Name}`
-already begins with `{CompanyName}`, omit the separate company segment and use:
+The company always leads. If `{Product}` already begins with `{Company}`, strip the
+company **from the product segment only** so the brand appears once, leading. This
+stripping is `seo.title`-only; the `title` field and `<h2>` keep the full product name,
+and the company is never prepended to a product name that lacks it.
 
-```text
-{Product Name} | {Catchy SEO phrase}
-```
-
-The catchy SEO phrase is an English benefit-, concern-, or product-type phrase
+The catchy phrase is an English benefit-, concern-, or product-type phrase
 pulled from Product Strategy, Keyword Direction EN, and Meta Direction EN — never
-a store slogan. Tune the phrase length so the full string stays ≤ 70 characters.
+a store slogan. Aim for 55–70 characters total.
 
 Apply the same catchy phrase rules as DE: the phrase must read like a real ad
-headline fragment; buyer-intent terms (`buy`, `order`, `shop`, `cheap`) are
-forbidden as the entire segment; the primary keyword must appear inside a natural
-phrase, not stand alone.
+headline fragment, never a bare keyword or the product type alone; buyer-intent terms
+(`buy`, `order`, `shop`, `cheap`) are forbidden as the entire segment; the primary
+keyword must appear inside a natural phrase, not stand alone.
 
 #### `=== seo.description ===`
 
@@ -836,7 +871,10 @@ phrase, not stand alone.
 # Admin UI (EN locale): SEO description | Max 160 chars
 ```
 
-Follow Product Strategy, Keyword Direction EN, Meta Direction EN, and Claim Boundaries.
+Lead with the product substance; convey curated-boutique credibility through a
+confident, expert tone — do **not** append a literal trust tag. Follow Product
+Strategy, Keyword Direction EN, Meta Direction EN, the Claim-Safety Lexicon, and
+Claim Boundaries.
 
 ## Final Quality Checklist
 
@@ -860,8 +898,162 @@ Follow Product Strategy, Keyword Direction EN, Meta Direction EN, and Claim Boun
 - `metafields.shopify.harmonized_system_code` follows the HS code rules.
 - `variants[0].metafields.dhlapp.customsItemDescription` is English and ≤ 30 characters.
 - `metafields.custom.skin_application_areas`, `skin_problem`, and `skin_type` use allowed values only, one per line.
-- `seo.title` matches the required format `{CompanyName} | {Product Name} | {Catchy SEO phrase}`, or `{Product Name} | {Catchy SEO phrase}` when the product name already starts with the company name, and is ≤ 70 characters in both files.
+- `seo.title` uses the three-segment format `{Company} | {Product} | {Catchy phrase}`; when the product name starts with the company name, the company is stripped from the product segment only (brand once, leading); the catchy phrase is a real benefit/concern phrase, never a bare keyword; ≤ 70 chars (aim 55–70) in both files.
+- `descriptionHtml` follows the four-block anatomy and does not duplicate the `application`, `effect`, or `ingredients` collapsibles; it includes a tasteful curation note.
+- No banned Claim-Safety Lexicon term and no empty filler phrase appears in any customer-facing field.
+- Every hero ingredient is supported by the brand's own positioning; no invented or brand-contradicting ingredient, and no verified hero ingredient omitted.
+- Non-topical products use `Nahrungsergänzung` (ingestible) and leave `skin_application_areas`, `skin_problem`, and `skin_type` empty rather than force-mapping.
 - `seo.description` ≤ 160 characters in both files.
 - Keyword reuse rule satisfied: the Primary keyword from Keyword Direction DE appears in `descriptionHtml`, `seo.title`, and `seo.description` of `shopify-de.txt`; the Primary keyword from Keyword Direction EN appears in the same three banners of `shopify-en.txt`. Two to four secondary or long-tail keywords per locale are woven into description, application, effect, or ingredients prose. No `Terms to avoid` are used. No banner contains a visible `Keywords:` / `Tags:` line.
 - Unknown facts appear only in `brief.txt` Research Summary, never in the Shopify files.
 - All Shopify-file values are derived from the strategy sections in `brief.txt`.
+
+## Voice & Claim-Safety Lexicon
+
+YuliSkin is a **curated boutique** — a hands-on studio that hand-picks and personally
+tests every brand it sells. Write as a warm, knowledgeable expert who guides the
+customer; never a clinical data sheet, never a hype discounter. Every sentence carries
+a verified fact, a benefit, or the curation angle — never empty filler.
+
+The curation/testing credibility is **real-world studio use only**. Express it
+tastefully in the on-page description (one sincere "why we selected it" note); imply it
+through tone in the meta fields. Never imply clinical, dermatological, or laboratory
+testing unless the manufacturer states it on a verified source.
+
+|                  | German                                                                                                                                                                                                     | English                                                                                             |
+| ---------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------- |
+| Approved framing | `unterstützt`, `pflegt`, `spendet Feuchtigkeit`, `sorgt für ein geschmeidiges/gepflegtes Hautgefühl`, `kann das Hautbild ausgeglichener wirken lassen`, `für einen spürbar … Teint`, `umsorgt`, `verwöhnt` | `supports`, `nourishes`, `helps the skin feel …`, `leaves skin looking …`, `cares for`              |
+| Banned (hard)    | `heilt`, `behandelt`, `bekämpft`, `wirkt gegen [Krankheit]`, `beseitigt`, `garantiert`, `100 %`, `sofort dauerhaft`, `Wundermittel`, `beste/r/s`, `Nr. 1`, `klinisch bewiesen` (unless verified)           | `cures`, `treats`, `eliminates`, `guaranteed`, `clinically proven` (without proof), `best`, `No. 1` |
+| Anti-filler      | `ein wahrer Allrounder`, `darf in keiner Routine fehlen`, `das gewisse Etwas`                                                                                                                              | `a true all-rounder`, `a must-have`, `that special something`                                       |
+
+`klinisch getestet` / `dermatologisch getestet` (and EN equivalents) may be used **only**
+when the manufacturer states it on a verified source.
+
+## Gold-Standard Examples
+
+These are the quality bar for `descriptionHtml` and the SEO fields. Match the depth,
+voice, claim-safety, and content-ownership shown here.
+
+### Example A — Topical (MEDER Enzy-Peel, real verified facts)
+
+Verified hero actives: probiotic enzymes, micronized opal particles, shea butter;
+microbiome-friendly. (Note: the brand markets it explicitly as _not_ fruit-acid based —
+do **not** claim "papaya/fruit enzymes".)
+
+**`descriptionHtml` (DE):**
+
+```html
+<h2>Enzy-Peel (2EZ)</h2>
+<p>
+  Das Enzy-Peel ist eine mikrobiomfreundliche Peeling-Maske mit doppelter
+  Wirkung: Probiotische Enzyme und fein vermahlene Opal-Partikel lösen
+  abgestorbene Hautschüppchen, ohne die Haut zu strapazieren. So wirkt der Teint
+  glatter, frischer und ebenmäßiger.
+</p>
+<p>
+  Wir haben das Enzy-Peel in unser Sortiment aufgenommen, weil es selbst
+  empfindliche Haut sanft exfoliert – ein Punkt, der uns in der Arbeit in
+  unserem Kosmetikstudio besonders wichtig ist. Ein Peeling, das wir guten
+  Gewissens für die regelmäßige Pflege empfehlen.
+</p>
+<h3>Was das Enzy-Peel für Ihre Haut tut</h3>
+<ul>
+  <li>
+    Stumpfer, müder Teint: Probiotische Enzyme lösen gezielt abgestorbene
+    Hautzellen für ein sichtbar frischeres Hautbild.
+  </li>
+  <li>
+    Unebene Hautstruktur: Mikrofeine Opal-Partikel verfeinern die Oberfläche für
+    ein spürbar glatteres Hautgefühl.
+  </li>
+  <li>
+    Trockenheit beim Peeling: Sheabutter spendet Feuchtigkeit und umsorgt die
+    Haut während der Exfoliation.
+  </li>
+  <li>
+    Pflege danach: Die geklärte Haut kann nachfolgende Seren und Cremes besser
+    aufnehmen.
+  </li>
+</ul>
+<h3>Für wen geeignet</h3>
+<ul>
+  <li>
+    Für alle Hauttypen, die einen fahlen oder unebenen Teint sanft auffrischen
+    möchten.
+  </li>
+  <li>
+    Auch für empfindliche Haut – die Formel ist mikrobiomfreundlich und
+    besonders schonend.
+  </li>
+  <li>
+    Weniger geeignet bei akut gereizter oder geschädigter Hautbarriere – hier
+    zuerst beruhigen.
+  </li>
+</ul>
+```
+
+- `seo.title`: `MEDER | Enzy-Peel | Sanftes Enzympeeling für empfindliche Haut`
+- `seo.description`: `Enzy-Peel von MEDER: mikrobiomfreundliche Peeling-Maske mit probiotischen Enzymen für ein glatteres, frischeres Hautbild – auch bei empfindlicher Haut.`
+
+**EN excerpt (same shape):**
+
+```html
+<h2>Enzy-Peel (2EZ)</h2>
+<p>
+  Enzy-Peel is a microbiome-friendly, dual-action exfoliating mask: probiotic
+  enzymes and finely milled opal particles lift away dead skin cells without
+  stressing the skin, leaving the complexion smoother, fresher and more even.
+</p>
+<p>
+  We added Enzy-Peel to our range because it exfoliates even sensitive skin
+  gently — something that matters to us in our studio work. A peel we are happy
+  to recommend for regular care.
+</p>
+```
+
+### Example B — Non-topical (Plamine Core Care IKI-IKI, ingestible)
+
+`productType: Nahrungsergänzung`; `skin_application_areas`, `skin_problem`, and
+`skin_type` left **empty**; inside-out framing; no skin-treatment claims.
+
+**`descriptionHtml` (DE):**
+
+```html
+<h2>Plamine Core Care IKI-IKI</h2>
+<p>
+  Plamine Core Care IKI-IKI ist eine Nahrungsergänzung aus der japanischen
+  Core-Care-Routine von Plamine. Der Pulver-Stick verbindet Enzyme aus Gemüse,
+  Obst und Getreide mit fermentiertem Lactobacillus-Extrakt aus Sojabohnen und
+  präbiotischen Bestandteilen für eine Pflege von innen.
+</p>
+<p>
+  Wir führen IKI-IKI, weil es Plamines Inside-out-Konzept auf einfache Weise in
+  den Alltag bringt – ein Produkt, das gut zu den Routinen passt, die wir in
+  unserem Studio begleiten.
+</p>
+<h3>Was IKI-IKI ergänzt</h3>
+<ul>
+  <li>
+    Darm-Haut-Balance von innen: fermentierte Soja-Bestandteile und Präbiotika
+    unterstützen eine mikrobiotenfreundliche Routine.
+  </li>
+  <li>
+    Tägliche Einfachheit: Portionssticks machen die Einnahme planbar – 1 Stick
+    täglich mit Wasser.
+  </li>
+</ul>
+<h3>Für wen geeignet</h3>
+<ul>
+  <li>
+    Für alle, die Plamines japanische Inside-out-Routine bewusst auch von innen
+    begleiten möchten.
+  </li>
+  <li>
+    Hinweis: enthält Sojabohnen und Milchbestandteile; kein Ersatz für eine
+    ausgewogene Ernährung.
+  </li>
+</ul>
+```
+
+- `seo.title`: `Plamine | Core Care IKI-IKI | Nahrungsergänzung für Darm-Haut-Balance`
+- `seo.description`: `Plamine Core Care IKI-IKI: Nahrungsergänzung für die Darm-Haut-Balance, mit Enzymen & fermentiertem Soja für eine japanische Pflege von innen.`
