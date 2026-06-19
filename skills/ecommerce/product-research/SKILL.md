@@ -103,16 +103,17 @@ Before returning the final answer, check:
 - All three files were written in the same run: `brief.txt`, `shopify-de.txt`, `shopify-en.txt` under `Products/[CompanyName]/[ProductName]/`.
 - 2 to 5 product images were downloaded when available and saved as `[CompanyName]-[ProductName]-01.[ext]` through `[CompanyName]-[ProductName]-05.[ext]`.
 - `brief.txt` contains Research Summary, Keyword Research, Product Strategy, and Structured data reminder — and contains no Shopify-pasteable values.
-- `shopify-de.txt` contains the header block plus all 22 banners in the order defined in [OUTPUT-CONTRACT.md](OUTPUT-CONTRACT.md).
+- `shopify-de.txt` contains the header block plus all 23 banners in the order defined in [OUTPUT-CONTRACT.md](OUTPUT-CONTRACT.md).
 - `shopify-en.txt` contains the header block plus all 9 banners in the order defined in [OUTPUT-CONTRACT.md](OUTPUT-CONTRACT.md).
 - `handle` in `shopify-de.txt` follows the format `{company-slug}-{product-slug}` (lowercase, hyphenated, ASCII-only).
-- Every product has at least one variant: the five `variants[0].*` banners are all present in `shopify-de.txt` (use `Unknown` for unverified SKU/barcode — never skip the banner). Additional real variants are listed in `brief.txt` Research Summary.- Every banner uses the exact GraphQL path documented in the contract (`=== title ===`, `=== descriptionHtml ===`, `=== metafields.custom.application ===`, etc.).
+- Every product has at least one variant: the six `variants[0].*` banners (`title`, `price`, `sku`, `barcode`, `weight`, `metafields.dhlapp.customsItemDescription`) are all present in `shopify-de.txt` (use `Unknown` for unverified values — never skip the banner). Additional real variants are listed in `brief.txt` Research Summary.- Every banner uses the exact GraphQL path documented in the contract (`=== title ===`, `=== descriptionHtml ===`, `=== metafields.custom.application ===`, etc.).
 - Every banner has at least one `# Admin UI:` comment line.
 - `descriptionHtml` uses allowed HTML and no `<h1>`.
 - Descriptive German fields preserve real German characters; ASCII
   transliteration is used only for `handle` and file names.
 - If the product name already starts with the company/brand name, no field repeats
-  the company immediately before the product name.
+  the company immediately before the product name. Run this check before writing
+  every field.
 - `seo.title` matches the required format `{CompanyName} | {Product Name} | {Catchy SEO phrase}`, or `{Product Name} | {Catchy SEO phrase}` when the product name already starts with the company name, and is ≤ 70 characters in both Shopify files.
 - `seo.description` ≤ 160 characters in both Shopify files.
 - Keyword reuse rule satisfied per [OUTPUT-CONTRACT.md](OUTPUT-CONTRACT.md): the Primary keyword from the locale's Keyword Direction is woven naturally into `descriptionHtml`, `seo.title`, and `seo.description`; two to four secondary or long-tail keywords per locale are woven into description, application, effect, or ingredients prose; no `Terms to avoid` are used; no banner contains a visible `Keywords:` / `Tags:` line.

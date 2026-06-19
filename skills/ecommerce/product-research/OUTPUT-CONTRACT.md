@@ -251,6 +251,13 @@ sentences, never bolted on as a list, label row, or visible tag block.
   inside any banner value. Keywords are signal for prose only.
 - Do not keyword-stuff. Each keyword must read as natural German or English in
   context; if a sentence sounds robotic, drop the keyword.
+- **Buyer-intent terms are banned from description prose:** Never use `kaufen`,
+  `bestellen`, `online kaufen`, `günstig kaufen`, `kaufen bei`, `buy`, `order`,
+  `shop online`, or equivalent buyer-intent phrases inside `descriptionHtml`,
+  `metafields.custom.application`, `metafields.custom.effect`, or
+  `metafields.custom.ingredients`. These terms belong only in `seo.title` and
+  `seo.description`, and only inside a natural phrase — never as the entire
+  catchy segment.
 - Translation, not copy-paste: EN keywords are pulled from Keyword Direction EN,
   not transliterated from the DE keyword list.
 
@@ -278,22 +285,23 @@ Generate the banners in this exact order:
 4.  === productType ===
 5.  === vendor ===
 6.  === variants[0].title ===
-7.  === variants[0].sku ===
-8.  === variants[0].barcode ===
-9.  === variants[0].weight ===
-10. === metafields.shopify.country_of_origin ===
-11. === metafields.shopify.harmonized_system_code ===
-12. === variants[0].metafields.dhlapp.customsItemDescription ===
-13. === metafields.shopify--discovery--product_recommendation.related_products ===
-14. === metafields.custom.application ===
-15. === metafields.custom.effect ===
-16. === metafields.custom.ingredients ===
-17. === metafields.custom.skin_application_areas ===
-18. === metafields.custom.skin_problem ===
-19. === metafields.custom.skin_type ===
-20. === seo.title ===
-21. === seo.description ===
-22. === media[].alt ===
+7.  === variants[0].price ===
+8.  === variants[0].sku ===
+9.  === variants[0].barcode ===
+10. === variants[0].weight ===
+11. === metafields.shopify.country_of_origin ===
+12. === metafields.shopify.harmonized_system_code ===
+13. === variants[0].metafields.dhlapp.customsItemDescription ===
+14. === metafields.shopify--discovery--product_recommendation.related_products ===
+15. === metafields.custom.application ===
+16. === metafields.custom.effect ===
+17. === metafields.custom.ingredients ===
+18. === metafields.custom.skin_application_areas ===
+19. === metafields.custom.skin_problem ===
+20. === metafields.custom.skin_type ===
+21. === seo.title ===
+22. === seo.description ===
+23. === media[].alt ===
 ```
 
 ### shopify-de.txt — Per-Banner Specifications
@@ -318,6 +326,15 @@ HTML only. Allowed tags: `<h2>`, `<h3>`, `<p>`, `<ul>`, `<li>`, and verified
 Must include: product name and company, product type, main skin concern or use case,
 key benefits, exact verified hero ingredients, texture when verified, routine fit,
 internal YuliSkin links only when URLs are verified.
+
+**Opening `<h2>` heading rule:** When the product name already starts with the brand
+name, the opening `<h2>` must use the product name alone — do not append
+"von [Brand]". Add "von [Brand]" only when the product name does not already contain
+the brand name.
+
+- ✓ `<h2>Plamine Clear Lotion</h2>` (product name already contains brand)
+- ✓ `<h2>Clear Lotion von Plamine</h2>` (product name does not contain brand)
+- ✗ `<h2>Plamine Clear Lotion von Plamine</h2>` (brand repeated)
 
 Follow Product Strategy, Description Direction DE, Keyword Direction DE, and Claim
 Boundaries. Do not write a generic category description.
@@ -411,9 +428,25 @@ When the product has multiple real variants (sizes, shades, scents):
 # Admin UI: Variant title (volume) | Normalized lowercase units (50 ml, 100 g, 1 l, 10 pcs)
 ```
 
+**Always output the actual volume or count** (`150 ml`, `30 g`, `60 pcs`, etc.).
+`Default Title` is only valid when the product has absolutely no measurable quantity —
+a physical tool or electronic device (e.g. a facial roller, a massager). For any
+skincare, cosmetic, or topical product, always use the volume or weight unit even if
+there is only one variant.
+
 Use `pcs` only when the product is genuinely sold by count. Preserve exact source
 packaging wording in `brief.txt` Research Summary if it differs from the normalized
 value.
+
+#### `=== variants[0].price ===`
+
+```text
+# Admin UI: Price | In EUR | Research from official brand site or distributor/retailer — in that priority order | Output "Unknown" if unverified
+```
+
+Research the retail price in EUR. Prefer the official brand site, then a distributor
+or retailer. Do not use YuliSkin as a price source. Do not estimate or infer a price.
+If no verified price is found, output `Unknown`.
 
 #### `=== variants[0].sku ===`
 
@@ -631,6 +664,16 @@ The catchy SEO phrase is a German benefit-, concern-, or product-type phrase
 pulled from Product Strategy, Keyword Direction DE, and Meta Direction DE — never
 a store slogan. Tune the phrase length so the full string stays ≤ 70 characters.
 
+**Catchy phrase rules (applies to both locales):**
+
+- Must read like a real ad headline fragment — a human-written phrase, not a
+  bare keyword or keyword + verb.
+- Forbidden patterns: `[keyword] kaufen`, `[keyword] online`, `[keyword] bestellen`,
+  `[keyword] kaufen bei`, `[keyword] günstig kaufen`.
+- The primary keyword must appear _inside_ a natural phrase, not stand alone as
+  the entire segment.
+- ✓ `Klärender Tonic für reine Haut` — ✗ `Clear Lotion kaufen`
+
 #### `=== seo.description ===`
 
 ```text
@@ -703,8 +746,11 @@ Use the English product title when available; otherwise use the official product
 # Admin UI (EN locale): Description | Paste in HTML/Source view, not Rich Text
 ```
 
-Same HTML rules as DE. Follow Product Strategy, Description Direction EN, Keyword
-Direction EN, and Claim Boundaries. Do not write a generic category description.
+Same HTML rules as DE, including the opening `<h2>` heading rule: when the product
+name already starts with the brand name, use the product name alone in the opening
+`<h2>` — do not append "by [Brand]". Follow Product Strategy, Description Direction
+EN, Keyword Direction EN, and Claim Boundaries. Do not write a generic category
+description.
 
 #### `=== productType ===`
 
@@ -779,6 +825,11 @@ The catchy SEO phrase is an English benefit-, concern-, or product-type phrase
 pulled from Product Strategy, Keyword Direction EN, and Meta Direction EN — never
 a store slogan. Tune the phrase length so the full string stays ≤ 70 characters.
 
+Apply the same catchy phrase rules as DE: the phrase must read like a real ad
+headline fragment; buyer-intent terms (`buy`, `order`, `shop`, `cheap`) are
+forbidden as the entire segment; the primary keyword must appear inside a natural
+phrase, not stand alone.
+
 #### `=== seo.description ===`
 
 ```text
@@ -792,17 +843,18 @@ Follow Product Strategy, Keyword Direction EN, Meta Direction EN, and Claim Boun
 - All three files (`brief.txt`, `shopify-de.txt`, `shopify-en.txt`) are written in the same run.
 - 2 to 5 product images were downloaded when available and saved with sequential names (`-01` to `-05`).
 - `brief.txt` contains Research Summary, Keyword Research, Product Strategy, and Structured data reminder — and nothing else.
-- `shopify-de.txt` contains the header block and all 22 banners in the documented order.
+- `shopify-de.txt` contains the header block and all 23 banners in the documented order.
 - `shopify-en.txt` contains the header block and all 9 banners in the documented order.
 - Every banner uses the exact GraphQL path documented above.
 - Every banner has at least one `# Admin UI:` comment line.
 - `descriptionHtml` uses allowed HTML and no `<h1>`.
 - `handle` follows the format `{company-slug}-{product-slug}`, is lowercase, hyphenated, ASCII-only, and starts with the brand slug.
 - Descriptive German fields preserve real German characters; ASCII transliteration is used only for `handle` and file/image names.
-- If the product name starts with the company/brand name, no title, SEO field, description, ALT text, or descriptive metafield repeats the company immediately before the product name.
-- Every product has at least one variant: `=== variants[0].title ===`, `=== variants[0].sku ===`, `=== variants[0].barcode ===`, `=== variants[0].weight ===`, and `=== variants[0].metafields.dhlapp.customsItemDescription ===` are all present in `shopify-de.txt` (use `Unknown` for unverified SKU/barcode — never skip the banner). Additional real variants are listed in `brief.txt` Research Summary.
+- **Active brand deduplication check:** Before writing each field, check whether the product name starts with the brand name. If it does, use the product name alone as the subject in that field — never prepend the brand again. This applies to `title`, `descriptionHtml`, `seo.title`, `seo.description`, `media[].alt`, and all `metafields.custom.*` prose.
+- Every product has at least one variant: `=== variants[0].title ===`, `=== variants[0].price ===`, `=== variants[0].sku ===`, `=== variants[0].barcode ===`, `=== variants[0].weight ===`, and `=== variants[0].metafields.dhlapp.customsItemDescription ===` are all present in `shopify-de.txt` (use `Unknown` for unverified values — never skip a banner). Additional real variants are listed in `brief.txt` Research Summary.
 - `productType` is exactly one value and either uses an allowed value or `brief.txt` notes that a new Shopify value must be created.
-- `variants[0].title` uses normalized lowercase units.
+- `variants[0].title` is the actual volume or weight unit (e.g. `150 ml`, `30 g`) for any skincare or cosmetic product; `Default Title` is only valid for physical tools or devices with no measurable quantity.
+- `variants[0].price` is present in `shopify-de.txt` with a verified EUR value or `Unknown`.
 - `variants[0].weight` follows verified source data or the `volume_ml + 50g` fallback.
 - `metafields.shopify.country_of_origin` uses an ISO alpha-2 code or `Unknown`.
 - `metafields.shopify.harmonized_system_code` follows the HS code rules.
