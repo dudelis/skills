@@ -101,7 +101,8 @@ Before returning the final answer, check:
 - Every banner uses the exact GraphQL path documented in the contract (`=== title ===`, `=== descriptionHtml ===`, `=== metafields.custom.application ===`, etc.).
 - Every banner has at least one `# Admin UI:` comment line.
 - `descriptionHtml` uses allowed HTML and no `<h1>`.
-- `seo.title` ≤ 70 characters and `seo.description` ≤ 160 characters in both Shopify files.
+- `seo.title` matches the required format `{CompanyName} | {Product Name} | {Catchy SEO phrase}` (three pipe-separated segments) and is ≤ 70 characters in both Shopify files.
+- `seo.description` ≤ 160 characters in both Shopify files.
 - `variants[0].metafields.dhlapp.customsItemDescription` is English and ≤ 30 characters.
 - `metafields.custom.skin_application_areas`, `skin_problem`, and `skin_type` use only allowed values from [OUTPUT-CONTRACT.md](OUTPUT-CONTRACT.md), one per line.
 - `metafields.shopify--discovery--product_recommendation.related_products` follows routine or concern logic and does not include the same product.

@@ -495,12 +495,19 @@ Allowed values only: `Mischhaut`, `Trocken`, `Oelig`, `Normal`.
 #### `=== seo.title ===`
 
 ```text
-# Admin UI: SEO title | Max 70 chars
+# Admin UI: SEO title | Max 70 chars | Required format: {Company} | {Product Name} | Catchy SEO phrase
 ```
 
-Preferred pattern: `[CompanyName] | [Product Name] | [Benefit or concern]`.
-Use product type or concern, not store slogans. Follow Product Strategy, Keyword
-Direction DE, and Meta Direction DE.
+**Required format (mandatory, no exceptions):**
+
+```text
+{CompanyName} | {Product Name} | {Catchy SEO phrase}
+```
+
+All three segments are required and separated by ` | ` (space, pipe, space). The
+catchy SEO phrase is a German benefit-, concern-, or product-type phrase pulled
+from Product Strategy, Keyword Direction DE, and Meta Direction DE — never a
+store slogan. Tune the phrase length so the full string stays ≤ 70 characters.
 
 #### `=== seo.description ===`
 
@@ -629,10 +636,19 @@ Best for:
 #### `=== seo.title ===`
 
 ```text
-# Admin UI (EN locale): SEO title | Max 70 chars
+# Admin UI (EN locale): SEO title | Max 70 chars | Required format: {Company} | {Product Name} | Catchy SEO phrase
 ```
 
-Follow Product Strategy, Keyword Direction EN, and Meta Direction EN.
+**Required format (mandatory, no exceptions):**
+
+```text
+{CompanyName} | {Product Name} | {Catchy SEO phrase}
+```
+
+All three segments are required and separated by ` | ` (space, pipe, space). The
+catchy SEO phrase is an English benefit-, concern-, or product-type phrase pulled
+from Product Strategy, Keyword Direction EN, and Meta Direction EN — never a
+store slogan. Tune the phrase length so the full string stays ≤ 70 characters.
 
 #### `=== seo.description ===`
 
@@ -659,7 +675,7 @@ Follow Product Strategy, Keyword Direction EN, Meta Direction EN, and Claim Boun
 - `metafields.shopify.harmonized_system_code` follows the HS code rules.
 - `variants[0].metafields.dhlapp.customsItemDescription` is English and ≤ 30 characters.
 - `metafields.custom.skin_application_areas`, `skin_problem`, and `skin_type` use allowed values only, one per line.
-- `seo.title` ≤ 70 characters in both files.
+- `seo.title` matches the required format `{CompanyName} | {Product Name} | {Catchy SEO phrase}` (three pipe-separated segments) and is ≤ 70 characters in both files.
 - `seo.description` ≤ 160 characters in both files.
 - Unknown facts appear only in `brief.txt` Research Summary, never in the Shopify files.
 - All Shopify-file values are derived from the strategy sections in `brief.txt`.
