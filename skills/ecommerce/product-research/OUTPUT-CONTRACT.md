@@ -260,25 +260,26 @@ Generate the banners in this exact order:
 ```text
 1.  === title ===
 2.  === descriptionHtml ===
-3.  === productType ===
-4.  === vendor ===
-5.  === variants[0].title ===
-6.  === variants[0].sku ===
-7.  === variants[0].barcode ===
-8.  === variants[0].weight ===
-9.  === metafields.shopify.country_of_origin ===
-10. === metafields.shopify.harmonized_system_code ===
-11. === variants[0].metafields.dhlapp.customsItemDescription ===
-12. === metafields.shopify--discovery--product_recommendation.related_products ===
-13. === metafields.custom.application ===
-14. === metafields.custom.effect ===
-15. === metafields.custom.ingredients ===
-16. === metafields.custom.skin_application_areas ===
-17. === metafields.custom.skin_problem ===
-18. === metafields.custom.skin_type ===
-19. === seo.title ===
-20. === seo.description ===
-21. === media[].alt ===
+3.  === handle ===
+4.  === productType ===
+5.  === vendor ===
+6.  === variants[0].title ===
+7.  === variants[0].sku ===
+8.  === variants[0].barcode ===
+9.  === variants[0].weight ===
+10. === metafields.shopify.country_of_origin ===
+11. === metafields.shopify.harmonized_system_code ===
+12. === variants[0].metafields.dhlapp.customsItemDescription ===
+13. === metafields.shopify--discovery--product_recommendation.related_products ===
+14. === metafields.custom.application ===
+15. === metafields.custom.effect ===
+16. === metafields.custom.ingredients ===
+17. === metafields.custom.skin_application_areas ===
+18. === metafields.custom.skin_problem ===
+19. === metafields.custom.skin_type ===
+20. === seo.title ===
+21. === seo.description ===
+22. === media[].alt ===
 ```
 
 ### shopify-de.txt — Per-Banner Specifications
@@ -307,6 +308,35 @@ internal YuliSkin links only when URLs are verified.
 Follow Product Strategy, Description Direction DE, Keyword Direction DE, and Claim
 Boundaries. Do not write a generic category description.
 
+#### `=== handle ===`
+
+```text
+# Admin UI: URL handle | Lowercase, hyphenated, ASCII-only | Format: {company-slug}-{product-slug}
+```
+
+Format is **`{company-slug}-{product-slug}`** — the brand always comes first, then
+the product name. This keeps product URLs grouped per brand on `yuliskin.de` and
+guarantees uniqueness across products from different brands that share a name.
+
+Rules for slugifying each segment:
+
+- Lowercase, ASCII-only, hyphen-separated.
+- Strip diacritics (`é → e`, `ö → o`, `ß → ss`), apostrophes, periods, commas,
+  registered/trademark marks, and punctuation.
+- Drop volume suffixes, edition tags, and packaging words (`50ml`, `limited edition`,
+  `refill`, `set`, `kit`) unless they are essential to identify the product.
+- Collapse repeated hyphens; never start or end with a hyphen.
+
+Examples:
+
+| Company          | Product                  | Handle                           |
+| ---------------- | ------------------------ | -------------------------------- |
+| `Plamine`        | `Hybrid Oil`             | `plamine-hybrid-oil`             |
+| `Dr. Hauschka`   | `Rosen Tagescreme 30 ml` | `dr-hauschka-rosen-tagescreme`   |
+| `BABOR`          | `HSR Lifting Cream`      | `babor-hsr-lifting-cream`        |
+| `La Roche-Posay` | `Effaclar Duo+ M`        | `la-roche-posay-effaclar-duo-m`  |
+| `L'Oréal Paris`  | `Revitalift Filler`      | `loreal-paris-revitalift-filler` |
+
 #### `=== productType ===`
 
 ```text
@@ -332,6 +362,32 @@ If no existing value fits, output one proposed new value and add a note in
 ```
 
 Use the producer or brand/company name.
+
+### Variants — every product must have at least one variant
+
+Shopify products are required to have at least one variant. The product itself
+holds the title and description; the variant holds the price, SKU, barcode, and
+weight. The `variants[0].*` banners below describe that **mandatory first variant**
+and must always be present in `shopify-de.txt`, even when the product is sold in a
+single SKU and has no real product options.
+
+When the product has no real options:
+
+- Use Shopify's implicit `Default Title` variant. Output the volume-only label in
+  `=== variants[0].title ===` (e.g. `50 ml`); when no volume applies (a tool, a
+  device), output `Default Title`.
+- Always output `=== variants[0].sku ===`, `=== variants[0].barcode ===`,
+  `=== variants[0].weight ===`, and `=== variants[0].metafields.dhlapp.customsItemDescription ===`.
+  Use the value `Unknown` when the SKU or barcode is not verified — never skip the
+  banner.
+
+When the product has multiple real variants (sizes, shades, scents):
+
+- The `[0]` banners describe the **primary variant only** — the largest size or
+  the canonical variant offered as the default in the brand's shop.
+- Note the additional variants in `brief.txt` Research Summary so they can be
+  added manually in Shopify Admin or via a follow-up automation.
+- Never silently drop variants without recording them in the brief.
 
 #### `=== variants[0].title ===`
 
@@ -707,11 +763,13 @@ Follow Product Strategy, Keyword Direction EN, Meta Direction EN, and Claim Boun
 - All three files (`brief.txt`, `shopify-de.txt`, `shopify-en.txt`) are written in the same run.
 - 2 to 5 product images were downloaded when available and saved with sequential names (`-01` to `-05`).
 - `brief.txt` contains Research Summary, Keyword Research, Product Strategy, and Structured data reminder — and nothing else.
-- `shopify-de.txt` contains the header block and all 21 banners in the documented order.
+- `shopify-de.txt` contains the header block and all 22 banners in the documented order.
 - `shopify-en.txt` contains the header block and all 9 banners in the documented order.
 - Every banner uses the exact GraphQL path documented above.
 - Every banner has at least one `# Admin UI:` comment line.
 - `descriptionHtml` uses allowed HTML and no `<h1>`.
+- `handle` follows the format `{company-slug}-{product-slug}`, is lowercase, hyphenated, ASCII-only, and starts with the brand slug.
+- Every product has at least one variant: `=== variants[0].title ===`, `=== variants[0].sku ===`, `=== variants[0].barcode ===`, `=== variants[0].weight ===`, and `=== variants[0].metafields.dhlapp.customsItemDescription ===` are all present in `shopify-de.txt` (use `Unknown` for unverified SKU/barcode — never skip the banner). Additional real variants are listed in `brief.txt` Research Summary.
 - `productType` is exactly one value and either uses an allowed value or `brief.txt` notes that a new Shopify value must be created.
 - `variants[0].title` uses normalized lowercase units.
 - `variants[0].weight` follows verified source data or the `volume_ml + 50g` fallback.

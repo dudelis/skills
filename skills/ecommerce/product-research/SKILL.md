@@ -62,7 +62,7 @@ On re-run for an existing product folder, regenerate all three text files atomic
 - Customer-facing sections must be derived from verified facts and the Product Strategy, not from generic product-category assumptions.
 - Use source assets for image files. Prioritize official brand or product pages, then distributor pages, then competitor pages.
 - Do not copy long source passages. Rewrite in original YuliSkin-appropriate language.
-- Do not invent hero ingredients, full INCI, usage frequency, texture, claims, routine position, SKU, barcode/GTIN/UPC/ISBN, Shopify handles, internal links, or related-product URLs.
+- Do not invent hero ingredients, full INCI, usage frequency, texture, claims, routine position, SKU, barcode/GTIN/UPC/ISBN, internal links, or related-product URLs. The Shopify product handle is constructed deterministically as `{company-slug}-{product-slug}` per the contract — not researched.
 - Use official, distributor, competitor, and provided Shopify shop sources to verify SKU and barcode data. If SKU or barcode cannot be obtained, mark it as unknown.
 - Product type must be exactly one value. Prefer an existing allowed Shopify product type; if no allowed value fits, propose one new product type and mark that the Shopify value must be created.
 - Normalize variant volume as Shopify-friendly lowercase units such as `50 ml`, `100 g`, `1 l`, or `10 pcs`.
@@ -96,9 +96,10 @@ Before returning the final answer, check:
 - All three files were written in the same run: `brief.txt`, `shopify-de.txt`, `shopify-en.txt` under `Products/[CompanyName]/[ProductName]/`.
 - 2 to 5 product images were downloaded when available and saved as `[CompanyName]-[ProductName]-01.[ext]` through `[CompanyName]-[ProductName]-05.[ext]`.
 - `brief.txt` contains Research Summary, Keyword Research, Product Strategy, and Structured data reminder — and contains no Shopify-pasteable values.
-- `shopify-de.txt` contains the header block plus all 21 banners in the order defined in [OUTPUT-CONTRACT.md](OUTPUT-CONTRACT.md).
+- `shopify-de.txt` contains the header block plus all 22 banners in the order defined in [OUTPUT-CONTRACT.md](OUTPUT-CONTRACT.md).
 - `shopify-en.txt` contains the header block plus all 9 banners in the order defined in [OUTPUT-CONTRACT.md](OUTPUT-CONTRACT.md).
-- Every banner uses the exact GraphQL path documented in the contract (`=== title ===`, `=== descriptionHtml ===`, `=== metafields.custom.application ===`, etc.).
+- `handle` in `shopify-de.txt` follows the format `{company-slug}-{product-slug}` (lowercase, hyphenated, ASCII-only).
+- Every product has at least one variant: the five `variants[0].*` banners are all present in `shopify-de.txt` (use `Unknown` for unverified SKU/barcode — never skip the banner). Additional real variants are listed in `brief.txt` Research Summary.- Every banner uses the exact GraphQL path documented in the contract (`=== title ===`, `=== descriptionHtml ===`, `=== metafields.custom.application ===`, etc.).
 - Every banner has at least one `# Admin UI:` comment line.
 - `descriptionHtml` uses allowed HTML and no `<h1>`.
 - `seo.title` matches the required format `{CompanyName} | {Product Name} | {Catchy SEO phrase}` (three pipe-separated segments) and is ≤ 70 characters in both Shopify files.
