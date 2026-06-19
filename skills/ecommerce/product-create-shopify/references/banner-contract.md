@@ -127,7 +127,9 @@ exist in the catalog.
 - `Unknown` values are allowed for SKU, barcode, and country of origin when research could
   not verify them. Prefer omitting those values in Shopify when the API supports omission.
 - The product status must be `DRAFT` after creation.
-- Product images must be uploaded to Shopify before being attached to the product.
+- Product images are uploaded and attached to the product in a single operation; there is
+  no separate pre-upload step. Uploading an image once unattached and then uploading a
+  second copy to attach it is a bug. Attach exactly one copy per local source image.
 - Product images are best-effort. Missing or failed images do not block draft creation.
 - English translations are best-effort through `translatableResource` and
   `translationsRegister`. Never overwrite German defaults with English values.

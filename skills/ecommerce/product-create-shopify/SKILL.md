@@ -60,26 +60,44 @@ not update it.
    - DHL customs item description variant metafield when accepted.
    - custom metafields after mapping display labels to existing stored values/options when needed.
    - SEO title and description.
-   - uploaded media and English ALT text.
-9. Upload sequential local product images with the Shopify app's image upload tool:
+   - English ALT text on attached media (see step 9 for the single upload-and-attach flow).
+9. Attach sequential local product images to the created product in a single operation:
+   - Use the Shopify app's purpose-built image upload tool that ingests the local file and
+     attaches it to the product in one call, passing the created product ID.
+   - Do NOT perform a separate pre-upload to obtain a hosted URL. One image = one call =
+     one upload that lands attached. Never upload an image to Files first and then attach a
+     second copy.
+   - Attach only after the product exists, so the product ID is available.
    - Use only product-folder images ending in `-01`, `-02`, etc. with `.jpg`, `.jpeg`, `.png`, or `.webp`.
    - Use English ALT lines from `media[].alt` in order.
    - If there are fewer ALT lines than images, generate simple non-repeated English fallback ALT text from vendor, title, and image number.
    - Missing images or failed uploads do not block product creation.
 10. Use Shopify Admin GraphQL for product creation fields that are not covered by
-   higher-level Shopify tools. Before every query or mutation, inspect the live schema and
-   validate the GraphQL operation with the Shopify app validation tool. Do not guess
-   mutation names, input field names, metafield types, or translation keys.
+    higher-level Shopify tools. Before every query or mutation, inspect the live schema and
+    validate the GraphQL operation with the Shopify app validation tool. Do not guess
+    mutation names, input field names, metafield types, or translation keys.
+
+- For images, only fall back to raw Admin GraphQL `stagedUploadsCreate` →
+  `productCreateMedia` if the purpose-built upload-and-attach tool is unavailable. Even
+  then, perform exactly one staged upload per image and attach that same resource —
+  never a pre-upload plus a separate re-ingest.
+
 11. Best-effort apply English values from `shopify-en.txt` through Shopify's translation
-   API, not by overwriting German default values:
-   - Use `translatableResource` to fetch keys, source values, and digests.
-   - Use `translationsRegister` for locale `en`.
-   - Query nested translatable resources when translating variants or metafields requires it.
-   - If locale support, keys, digests, or translation writes fail, keep the draft product and report the failed fields.
+    API, not by overwriting German default values:
+
+- Use `translatableResource` to fetch keys, source values, and digests.
+- Use `translationsRegister` for locale `en`.
+- Query nested translatable resources when translating variants or metafields requires it.
+- If locale support, keys, digests, or translation writes fail, keep the draft product and report the failed fields.
+
 12. Re-read the created product from Shopify and verify:
     - Product exists and status is `DRAFT`.
     - German default title/vendor/product type/SEO/metafields are present.
-    - Images were attached.
+    - Images were attached: query the product node's media and confirm the count of
+      attached `MediaImage` nodes equals the number of local source images (3 local files
+      → exactly 3 attached, no more). Report any mismatch as a warning. Shopify renames
+      uploaded media filenames/CDN URLs (often with a GUID-like suffix); this is expected
+      and is never treated as a duplicate signal. Do not verify by filename.
     - English translations were registered or clearly reported as skipped with a reason.
 13. Return a concise report: product ID, handle, draft status, uploaded image count,
     fields written, translations applied, skipped fields, validation warnings, and manual follow-ups.
@@ -106,8 +124,10 @@ not update it.
 - If a product title already includes the vendor or company name, do not write the
   vendor again immediately before the title in SEO, description, ALT text, or any
   other descriptive field.
-- Do not use a local file path as a Shopify media URL. Upload images first and use the
-  returned Shopify-hosted URL.
+- Attach images using the purpose-built upload tool that ingests the local file and
+  attaches it to the product in a single operation. Do not perform a separate pre-upload to
+  obtain a hosted URL, and never paste a local filesystem path into a GraphQL media URL
+  field. Uploading an image once and then uploading a second copy to attach it is a bug.
 - Do not create batch products from `products.csv` in v1. Process one researched product
   folder at a time. External orchestration may call this skill repeatedly for multiple folders.
 - Do not translate German defaults by hand during creation if `shopify-en.txt` exists;
