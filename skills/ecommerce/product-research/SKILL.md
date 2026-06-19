@@ -162,6 +162,24 @@ EN mirrors the same logic: approved `supports`, `nourishes`, `helps the skin fee
 banned `cures`, `treats`, `eliminates`, `guaranteed`, `clinically proven` (without
 verified proof).
 
+## Customer-Voice Purity
+
+Every customer-facing field (`descriptionHtml`, `application`, `effect`, `ingredients`,
+`seo.title`, `seo.description`, `media[].alt`) is shopper copy only. Research, sourcing,
+and analyst language stays in `brief.txt` and must never appear in a Shopify value:
+
+- No sourcing references — `laut offizieller … Seite`, `laut Herstellerseite`,
+  `according to the … page`, `Quelle:`, or any citation of where a fact came from.
+- No marketing-analyst framing — `positioniert`, `antioxidativ positionierter
+Wirkstoff`, `positioned as`, `marketed as`, `hero ingredient`, `USP`, `Keyword`.
+- No meta/process language — `verifiziert`, `unverified`, `Fallback`, `geschätzt`,
+  `estimated`, `placeholder`.
+
+State the benefit directly: write `Ein hochwirksames Antioxidans, das die Haut vor
+oxidativem Stress schützt.` not `Ein antioxidativ positionierter Wirkstoff`; write
+`Kann ergänzend zum CLIONE Fit Gerät verwendet werden.` not `Kann laut offizieller
+Plamine EU Seite mit CLIONE Fit verwendet werden.`
+
 ## Non-Topical Products
 
 When the product nature is **not** a topical cosmetic:
@@ -196,6 +214,8 @@ Before returning the final answer, check:
 - `seo.title` uses the three-segment format `{Company} | {Product} | {Catchy phrase}`. If the product name already starts with the company name, the company is stripped **from the product segment only** so the brand appears once, leading (`Plamine | Core Care IKI-IKI | …`). The product name itself and the `<h2>` keep their full natural form; the company is never prepended to a product name that lacks it. The catchy phrase is a real benefit/concern phrase, never a bare keyword (✗ `… | Core Care Supplement`), and the full string is ≤ 70 characters (aim 55–70) in both Shopify files.
 - `descriptionHtml` follows the four-block anatomy (hook+concept, curation note, concern→mechanism→benefit list, Für wen geeignet) and does not duplicate the `application`, `effect`, or `ingredients` collapsibles.
 - The curation note is present, tasteful, and implies real-world studio testing only — no clinical/dermatological claim unless the manufacturer states it.
+- The `effect` field's `Geeignet für:` line is a short skin-type/suitability note only — never a routine/persona sentence that duplicates description block 4 ("Für wen geeignet").
+- No customer-facing field leaks research, sourcing, or analyst language (no `laut offizieller … Seite` / `according to the … page` / `Quelle:`, no `positioniert` / `positioned as` / `marketed as`, no `Fallback` / `geschätzt` / `unverified`); benefits are stated directly.
 - No banned lexicon term appears in any customer-facing field; no empty filler phrases; approved claim-safe framing is used.
 - For non-topical products: `productType` is `Nahrungsergänzung` (ingestible) or appropriate; `skin_application_areas`, `skin_problem`, and `skin_type` are left empty rather than force-mapped.
 - Every hero ingredient is supported by the brand's own positioning; no invented or brand-contradicting ingredient; no verified hero ingredient omitted.

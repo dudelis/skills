@@ -192,6 +192,30 @@ product name as the display name. Do not prepend the company again in any
 descriptive field. For example, write `Plamine Clear Lotion`, not
 `Plamine Plamine Clear Lotion`.
 
+### Customer-voice purity
+
+Customer-facing fields (`descriptionHtml`, `metafields.custom.application`,
+`metafields.custom.effect`, `metafields.custom.ingredients`, `seo.title`,
+`seo.description`, `media[].alt`) must read as warm shopper-facing copy only.
+Research, sourcing, and analyst language belongs in `brief.txt`, never in a Shopify
+value.
+
+**Never let these leak into a customer-facing field:**
+
+- Sourcing references — `laut offizieller … Seite`, `laut Herstellerseite`,
+  `according to the official … page`, `per the brand site`, `the EU page says`,
+  `Quelle:`, or any citation of where a fact came from.
+- Marketing-analyst framing — `positioniert`, `antioxidativ positionierter Wirkstoff`,
+  `positioned as`, `marketed as`, `brand positioning`, `hero ingredient`,
+  `Keyword`, `USP`.
+- Meta/process language — `verifiziert`, `unverified`, `Fallback`, `geschätzt`,
+  `estimated`, `placeholder`.
+
+State the benefit directly instead. Write `Ein hochwirksames Antioxidans, das die
+Haut vor oxidativem Stress schützt.`, not `Ein antioxidativ positionierter Wirkstoff`.
+Write `Kann ergänzend zum CLIONE Fit Gerät verwendet werden.`, not `Kann laut
+offizieller Plamine EU Seite mit CLIONE Fit verwendet werden.`
+
 ### Standard system metafields
 
 `metafields.shopify.<key>` are Shopify's built-in standard metafield definitions.
@@ -599,7 +623,14 @@ Geeignet für:
 
 Keep `Geeignet für:` a short skin-type / suitability note (e.g. "Alle Hauttypen;
 empfindliche Haut"). The persona/concern guidance prose lives in description block 4
-("Für wen geeignet"), so this line must not duplicate it.
+("Für wen geeignet"), so this line must not duplicate it. It must name skin types or
+states only — never a routine/persona sentence.
+
+```text
+✓ Geeignet für: Trockene und normale Haut.
+✗ Geeignet für: Gesichtspflege-Routinen, die ein antioxidatives Serum mit Feuchtigkeit
+  und Fulleren verbinden möchten.   # persona prose — belongs in description block 4
+```
 
 #### `=== metafields.custom.ingredients ===`
 
@@ -900,6 +931,8 @@ Claim Boundaries.
 - `metafields.custom.skin_application_areas`, `skin_problem`, and `skin_type` use allowed values only, one per line.
 - `seo.title` uses the three-segment format `{Company} | {Product} | {Catchy phrase}`; when the product name starts with the company name, the company is stripped from the product segment only (brand once, leading); the catchy phrase is a real benefit/concern phrase, never a bare keyword; ≤ 70 chars (aim 55–70) in both files.
 - `descriptionHtml` follows the four-block anatomy and does not duplicate the `application`, `effect`, or `ingredients` collapsibles; it includes a tasteful curation note.
+- `metafields.custom.effect`'s `Geeignet für:` line is a short skin-type / suitability note only — never a routine/persona sentence that duplicates description block 4 ("Für wen geeignet").
+- No customer-facing field leaks research, sourcing, or analyst language (no `laut offizieller … Seite` / `according to the … page` / `Quelle:`, no `positioniert` / `positioned as` / `marketed as`, no `Fallback` / `geschätzt` / `unverified`); benefits are stated directly.
 - No banned Claim-Safety Lexicon term and no empty filler phrase appears in any customer-facing field.
 - Every hero ingredient is supported by the brand's own positioning; no invented or brand-contradicting ingredient, and no verified hero ingredient omitted.
 - Non-topical products use `Nahrungsergänzung` (ingestible) and leave `skin_application_areas`, `skin_problem`, and `skin_type` empty rather than force-mapping.
