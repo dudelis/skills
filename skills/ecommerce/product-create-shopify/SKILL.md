@@ -41,6 +41,7 @@ not update it.
    - Otherwise parse company and product from `Products/[CompanyName]/[ProductName]/`.
    - If the path shape is unclear, use `vendor` and `title` from `shopify-de.txt`.
    - Normalize to lowercase ASCII with hyphens, for example `plamine-clear-lotion`.
+   - ASCII transliteration is handle-only. Do not transliterate descriptive fields.
 6. Search Shopify for a likely duplicate before creating:
    - Always search exact `vendor` + exact `title`.
    - Also search exact SKU or barcode when those values exist and are not `Unknown`.
@@ -100,6 +101,11 @@ not update it.
 - Do not enable locales, publish locales, create metafield definitions, create product
   types, or change store configuration. Report missing configuration as a manual follow-up.
 - Never put unknown facts into customer-facing fields.
+- Preserve German umlauts, sharp s, accents, and official casing in descriptive
+  fields. Only URL handles and filesystem-safe names may be ASCII-normalized.
+- If a product title already includes the vendor or company name, do not write the
+  vendor again immediately before the title in SEO, description, ALT text, or any
+  other descriptive field.
 - Do not use a local file path as a Shopify media URL. Upload images first and use the
   returned Shopify-hosted URL.
 - Do not create batch products from `products.csv` in v1. Process one researched product

@@ -71,6 +71,11 @@ descriptionHtml
 `Products/[CompanyName]/[ProductName]/`; if that shape is unclear, generate it from
 `vendor` + `title`.
 
+ASCII normalization is only for the URL handle and filesystem-safe names. Preserve
+German umlauts, sharp s, accents, capitalization, and official brand/product spelling
+in all descriptive fields. If `title` already starts with `vendor`, do not prepend
+`vendor` again in SEO fields, descriptions, ALT text, or metafields.
+
 ## English translation banners
 
 `shopify-en.txt` must provide these banners in order:
@@ -111,6 +116,10 @@ exist in the catalog.
 ## Required handling notes
 
 - `descriptionHtml` is HTML and must not be escaped into visible markup.
+- Descriptive German fields must preserve real German characters; do not apply
+  handle-style transliteration outside handles or file names.
+- If the product title already contains the vendor/company name, no descriptive
+  field should contain the duplicated phrase `vendor + title`.
 - `variants[0].weight` is grams.
 - `media[].alt` contains English ALT options, one per line. Use them in image order.
   If there are fewer ALT values than sequential images, generate simple non-repeated

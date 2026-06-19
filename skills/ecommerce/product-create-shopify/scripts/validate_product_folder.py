@@ -9,6 +9,7 @@ from __future__ import annotations
 
 import re
 import sys
+import unicodedata
 from pathlib import Path
 
 
@@ -52,6 +53,29 @@ EN_BANNERS = [
 
 BANNER_RE = re.compile(r"^===\s*(.*?)\s*===\s*$", re.MULTILINE)
 SEQUENTIAL_IMAGE_RE = re.compile(r"-\d{2}\.(?:jpe?g|png|webp)$", re.IGNORECASE)
+GERMAN_DESCRIPTIVE_BANNERS = [
+    "title",
+    "descriptionHtml",
+    "metafields.custom.application",
+    "metafields.custom.effect",
+    "metafields.custom.ingredients",
+    "seo.title",
+    "seo.description",
+]
+COMMON_ASCII_GERMAN = {
+    "ausser",
+    "fuer",
+    "glaettet",
+    "haende",
+    "koerper",
+    "oelig",
+    "roetung",
+    "roetungen",
+    "schuetzt",
+    "staerkt",
+    "taeglich",
+    "ueber",
+}
 
 
 def parse_banners(path: Path) -> dict[str, str]:
@@ -70,12 +94,71 @@ def parse_banners(path: Path) -> dict[str, str]:
     return values
 
 
+def comparable_text(value: str) -> str:
+    decomposed = unicodedata.normalize("NFKD", value)
+    ascii_value = decomposed.encode("ascii", "ignore").decode("ascii")
+    return re.sub(r"[^a-z0-9]+", " ", ascii_value.lower()).strip()
+
+
+def warn_repeated_vendor_title(
+    path: Path,
+    banners: dict[str, str],
+    *,
+    vendor: str | None = None,
+    title: str | None = None,
+) -> list[str]:
+    warnings: list[str] = []
+    vendor = (vendor or banners.get("vendor", "")).strip()
+    title = (title or banners.get("title", "")).strip()
+    if not vendor or not title:
+        return warnings
+
+    comparable_vendor = comparable_text(vendor)
+    comparable_title = comparable_text(title)
+    if not comparable_vendor or not comparable_title:
+        return warnings
+    if not comparable_title.startswith(comparable_vendor):
+        return warnings
+
+    duplicated_phrase = f"{comparable_vendor} {comparable_title}"
+    for name, value in banners.items():
+        if not value:
+            continue
+        if duplicated_phrase in comparable_text(value):
+            warnings.append(
+                f"{path.name}: banner {name!r} repeats vendor before title "
+                f"({vendor} {title})"
+            )
+    return warnings
+
+
+def warn_german_ascii_transliteration(
+    path: Path, banners: dict[str, str]
+) -> list[str]:
+    warnings: list[str] = []
+    for name in GERMAN_DESCRIPTIVE_BANNERS:
+        value = banners.get(name, "")
+        if not value:
+            continue
+        words = set(re.findall(r"[A-Za-z]+", value.lower()))
+        matches = sorted(word for word in COMMON_ASCII_GERMAN if word in words)
+        if matches:
+            warnings.append(
+                f"{path.name}: banner {name!r} may contain handle-style ASCII "
+                f"German transliteration: {', '.join(matches)}"
+            )
+    return warnings
+
+
 def validate_file(
     path: Path,
     expected: list[str],
     *,
     required_values: list[str] | None = None,
     optional_banners: list[str] | None = None,
+    duplicate_vendor: str | None = None,
+    duplicate_title: str | None = None,
+    check_german_descriptive: bool = False,
 ) -> tuple[dict[str, str], list[str], list[str]]:
     errors: list[str] = []
     warnings: list[str] = []
@@ -132,6 +215,14 @@ def validate_file(
             f"{path.name}: seo.description is {len(seo_description)} chars, max 160"
         )
 
+    warnings.extend(
+        warn_repeated_vendor_title(
+            path, banners, vendor=duplicate_vendor, title=duplicate_title
+        )
+    )
+    if check_german_descriptive:
+        warnings.extend(warn_german_ascii_transliteration(path, banners))
+
     return banners, errors, warnings
 
 
@@ -156,13 +247,18 @@ def main(argv: list[str]) -> int:
         print(f"Product folder does not exist: {folder}")
         return 2
 
-    _, de_errors, de_warnings = validate_file(
+    de_banners, de_errors, de_warnings = validate_file(
         folder / "shopify-de.txt",
         DE_BANNERS,
         required_values=["title", "vendor", "descriptionHtml"],
         optional_banners=OPTIONAL_DE_BANNERS,
+        check_german_descriptive=True,
     )
-    _, en_errors, en_warnings = validate_file(folder / "shopify-en.txt", EN_BANNERS)
+    _, en_errors, en_warnings = validate_file(
+        folder / "shopify-en.txt",
+        EN_BANNERS,
+        duplicate_vendor=de_banners.get("vendor"),
+    )
     errors.extend(de_errors)
     errors.extend(en_errors)
     warnings.extend(de_warnings)

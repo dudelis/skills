@@ -17,22 +17,21 @@ Company name: [brand/company]
 URLs: [optional official, distributor, competitor, or YuliSkin URLs]
 ```
 
-Final output files:
+Final output file:
 
 ```text
-Products/[CompanyName]/[ProductName]/brief.txt        # research + strategy + structured data reminder
-Products/[CompanyName]/[ProductName]/shopify-de.txt   # German Shopify fields, banner-formatted for copy-paste
-Products/[CompanyName]/[ProductName]/shopify-en.txt   # English Shopify fields, banner-formatted for copy-paste
+Products/[CompanyName]/[ProductName]/brief.txt
+```
+
+Final image output files:
+
+```text
 Products/[CompanyName]/[ProductName]/[CompanyName]-[ProductName]-01.[ext]
 Products/[CompanyName]/[ProductName]/[CompanyName]-[ProductName]-02.[ext]
 Products/[CompanyName]/[ProductName]/[CompanyName]-[ProductName]-03.[ext]
 Products/[CompanyName]/[ProductName]/[CompanyName]-[ProductName]-04.[ext]
 Products/[CompanyName]/[ProductName]/[CompanyName]-[ProductName]-05.[ext]
 ```
-
-The Shopify files use Shopify Admin GraphQL field paths as banners (e.g.
-`=== descriptionHtml ===`, `=== metafields.custom.application ===`) so future Shopify
-automation can parse them. Always write all three text files in the same run.
 
 Create the folder if needed. Sanitize the folder and file names only enough to make them valid paths; keep product and company names readable.
 
@@ -44,13 +43,11 @@ Create the folder if needed. Sanitize the folder and file names only enough to m
 4. Separate verified facts from unknown facts. If a fact cannot be verified, mark it as unknown and do not use it in customer-facing content.
 5. Research how customers search for this product and similar products in Google, marketplaces, retailer sites, and other search systems when available. Identify German and English keyword clusters, search intent, product-category language, concern language, benefit language, ingredient language, and buyer-intent terms before writing content.
 6. Prepare a short Product Strategy explaining why the product exists, who it is for, which exact ingredients matter, how it fits into the company routine, which complementary products make sense, and how the description, meta title, meta description, and other Shopify fields should be angled.
-7. Write `brief.txt` with Research Summary, Keyword Research, Product Strategy, and the Structured data reminder, following [OUTPUT-CONTRACT.md](OUTPUT-CONTRACT.md).
+7. Generate the required German and English product sections using the contract in [OUTPUT-CONTRACT.md](OUTPUT-CONTRACT.md). Every generated field must follow the verified Research Summary, Keyword Research, and Product Strategy.
 8. Download the main product images from verified official sources first, then distributor sources, then competitor sources when needed.
 9. Save 2 to 5 images when available in `Products/[CompanyName]/[ProductName]/` as `[CompanyName]-[ProductName]-01.[ext]`, `[CompanyName]-[ProductName]-02.[ext]`, and so on.
-10. Generate `shopify-de.txt` and `shopify-en.txt` using the banner format and per-banner specifications in [OUTPUT-CONTRACT.md](OUTPUT-CONTRACT.md). Every value must be derived from the verified Research Summary, Keyword Research, and Product Strategy in `brief.txt`.
-11. Validate title/meta lengths, HTML structure, language separation, claim safety, allowed metadata values, banner paths, and image outputs before finishing.
-
-On re-run for an existing product folder, regenerate all three text files atomically. Do not leave stale `shopify-de.txt` / `shopify-en.txt` alongside a freshly regenerated `brief.txt`.
+10. Write the final content to `Products/[CompanyName]/[ProductName]/brief.txt`.
+11. Validate title/meta lengths, HTML structure, language separation, claim safety, allowed metadata values, and image outputs before finishing.
 
 ## Research Rules
 
@@ -62,7 +59,7 @@ On re-run for an existing product folder, regenerate all three text files atomic
 - Customer-facing sections must be derived from verified facts and the Product Strategy, not from generic product-category assumptions.
 - Use source assets for image files. Prioritize official brand or product pages, then distributor pages, then competitor pages.
 - Do not copy long source passages. Rewrite in original YuliSkin-appropriate language.
-- Do not invent hero ingredients, full INCI, usage frequency, texture, claims, routine position, SKU, barcode/GTIN/UPC/ISBN, internal links, or related-product URLs. The Shopify product handle is constructed deterministically as `{company-slug}-{product-slug}` per the contract — not researched.
+- Do not invent hero ingredients, full INCI, usage frequency, texture, claims, routine position, SKU, barcode/GTIN/UPC/ISBN, Shopify handles, internal links, or related-product URLs.
 - Use official, distributor, competitor, and provided Shopify shop sources to verify SKU and barcode data. If SKU or barcode cannot be obtained, mark it as unknown.
 - Product type must be exactly one value. Prefer an existing allowed Shopify product type; if no allowed value fits, propose one new product type and mark that the Shopify value must be created.
 - Normalize variant volume as Shopify-friendly lowercase units such as `50 ml`, `100 g`, `1 l`, or `10 pcs`.
@@ -82,13 +79,6 @@ On re-run for an existing product folder, regenerate all three text files atomic
 - German first, then English.
 - German uses formal address with `Sie`.
 - English uses polished, neutral ecommerce language.
-- Preserve German umlauts, sharp s, accents, and brand/product casing in all
-  descriptive and customer-facing fields. Transliterate to ASCII only for URL
-  handles and filesystem-safe file names.
-- If the product name already contains the company or brand name, do not prepend
-  the company again in titles, SEO fields, descriptions, ALT text, or any other
-  descriptive copy. For example, write `Plamine Clear Lotion`, never
-  `Plamine Plamine Clear Lotion`.
 - Description HTML must use `<h2>`, `<h3>`, `<p>`, `<ul>`, `<li>`, and verified `<a href="">` links only. Do not use `<h1>`.
 - Application, Effect, Ingredients, Related products, metadata fields, and Structured data reminder are plain text with labelled lines.
 - Ingredients must be customer-facing and list exact active/key ingredients and benefits only. Do not output the full INCI unless it is verified and specifically useful.
@@ -100,23 +90,14 @@ On re-run for an existing product folder, regenerate all three text files atomic
 
 Before returning the final answer, check:
 
-- All three files were written in the same run: `brief.txt`, `shopify-de.txt`, `shopify-en.txt` under `Products/[CompanyName]/[ProductName]/`.
-- 2 to 5 product images were downloaded when available and saved as `[CompanyName]-[ProductName]-01.[ext]` through `[CompanyName]-[ProductName]-05.[ext]`.
-- `brief.txt` contains Research Summary, Keyword Research, Product Strategy, and Structured data reminder — and contains no Shopify-pasteable values.
-- `shopify-de.txt` contains the header block plus all 22 banners in the order defined in [OUTPUT-CONTRACT.md](OUTPUT-CONTRACT.md).
-- `shopify-en.txt` contains the header block plus all 9 banners in the order defined in [OUTPUT-CONTRACT.md](OUTPUT-CONTRACT.md).
-- `handle` in `shopify-de.txt` follows the format `{company-slug}-{product-slug}` (lowercase, hyphenated, ASCII-only).
-- Every product has at least one variant: the five `variants[0].*` banners are all present in `shopify-de.txt` (use `Unknown` for unverified SKU/barcode — never skip the banner). Additional real variants are listed in `brief.txt` Research Summary.- Every banner uses the exact GraphQL path documented in the contract (`=== title ===`, `=== descriptionHtml ===`, `=== metafields.custom.application ===`, etc.).
-- Every banner has at least one `# Admin UI:` comment line.
-- `descriptionHtml` uses allowed HTML and no `<h1>`.
-- Descriptive German fields preserve real German characters; ASCII
-  transliteration is used only for `handle` and file names.
-- If the product name already starts with the company/brand name, no field repeats
-  the company immediately before the product name.
-- `seo.title` matches the required format `{CompanyName} | {Product Name} | {Catchy SEO phrase}`, or `{Product Name} | {Catchy SEO phrase}` when the product name already starts with the company name, and is ≤ 70 characters in both Shopify files.
-- `seo.description` ≤ 160 characters in both Shopify files.
-- Keyword reuse rule satisfied per [OUTPUT-CONTRACT.md](OUTPUT-CONTRACT.md): the Primary keyword from the locale's Keyword Direction is woven naturally into `descriptionHtml`, `seo.title`, and `seo.description`; two to four secondary or long-tail keywords per locale are woven into description, application, effect, or ingredients prose; no `Terms to avoid` are used; no banner contains a visible `Keywords:` / `Tags:` line.
-- `variants[0].metafields.dhlapp.customsItemDescription` is English and ≤ 30 characters.
-- `metafields.custom.skin_application_areas`, `skin_problem`, and `skin_type` use only allowed values from [OUTPUT-CONTRACT.md](OUTPUT-CONTRACT.md), one per line.
-- `metafields.shopify--discovery--product_recommendation.related_products` follows routine or concern logic and does not include the same product.
-- Unknown facts appear only in `brief.txt` Research Summary, never in the Shopify files.
+- The file was created at `Products/[CompanyName]/[ProductName]/brief.txt`.
+- 2 to 5 product images were downloaded when available and saved as `[CompanyName]-[ProductName]-01.[ext]` through `[CompanyName]-[ProductName]-05.[ext]` in `Products/[CompanyName]/[ProductName]/`.
+- Research Summary, Keyword Research, and Product Strategy appear before language sections.
+- German and English sections are separated and no section mixes languages.
+- Description HTML has no `<h1>`.
+- Meta titles are within 70 characters.
+- Meta descriptions are within 160 characters.
+- Related products follow routine or concern logic and do not include the same product.
+- Skin application area, Skin problem, and Skin type use only allowed values from [OUTPUT-CONTRACT.md](OUTPUT-CONTRACT.md).
+- Structured data reminder appears after the language sections.
+- Unknown facts are excluded from customer-facing sections.

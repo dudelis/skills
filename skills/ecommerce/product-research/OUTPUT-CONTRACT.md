@@ -178,6 +178,20 @@ Both files start with a header block that names the locale and reminds the user 
 to use it. See section "shopify-de.txt — File Header" and "shopify-en.txt — File
 Header" below for exact text.
 
+### Character preservation and repeated brand names
+
+Preserve real German characters in every descriptive or customer-facing field:
+German umlauts, sharp s, accents, capitalization, and official brand/product
+spelling must stay as written. ASCII transliteration such as `ae`, `oe`, `ue`,
+or `ss` is allowed only where the contract explicitly requires ASCII, especially
+URL handles and filesystem-safe image names. Do not use transliterated German in
+titles, descriptions, SEO fields, application/effect/ingredient prose, or ALT text.
+
+If the product name already begins with the company or brand name, treat that full
+product name as the display name. Do not prepend the company again in any
+descriptive field. For example, write `Plamine Clear Lotion`, not
+`Plamine Plamine Clear Lotion`.
+
 ### Standard system metafields
 
 `metafields.shopify.<key>` are Shopify's built-in standard metafield definitions.
@@ -315,8 +329,9 @@ Boundaries. Do not write a generic category description.
 ```
 
 Format is **`{company-slug}-{product-slug}`** — the brand always comes first, then
-the product name. This keeps product URLs grouped per brand on `yuliskin.de` and
-guarantees uniqueness across products from different brands that share a name.
+the product name, unless the product slug already starts with the brand slug. This
+keeps product URLs grouped per brand on `yuliskin.de` and guarantees uniqueness
+across products from different brands that share a name.
 
 Rules for slugifying each segment:
 
@@ -325,6 +340,7 @@ Rules for slugifying each segment:
   registered/trademark marks, and punctuation.
 - Drop volume suffixes, edition tags, and packaging words (`50ml`, `limited edition`,
   `refill`, `set`, `kit`) unless they are essential to identify the product.
+- If the product slug already starts with the company slug, do not duplicate it.
 - Collapse repeated hyphens; never start or end with a hyphen.
 
 Examples:
@@ -598,16 +614,22 @@ Allowed values only: `Mischhaut`, `Trocken`, `Oelig`, `Normal`.
 # Admin UI: SEO title | Max 70 chars | Required format: {Company} | {Product Name} | Catchy SEO phrase
 ```
 
-**Required format (mandatory, no exceptions):**
+**Required format, unless the product name already contains the company name:**
 
 ```text
 {CompanyName} | {Product Name} | {Catchy SEO phrase}
 ```
 
-All three segments are required and separated by `|` (space, pipe, space). The
-catchy SEO phrase is a German benefit-, concern-, or product-type phrase pulled
-from Product Strategy, Keyword Direction DE, and Meta Direction DE — never a
-store slogan. Tune the phrase length so the full string stays ≤ 70 characters.
+All three segments are separated by `|` (space, pipe, space). If `{Product Name}`
+already begins with `{CompanyName}`, omit the separate company segment and use:
+
+```text
+{Product Name} | {Catchy SEO phrase}
+```
+
+The catchy SEO phrase is a German benefit-, concern-, or product-type phrase
+pulled from Product Strategy, Keyword Direction DE, and Meta Direction DE — never
+a store slogan. Tune the phrase length so the full string stays ≤ 70 characters.
 
 #### `=== seo.description ===`
 
@@ -616,8 +638,9 @@ store slogan. Tune the phrase length so the full string stays ≤ 70 characters.
 ```
 
 Include company, product name, product type, target concern, and one or two hero
-ingredients when verified. End with a soft YuliSkin or shopping benefit. Follow
-Product Strategy, Keyword Direction DE, Meta Direction DE, and Claim Boundaries.
+ingredients when verified, but never duplicate the company if the product name
+already contains it. End with a soft YuliSkin or shopping benefit. Follow Product
+Strategy, Keyword Direction DE, Meta Direction DE, and Claim Boundaries.
 
 #### `=== media[].alt ===`
 
@@ -739,16 +762,22 @@ Best for:
 # Admin UI (EN locale): SEO title | Max 70 chars | Required format: {Company} | {Product Name} | Catchy SEO phrase
 ```
 
-**Required format (mandatory, no exceptions):**
+**Required format, unless the product name already contains the company name:**
 
 ```text
 {CompanyName} | {Product Name} | {Catchy SEO phrase}
 ```
 
-All three segments are required and separated by `|` (space, pipe, space). The
-catchy SEO phrase is an English benefit-, concern-, or product-type phrase pulled
-from Product Strategy, Keyword Direction EN, and Meta Direction EN — never a
-store slogan. Tune the phrase length so the full string stays ≤ 70 characters.
+All three segments are separated by `|` (space, pipe, space). If `{Product Name}`
+already begins with `{CompanyName}`, omit the separate company segment and use:
+
+```text
+{Product Name} | {Catchy SEO phrase}
+```
+
+The catchy SEO phrase is an English benefit-, concern-, or product-type phrase
+pulled from Product Strategy, Keyword Direction EN, and Meta Direction EN — never
+a store slogan. Tune the phrase length so the full string stays ≤ 70 characters.
 
 #### `=== seo.description ===`
 
@@ -769,6 +798,8 @@ Follow Product Strategy, Keyword Direction EN, Meta Direction EN, and Claim Boun
 - Every banner has at least one `# Admin UI:` comment line.
 - `descriptionHtml` uses allowed HTML and no `<h1>`.
 - `handle` follows the format `{company-slug}-{product-slug}`, is lowercase, hyphenated, ASCII-only, and starts with the brand slug.
+- Descriptive German fields preserve real German characters; ASCII transliteration is used only for `handle` and file/image names.
+- If the product name starts with the company/brand name, no title, SEO field, description, ALT text, or descriptive metafield repeats the company immediately before the product name.
 - Every product has at least one variant: `=== variants[0].title ===`, `=== variants[0].sku ===`, `=== variants[0].barcode ===`, `=== variants[0].weight ===`, and `=== variants[0].metafields.dhlapp.customsItemDescription ===` are all present in `shopify-de.txt` (use `Unknown` for unverified SKU/barcode — never skip the banner). Additional real variants are listed in `brief.txt` Research Summary.
 - `productType` is exactly one value and either uses an allowed value or `brief.txt` notes that a new Shopify value must be created.
 - `variants[0].title` uses normalized lowercase units.
@@ -777,7 +808,7 @@ Follow Product Strategy, Keyword Direction EN, Meta Direction EN, and Claim Boun
 - `metafields.shopify.harmonized_system_code` follows the HS code rules.
 - `variants[0].metafields.dhlapp.customsItemDescription` is English and ≤ 30 characters.
 - `metafields.custom.skin_application_areas`, `skin_problem`, and `skin_type` use allowed values only, one per line.
-- `seo.title` matches the required format `{CompanyName} | {Product Name} | {Catchy SEO phrase}` (three pipe-separated segments) and is ≤ 70 characters in both files.
+- `seo.title` matches the required format `{CompanyName} | {Product Name} | {Catchy SEO phrase}`, or `{Product Name} | {Catchy SEO phrase}` when the product name already starts with the company name, and is ≤ 70 characters in both files.
 - `seo.description` ≤ 160 characters in both files.
 - Keyword reuse rule satisfied: the Primary keyword from Keyword Direction DE appears in `descriptionHtml`, `seo.title`, and `seo.description` of `shopify-de.txt`; the Primary keyword from Keyword Direction EN appears in the same three banners of `shopify-en.txt`. Two to four secondary or long-tail keywords per locale are woven into description, application, effect, or ingredients prose. No `Terms to avoid` are used. No banner contains a visible `Keywords:` / `Tags:` line.
 - Unknown facts appear only in `brief.txt` Research Summary, never in the Shopify files.
