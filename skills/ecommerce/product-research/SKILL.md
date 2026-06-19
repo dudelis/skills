@@ -103,6 +103,7 @@ Before returning the final answer, check:
 - `descriptionHtml` uses allowed HTML and no `<h1>`.
 - `seo.title` matches the required format `{CompanyName} | {Product Name} | {Catchy SEO phrase}` (three pipe-separated segments) and is ≤ 70 characters in both Shopify files.
 - `seo.description` ≤ 160 characters in both Shopify files.
+- Keyword reuse rule satisfied per [OUTPUT-CONTRACT.md](OUTPUT-CONTRACT.md): the Primary keyword from the locale's Keyword Direction is woven naturally into `descriptionHtml`, `seo.title`, and `seo.description`; two to four secondary or long-tail keywords per locale are woven into description, application, effect, or ingredients prose; no `Terms to avoid` are used; no banner contains a visible `Keywords:` / `Tags:` line.
 - `variants[0].metafields.dhlapp.customsItemDescription` is English and ≤ 30 characters.
 - `metafields.custom.skin_application_areas`, `skin_problem`, and `skin_type` use only allowed values from [OUTPUT-CONTRACT.md](OUTPUT-CONTRACT.md), one per line.
 - `metafields.shopify--discovery--product_recommendation.related_products` follows routine or concern logic and does not include the same product.

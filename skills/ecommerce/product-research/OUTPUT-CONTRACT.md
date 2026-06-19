@@ -196,6 +196,50 @@ standard "Related products" metafield (list of product references).
 | `metafields.custom.skin_type`                          | List of `skin_types`   |
 | `variants[0].metafields.dhlapp.customsItemDescription` | Variant-level text     |
 
+### Keyword reuse rule (applies to both locale files)
+
+Keyword Research is the reason research runs first. The terms it produces must
+show up in the customer-facing prose of every Shopify file — woven into natural
+sentences, never bolted on as a list, label row, or visible tag block.
+
+**Where keywords must appear naturally:**
+
+- `=== descriptionHtml ===` (Main Description) — inside `<h2>` / `<h3>` headings
+  and `<p>` body copy, plus inside the labelled `<li>` text where it reads
+  naturally. Headings and section intros are the highest-value placements.
+- `=== seo.description ===` (Meta Description) — weave the primary keyword and
+  one secondary keyword into the sentence; do not stuff.
+- `=== seo.title ===` (Meta Title) — the third "Catchy SEO phrase" segment
+  carries the strongest keyword.
+- `=== metafields.custom.application ===` — inside the labelled prose values
+  (e.g. `Step 1:`, `Frequency:`), not as a separate keyword line.
+- `=== metafields.custom.effect ===` — inside the labelled prose values
+  (`Visible effect:`, `Best for:`), not as a separate keyword line.
+- `=== metafields.custom.ingredients ===` — inside the customer-facing prose
+  describing what each ingredient does.
+- `=== media[].alt ===` — inside natural ALT sentences.
+
+**Per-locale source of keywords:**
+
+- `shopify-de.txt` reuses **Keyword Direction DE** (Primary keyword direction,
+  Secondary keyword direction, Long-tail opportunities) from `brief.txt`.
+- `shopify-en.txt` reuses **Keyword Direction EN** with the same logic.
+
+**Hard rules:**
+
+- Aim for the primary keyword to appear once in `descriptionHtml`, once in
+  `seo.title`, and once in `seo.description`. Aim for two to four secondary or
+  long-tail keywords across the rest of the description and the application,
+  effect, and ingredients prose.
+- Use `Terms to avoid` from Keyword Research as an exclusion list; never use
+  those terms in any Shopify file.
+- Do not output a visible "Keywords:", "Tags:", or comma-separated keyword line
+  inside any banner value. Keywords are signal for prose only.
+- Do not keyword-stuff. Each keyword must read as natural German or English in
+  context; if a sentence sounds robotic, drop the keyword.
+- Translation, not copy-paste: EN keywords are pulled from Keyword Direction EN,
+  not transliterated from the DE keyword list.
+
 ## shopify-de.txt — German Locale (default)
 
 ### shopify-de.txt — File Header
@@ -504,7 +548,7 @@ Allowed values only: `Mischhaut`, `Trocken`, `Oelig`, `Normal`.
 {CompanyName} | {Product Name} | {Catchy SEO phrase}
 ```
 
-All three segments are required and separated by ` | ` (space, pipe, space). The
+All three segments are required and separated by `|` (space, pipe, space). The
 catchy SEO phrase is a German benefit-, concern-, or product-type phrase pulled
 from Product Strategy, Keyword Direction DE, and Meta Direction DE — never a
 store slogan. Tune the phrase length so the full string stays ≤ 70 characters.
@@ -645,7 +689,7 @@ Best for:
 {CompanyName} | {Product Name} | {Catchy SEO phrase}
 ```
 
-All three segments are required and separated by ` | ` (space, pipe, space). The
+All three segments are required and separated by `|` (space, pipe, space). The
 catchy SEO phrase is an English benefit-, concern-, or product-type phrase pulled
 from Product Strategy, Keyword Direction EN, and Meta Direction EN — never a
 store slogan. Tune the phrase length so the full string stays ≤ 70 characters.
@@ -677,5 +721,6 @@ Follow Product Strategy, Keyword Direction EN, Meta Direction EN, and Claim Boun
 - `metafields.custom.skin_application_areas`, `skin_problem`, and `skin_type` use allowed values only, one per line.
 - `seo.title` matches the required format `{CompanyName} | {Product Name} | {Catchy SEO phrase}` (three pipe-separated segments) and is ≤ 70 characters in both files.
 - `seo.description` ≤ 160 characters in both files.
+- Keyword reuse rule satisfied: the Primary keyword from Keyword Direction DE appears in `descriptionHtml`, `seo.title`, and `seo.description` of `shopify-de.txt`; the Primary keyword from Keyword Direction EN appears in the same three banners of `shopify-en.txt`. Two to four secondary or long-tail keywords per locale are woven into description, application, effect, or ingredients prose. No `Terms to avoid` are used. No banner contains a visible `Keywords:` / `Tags:` line.
 - Unknown facts appear only in `brief.txt` Research Summary, never in the Shopify files.
 - All Shopify-file values are derived from the strategy sections in `brief.txt`.
