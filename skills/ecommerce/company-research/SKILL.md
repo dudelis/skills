@@ -27,10 +27,16 @@ Company URL:  [one or more official brand website URLs, comma-separated]
 Output files:
 
 ```text
-Collections/[CompanyName]/brief.txt
-Collections/[CompanyName]/products.csv
-Collections/[CompanyName]/[CompanyName]-logo.[ext]   # SVG preferred, may be missing
+Collections/[CompanyName]/brief.txt                  # research + strategy + structured data reminder + discovered-products preview
+Collections/[CompanyName]/shopify-de.txt              # German Shopify collection fields, banner-formatted for copy-paste
+Collections/[CompanyName]/shopify-en.txt              # English Shopify collection fields, banner-formatted for copy-paste
+Collections/[CompanyName]/products.csv                # discovered-products manifest for product-research fan-out
+Collections/[CompanyName]/[CompanyName]-logo.[ext]    # SVG preferred, may be missing
 ```
+
+The Shopify files use Shopify Admin GraphQL field paths as banners (e.g.
+`=== descriptionHtml ===`, `=== handle ===`) so future Shopify automation can parse
+them. Always write `brief.txt`, `shopify-de.txt`, and `shopify-en.txt` in the same run.
 
 Folder/file naming: brand's own capitalization, ASCII-fold diacritics (`é→e`, `ö→o`,
 `ß→ss`), strip apostrophes and periods, replace Windows-unsafe chars with `-`. Examples:
@@ -57,12 +63,14 @@ silently skip 404s, note found vs missing in Research Summary):
 Use only the provided brand site. Do not crawl Instagram, LinkedIn, Wikipedia, or
 competitor sites for brand facts. Verified facts vs unknown facts must be separated.
 
-Then build `Collections/[CompanyName]/brief.txt` per [OUTPUT-CONTRACT.md](OUTPUT-CONTRACT.md):
-Research Summary → Keyword Research → Collection Strategy → German block → English
-block → Supporting (structured data reminder + Discovered Products).
+Then build the brief and Shopify files per [OUTPUT-CONTRACT.md](OUTPUT-CONTRACT.md):
 
-For the "Related collections" field, search yuliskin.de to verify candidate URLs.
-If a URL cannot be verified, use the plain collection name without a link.
+- `Collections/[CompanyName]/brief.txt` — Research Summary, Keyword Research, Collection Strategy, Structured data reminder, Discovered Products.
+- `Collections/[CompanyName]/shopify-de.txt` — 8 banner blocks (title, descriptionHtml, handle, image, image.altText, seo.title, seo.description, related_collections).
+- `Collections/[CompanyName]/shopify-en.txt` — 4 banner blocks (title, descriptionHtml, seo.title, seo.description).
+
+For the `related_collections` banner, search yuliskin.de to verify candidate URLs.
+If a URL cannot be verified, output the plain collection name without a link.
 
 ### Pass 2 — Logo download
 
@@ -126,6 +134,8 @@ When `Collections/[CompanyName]/` already exists:
 | Artifact                        | Rule                                                                                                                                                                                                                               |
 | ------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | `brief.txt`                     | Overwrite.                                                                                                                                                                                                                         |
+| `shopify-de.txt`                | Overwrite. Regenerate atomically alongside `brief.txt` and `shopify-en.txt`.                                                                                                                                                       |
+| `shopify-en.txt`                | Overwrite. Regenerate atomically alongside `brief.txt` and `shopify-de.txt`.                                                                                                                                                       |
 | Logo                            | Overwrite only if a new download succeeds. On failure keep existing and set `logo_status: kept_existing`.                                                                                                                          |
 | `products.csv`                  | **Merge.** Read existing rows, run discovery, union on normalized `product_url`, add a `discovered_at` ISO date column (existing rows keep their original date, new rows get today's). Never silently delete rows the user pruned. |
 | Markdown preview in `brief.txt` | Regenerate from the merged CSV.                                                                                                                                                                                                    |
@@ -134,9 +144,11 @@ Print a re-run summary block at the end:
 
 ```text
 Re-run summary for Collections/[CompanyName]/:
-  brief.txt:    overwritten
-  logo:         refreshed | kept_existing | missing
-  products.csv: N existing rows kept, M new rows added, 0 removed
+  brief.txt:       overwritten
+  shopify-de.txt:  overwritten
+  shopify-en.txt:  overwritten
+  logo:            refreshed | kept_existing | missing
+  products.csv:    N existing rows kept, M new rows added, 0 removed
   → New rows: <name>, <name>, <name>
 ```
 
@@ -156,17 +168,21 @@ To change concurrency, replace "3" with another number (e.g. 5 or 10).
 
 Before returning, verify:
 
-- `Collections/[CompanyName]/brief.txt` was created.
+- `Collections/[CompanyName]/brief.txt`, `shopify-de.txt`, and `shopify-en.txt` were all written in the same run.
 - `Collections/[CompanyName]/products.csv` was created (header row present even if 0 data rows).
-- Logo file was saved, OR `logo_status: missing` is set in Research Summary.
-- Research Summary, Keyword Research, and Collection Strategy appear before the German block.
-- German and English sections are separated; no section mixes languages.
-- Description HTML has no `<h1>`.
-- Meta titles ≤ 70 chars (both languages).
-- Meta descriptions ≤ 160 chars (both languages).
-- Discovered Products section reports: total discovered, total excluded by category,
-  total flagged (sets/variants), final manifest row count.
+- Logo file was saved, OR `logo_status: missing` is set in `brief.txt` Research Summary AND the `=== image ===` banner in `shopify-de.txt` contains the literal value `MISSING — set collection image manually`.
+- `brief.txt` contains Research Summary, Keyword Research, Collection Strategy, Structured data reminder, and Discovered Products — and contains no Shopify-pasteable values.
+- `shopify-de.txt` contains the header block plus all 8 banners in the order defined in [OUTPUT-CONTRACT.md](OUTPUT-CONTRACT.md).
+- `shopify-en.txt` contains the header block plus all 4 banners in the order defined in [OUTPUT-CONTRACT.md](OUTPUT-CONTRACT.md).
+- Every banner uses the exact GraphQL path documented in the contract (`=== title ===`, `=== descriptionHtml ===`, `=== handle ===`, etc.).
+- Every banner has at least one `# Admin UI:` comment line.
+- `descriptionHtml` uses allowed HTML and no `<h1>` in both Shopify files.
+- `seo.title` ≤ 70 characters in both Shopify files.
+- `seo.description` ≤ 160 characters in both Shopify files.
+- `handle` is lowercase, hyphenated, ASCII-only.
+- `related_collections` entries are either verified YuliSkin URLs or plain names with no link.
+- Discovered Products section in `brief.txt` reports: total discovered, total excluded by category, total flagged (sets/variants), final manifest row count.
 - On re-run, the re-run summary block is printed.
 - The closing "next prompt" block is the last thing printed.
 
-See [OUTPUT-CONTRACT.md](OUTPUT-CONTRACT.md) for the full brief.txt schema and field rules.
+See [OUTPUT-CONTRACT.md](OUTPUT-CONTRACT.md) for the full file specs and per-banner rules.

@@ -1,12 +1,17 @@
 # Product Research Output Contract
 
-Use this contract when generating `Products/[CompanyName]/[ProductName]/brief.txt` for YuliSkin product research output. The brief is research-first: Research Summary, Keyword Research, and Product Strategy are required foundation sections, and all Shopify-ready fields, descriptions, meta titles, meta descriptions, related products, and image ALT options must be derived from them. Keyword Research must document how customers search for the product, its category, concerns, benefits, ingredients, routine step, and buying intent.
+Use this contract when generating product-research output for `yuliskin.de`. The
+deliverables are split into three text files plus image downloads. The research file
+(`brief.txt`) is the thinking layer. The Shopify files (`shopify-de.txt`,
+`shopify-en.txt`) are the copy-paste layer — every value in them must be derived
+from the research file.
 
-## Image Download Output
-
-In addition to `brief.txt`, download the main product images and store them in the same folder:
+## File Outputs
 
 ```text
+Products/[CompanyName]/[ProductName]/brief.txt
+Products/[CompanyName]/[ProductName]/shopify-de.txt
+Products/[CompanyName]/[ProductName]/shopify-en.txt
 Products/[CompanyName]/[ProductName]/[CompanyName]-[ProductName]-01.[ext]
 Products/[CompanyName]/[ProductName]/[CompanyName]-[ProductName]-02.[ext]
 Products/[CompanyName]/[ProductName]/[CompanyName]-[ProductName]-03.[ext]
@@ -14,7 +19,7 @@ Products/[CompanyName]/[ProductName]/[CompanyName]-[ProductName]-04.[ext]
 Products/[CompanyName]/[ProductName]/[CompanyName]-[ProductName]-05.[ext]
 ```
 
-Rules:
+Image rules:
 
 - Prioritize source order: official brand/product page, distributor page, then competitor page.
 - Download 2 to 5 images when available.
@@ -23,57 +28,22 @@ Rules:
 - Skip logos, banners, watermarked ads, and unrelated lifestyle images.
 - Preserve source extension when possible (`.jpg`, `.jpeg`, `.png`, `.webp`).
 
-## Required File Structure
+Generate all three text files in a single run. If a re-run is requested, regenerate
+all three atomically (do not leave stale Shopify files alongside a new brief).
+
+## brief.txt — Research File
+
+Plain text. Contains only the thinking layer plus the structured-data reminder. No
+Shopify-pasteable values live here.
+
+### brief.txt structure
 
 ```text
 1. Research Summary
 2. Keyword Research
 3. Product Strategy
-
-German
-1. Title
-2. Description HTML
-3. Media / Images
-4. Image ALT options
-5. Product type
-6. Vendor
-7. Variant name / volume
-8. SKU
-9. Barcode / GTIN / UPC / ISBN
-10. Product weight
-11. Country of origin
-12. HS code
-13. DHL customs description
-14. Related products
-15. Application
-16. Effect
-17. Ingredients
-18. Skin application area
-19. Skin problem
-20. Skin type
-21. Meta title
-22. Meta description
-
-English
-1. Title
-2. Description HTML
-3. Product type
-4. Meta title
-5. Meta description
-6. Variant name / volume
-7. Application
-8. Effect
-9. Ingredients
-
-Supporting sections
-1. Structured data reminder
+4. Structured data reminder
 ```
-
-The German section contains the full Shopify product setup fields. The English section contains translated Shopify-facing content fields only; use the German values for shared admin/import fields unless Shopify requires localized values.
-
-Do not generate the German, English, or supporting sections until Research Summary, Keyword Research, and Product Strategy are complete. Unknown facts may appear in the foundation sections, but customer-facing copy and copyable Shopify fields must use only verified facts or allowed fallback rules from this contract.
-
-## Strategy Sections
 
 ### Research Summary
 
@@ -102,7 +72,10 @@ Unknown facts:
 
 ### Keyword Research
 
-Plain text. Research how customers search for this exact product and similar products in Google, marketplaces, retailer sites, brand sites, YuliSkin search/category logic, and other search systems when available. Provide German and English keyword directions grouped by intent:
+Plain text. Research how customers search for this exact product and similar products
+in Google, marketplaces, retailer sites, brand sites, YuliSkin search/category logic,
+and other search systems. Provide German and English keyword directions grouped by
+intent:
 
 ```text
 German keywords:
@@ -134,13 +107,13 @@ Long-tail opportunities:
 Terms to avoid:
 ```
 
-Do not keyword-stuff. Use keyword research to shape natural headings, description HTML, meta title, meta description, image ALT options, related-product logic, and Shopify field choices. Prefer the strongest relevant keywords and search-intent language; do not force every keyword into customer-facing copy.
+Do not keyword-stuff. Use keyword research to shape natural headings, description
+HTML, meta title, meta description, image ALT options, related-product logic, and
+Shopify field choices.
 
 ### Product Strategy
 
-Plain text. Summarize why the product exists, who it is for, which exact ingredients matter, and how it fits into a routine for the specific company.
-
-Use this format:
+Plain text:
 
 ```text
 Product Strategy
@@ -161,404 +134,8 @@ Related Product Logic:
 Claim Boundaries:
 ```
 
-The description, effect, meta title, meta description, related products, and Shopify field choices must follow this strategy.
-
-## Shopify Field Rules
-
-### Product type
-
-Choose exactly one product type.
-
-Prefer one of these existing Shopify values:
-
-```text
-Augenpflege
-Brush
-Cleanser
-Concentrate
-Creme
-Gel
-Geschenkset
-Gesichtsgerät
-Haarpflege
-Heimpflegeset
-Körperpflege
-Lippenpflege
-Maske
-Nachtcreme
-Oil
-Online consultation
-Other
-Peeling
-Produktset
-Serum
-Sonnenschutz
-Spot Gel
-Tagescreme
-Tonic
-```
-
-If no existing value fits, output one proposed new value and add a note in Research Summary that the Shopify product type must be created. Do not output multiple product types.
-
-### Vendor
-
-Use the producer or brand/company name for the Shopify vendor field.
-
-### Variant name / volume
-
-Use normalized Shopify-friendly lowercase units:
-
-```text
-50 ml
-100 g
-1 l
-1 kg
-10 pcs
-```
-
-Use `pcs` only when the product is genuinely sold by count. Preserve exact source packaging wording in Research Summary if it differs from the normalized value.
-
-### Product weight
-
-Use a copyable final value only:
-
-```text
-100 g
-550 g
-```
-
-Rules:
-
-- If exact product or shipping weight is verified, use the verified weight.
-- If only volume is known, estimate as the numeric ml amount plus 50 g.
-- If contents are already in g, estimate as contents weight plus 50 g.
-- Do not include the DHL parcel box weight.
-- Do not output calculation notes in the copyable field; put uncertainty or assumptions in Research Summary.
-
-Examples:
-
-```text
-30 ml -> 80 g
-50 ml -> 100 g
-150 ml -> 200 g
-500 ml -> 550 g
-100 g -> 150 g
-```
-
-### Country of origin
-
-Use the brand's declared commercial country of origin. Do not over-investigate factory location unless a source clearly states it and it matters for customs. If the country of origin cannot be verified, output `Unknown` in the copyable field and note the uncertainty in Research Summary.
-
-Known brand mappings may be used when source research supports them:
-
-```text
-GIGI -> Israel
-Meder -> Switzerland
-Dr. Medion -> Japan if confirmed or strongly established
-```
-
-### HS code
-
-Use one HS code:
-
-```text
-33049900
-```
-
-Rules:
-
-- Default for skincare cosmetics: `33049900`.
-- Haircare: `33059000`.
-- Sunscreen / sun protection: use `33049900` unless a source or customs rule suggests otherwise.
-- Brushes, tools, and devices: classify separately and do not force the skincare cosmetics code.
-- Gift sets and product sets: use the dominant item's HS code when clearly skincare-only; otherwise mark for manual review in Research Summary.
-
-### DHL customs description
-
-English only. Maximum 30 characters. Use plain customs-friendly wording, not marketing copy.
-
-Examples:
-
-```text
-Face cream
-Face serum
-Cleanser
-Eye cream
-Sunscreen
-Cosmetic set
-Face brush
-Skin care device
-```
-
-### SKU and barcode
-
-Include SKU and Barcode / GTIN / UPC / ISBN when verified from official sources, distributors, competitor Shopify shops, provided links, packaging images, or credible retailer data. If unavailable, output `Unknown`. Never infer barcode values.
-
-## German Shopify Fields
-
-### 1. Title
-
-Plain text. Use the product name as it should appear in Shopify.
-
-### 2. Description HTML
-
-Use HTML only. Allowed tags: `<h2>`, `<h3>`, `<p>`, `<ul>`, `<li>`, and verified `<a href="">` links. Do not use `<h1>`.
-
-Must include:
-
-- Product name and company.
-- Product type.
-- Main skin concern or use case.
-- Key benefits.
-- Exact verified hero ingredients.
-- Texture when verified.
-- Routine fit.
-- Internal YuliSkin links only when URLs are verified.
-
-The description must follow Product Strategy, Description Direction DE, Keyword Direction DE, and Claim Boundaries. Do not write a generic category description.
-
-### 3. Media / Images
-
-Plain text. List the downloaded image files in order.
-
-```text
-Image 1:
-Image 2:
-Image 3:
-Image 4:
-Image 5:
-```
-
-### 4. Image ALT options
-
-English only. Provide multiple concise options.
-
-Include company, product name, product code when relevant, packaging, texture, or product context. Do not mention people or make medical claims.
-
-### 5. Product type
-
-Use the Product type rules above. Output exactly one value.
-
-### 6. Vendor
-
-Use the Vendor rules above.
-
-### 7. Variant name / volume
-
-Use the Variant name / volume rules above.
-
-### 8. SKU
-
-Use the SKU and barcode rules above.
-
-### 9. Barcode / GTIN / UPC / ISBN
-
-Use the SKU and barcode rules above.
-
-### 10. Product weight
-
-Use the Product weight rules above.
-
-### 11. Country of origin
-
-Use the Country of origin rules above.
-
-### 12. HS code
-
-Use the HS code rules above.
-
-### 13. DHL customs description
-
-Use the DHL customs description rules above.
-
-### 14. Related products
-
-Plain text. Select complementary products from the same company on YuliSkin whenever possible. If the products do not exist on Yuliskin, write just names of the complimentary products from the same company.
-
-Rules:
-
-- Verify YuliSkin URLs before linking.
-- Do not recommend the same product.
-- Do not recommend products only because they share the company name.
-- Use strict routine or concern logic.
-
-Routine patterns:
-
-```text
-Cleanser / preparation -> serum / treatment -> concentrate / cream / maintenance
-Preparation -> treatment -> hydration / soothing / brightening / maintenance
-Mask / treatment -> serum / cream / protection
-```
-
-### 15. Application
-
-Plain text with labelled lines:
-
-```text
-Step 1:
-Step 2:
-Step 3:
-Frequency:
-Routine note:
-Precaution:
-```
-
-Include amount, frequency, routine sequence, application area, whether to rinse, and precautions when verified. Mark unknowns only in strategy, not in customer-facing copy.
-
-### 16. Effect
-
-Plain text. Keep distinct from the description:
-
-```text
-Visible effect:
-Texture effect:
-Comfort effect:
-Best for:
-```
-
-Use compliant cosmetic language.
-
-### 17. Ingredients
-
-Customer-facing plain text only. List exact active/key ingredients and their benefits.
-
-Rules:
-
-- Name exact ingredients when known.
-- Do not use generic labels instead of exact names.
-- Do not output the full INCI unless verified and requested.
-- Do not include editorial notes such as "verify before publishing".
-- Do not invent ingredient roles.
-
-### 18. Skin application area
-
-Choose one or more only from this list:
-
-```text
-Lippen
-Haende
-Hals
-Gesicht
-Augen
-Dekollete
-Koerper
-```
-
-### 19. Skin problem
-
-Choose one or more only from this list:
-
-```text
-Cellulite
-Post-Treatment (nach Peelings, Laser, Needling)
-Schwellungen
-Schwangerschaft & Stillzeit
-Roetungen & Rosazea
-Pigmentierung / Pigmentflecken / Melasma
-Schuppige Haut (Sebaroe)
-Oelige Haut (erweiterte Poren)
-Falten & feine Linien
-empfindliche / atopische Haut
-Ausgetrocknete Haut
-Augenringe
-Anti-Aging
-Akne / unreine Haut (Pickel, Mitesser)
-```
-
-### 20. Skin type
-
-Choose one or more only from this list:
-
-```text
-Mischhaut
-Trocken
-Oelig
-Normal
-```
-
-### 21. Meta title
-
-Maximum 70 characters.
-
-Preferred pattern:
-
-```text
-[CompanyName] | [Product Name] | [Benefit or concern]
-```
-
-If the code is unknown, omit it. Use product type or concern, not store slogans.
-
-The meta title must follow Product Strategy, Keyword Direction DE, and Meta Direction DE.
-
-### 22. Meta description
-
-Maximum 160 characters.
-
-Include company, product name, product type, target concern, and one or two hero ingredients when verified. End with a soft YuliSkin or shopping benefit.
-
-The meta description must follow Product Strategy, Keyword Direction DE, Meta Direction DE, and Claim Boundaries.
-
-## English Shopify Fields
-
-### 1. Title
-
-Plain text. Use the English product title when available; otherwise use the official product name.
-
-### 2. Description HTML
-
-Use HTML only. Allowed tags: `<h2>`, `<h3>`, `<p>`, `<ul>`, `<li>`, and verified `<a href="">` links. Do not use `<h1>`.
-
-The description must follow Product Strategy, Description Direction EN, Keyword Direction EN, and Claim Boundaries. Do not write a generic category description.
-
-### 3. Product type
-
-Use the same product type chosen for German. Do not translate dropdown values unless Shopify requires a separate English value.
-
-### 4. Meta title
-
-Maximum 70 characters.
-
-The meta title must follow Product Strategy, Keyword Direction EN, and Meta Direction EN.
-
-### 5. Meta description
-
-Maximum 160 characters.
-
-The meta description must follow Product Strategy, Keyword Direction EN, Meta Direction EN, and Claim Boundaries.
-
-### 6. Variant name / volume
-
-Use the same normalized value as German.
-
-### 7. Application
-
-Plain text with labelled lines:
-
-```text
-Step 1:
-Step 2:
-Step 3:
-Frequency:
-Routine note:
-Precaution:
-```
-
-### 8. Effect
-
-Plain text:
-
-```text
-Visible effect:
-Texture effect:
-Comfort effect:
-Best for:
-```
-
-### 9. Ingredients
-
-Customer-facing plain text only. List exact active/key ingredients and their benefits.
-
-## Supporting Sections
+The description, effect, meta title, meta description, related products, and Shopify
+field choices in both `shopify-de.txt` and `shopify-en.txt` must follow this strategy.
 
 ### Structured data reminder
 
@@ -581,27 +158,508 @@ Manual verification:
 
 Use reviews or aggregateRating only if real review data exists.
 
+## Shopify Files — Banner Format
+
+Both `shopify-de.txt` and `shopify-en.txt` use the same banner format. One field per
+block. Each block has three parts:
+
+```text
+=== <shopify-field-path> ===
+# Admin UI: <visible label> | <validation/hint notes>
+<value to paste into Shopify>
+```
+
+- Banner = Shopify Admin GraphQL field path. Future Shopify automation parses these.
+- Comment line = human-readable Admin UI label plus validation hints (max chars,
+  format, allowed values). Multiple comment lines are allowed; each must start with `#`.
+- Value = the actual content to paste into Shopify Admin. May be multi-line.
+
+Both files start with a header block that names the locale and reminds the user how
+to use it. See section "shopify-de.txt — File Header" and "shopify-en.txt — File
+Header" below for exact text.
+
+### Standard system metafields
+
+`metafields.shopify.<key>` are Shopify's built-in standard metafield definitions.
+`metafields.shopify--discovery--product_recommendation.related_products` is Shopify's
+standard "Related products" metafield (list of product references).
+
+### Custom metafields (YuliSkin store)
+
+| Banner path                                            | Definition type        |
+| ------------------------------------------------------ | ---------------------- |
+| `metafields.custom.application`                        | Multi-line text        |
+| `metafields.custom.effect`                             | Multi-line text        |
+| `metafields.custom.ingredients`                        | Multi-line text        |
+| `metafields.custom.skin_application_areas`             | List of `body_area`    |
+| `metafields.custom.skin_problem`                       | List of `skin_problem` |
+| `metafields.custom.skin_type`                          | List of `skin_types`   |
+| `variants[0].metafields.dhlapp.customsItemDescription` | Variant-level text     |
+
+## shopify-de.txt — German Locale (default)
+
+### shopify-de.txt — File Header
+
+The file starts with this exact header block:
+
+```text
+# Shopify product fields — German locale (default)
+# Banner format: === <shopify-field-path> ===
+# Comment lines start with #. Paste each value into the matching field in Shopify Admin.
+# Banner paths use Shopify GraphQL field names so future automation can parse this file.
+```
+
+### shopify-de.txt — Banner Order
+
+Generate the banners in this exact order:
+
+```text
+1.  === title ===
+2.  === descriptionHtml ===
+3.  === productType ===
+4.  === vendor ===
+5.  === variants[0].title ===
+6.  === variants[0].sku ===
+7.  === variants[0].barcode ===
+8.  === variants[0].weight ===
+9.  === metafields.shopify.country_of_origin ===
+10. === metafields.shopify.harmonized_system_code ===
+11. === variants[0].metafields.dhlapp.customsItemDescription ===
+12. === metafields.shopify--discovery--product_recommendation.related_products ===
+13. === metafields.custom.application ===
+14. === metafields.custom.effect ===
+15. === metafields.custom.ingredients ===
+16. === metafields.custom.skin_application_areas ===
+17. === metafields.custom.skin_problem ===
+18. === metafields.custom.skin_type ===
+19. === seo.title ===
+20. === seo.description ===
+21. === media[].alt ===
+```
+
+### shopify-de.txt — Per-Banner Specifications
+
+#### `=== title ===`
+
+```text
+# Admin UI: Title
+```
+
+Use the product name as it should appear in Shopify.
+
+#### `=== descriptionHtml ===`
+
+```text
+# Admin UI: Description | Paste in HTML/Source view, not Rich Text
+```
+
+HTML only. Allowed tags: `<h2>`, `<h3>`, `<p>`, `<ul>`, `<li>`, and verified
+`<a href="">` links. Do not use `<h1>` (Shopify renders the product title as H1).
+
+Must include: product name and company, product type, main skin concern or use case,
+key benefits, exact verified hero ingredients, texture when verified, routine fit,
+internal YuliSkin links only when URLs are verified.
+
+Follow Product Strategy, Description Direction DE, Keyword Direction DE, and Claim
+Boundaries. Do not write a generic category description.
+
+#### `=== productType ===`
+
+```text
+# Admin UI: Product type | Single value
+```
+
+Choose exactly one product type. Prefer one of these existing Shopify values:
+
+```text
+Augenpflege, Brush, Cleanser, Concentrate, Creme, Gel, Geschenkset, Gesichtsgerät,
+Haarpflege, Heimpflegeset, Körperpflege, Lippenpflege, Maske, Nachtcreme, Oil,
+Online consultation, Other, Peeling, Produktset, Serum, Sonnenschutz, Spot Gel,
+Tagescreme, Tonic
+```
+
+If no existing value fits, output one proposed new value and add a note in
+`brief.txt` Research Summary that the Shopify product type must be created.
+
+#### `=== vendor ===`
+
+```text
+# Admin UI: Vendor
+```
+
+Use the producer or brand/company name.
+
+#### `=== variants[0].title ===`
+
+```text
+# Admin UI: Variant title (volume) | Normalized lowercase units (50 ml, 100 g, 1 l, 10 pcs)
+```
+
+Use `pcs` only when the product is genuinely sold by count. Preserve exact source
+packaging wording in `brief.txt` Research Summary if it differs from the normalized
+value.
+
+#### `=== variants[0].sku ===`
+
+```text
+# Admin UI: SKU | Output "Unknown" if not verified
+```
+
+Verify SKU from official sources, distributors, competitor Shopify shops, provided
+links, packaging images, or credible retailer data. Never infer.
+
+#### `=== variants[0].barcode ===`
+
+```text
+# Admin UI: Barcode (ISBN, UPC, GTIN, ...) | Output "Unknown" if not verified
+```
+
+Same verification rules as SKU. Never infer barcode values.
+
+#### `=== variants[0].weight ===`
+
+```text
+# Admin UI: Weight | In grams | Fallback: volume_ml + 50g if unverified
+```
+
+Rules:
+
+- If exact product or shipping weight is verified, use the verified weight.
+- If only volume is known, estimate as the numeric ml amount plus 50 g.
+- If contents are already in g, estimate as contents weight plus 50 g.
+- Do not include the DHL parcel box weight.
+- Do not output calculation notes in the value; put uncertainty in `brief.txt`.
+
+Examples: `30 ml → 80`, `50 ml → 100`, `150 ml → 200`, `500 ml → 550`, `100 g → 150`.
+
+#### `=== metafields.shopify.country_of_origin ===`
+
+```text
+# Admin UI: Country/Region of origin | Standard system metafield | ISO 3166-1 alpha-2 country code
+```
+
+Use the brand's declared commercial country of origin. If it cannot be verified,
+output `Unknown` and note the uncertainty in `brief.txt`.
+
+Known brand mappings when source research supports them: `GIGI → IL`,
+`Meder → CH`, `Dr. Medion → JP` (if confirmed).
+
+#### `=== metafields.shopify.harmonized_system_code ===`
+
+```text
+# Admin UI: HS code | Standard system metafield
+```
+
+Rules:
+
+- Default for skincare cosmetics: `33049900`.
+- Haircare: `33059000`.
+- Sunscreen / sun protection: `33049900` unless source says otherwise.
+- Brushes, tools, devices: classify separately; do not force the cosmetics code.
+- Gift sets: use the dominant item's HS code when clearly skincare-only; otherwise
+  mark for manual review in `brief.txt`.
+
+#### `=== variants[0].metafields.dhlapp.customsItemDescription ===`
+
+```text
+# Admin UI (Variant level): DHL customs item description | English only | Max 30 chars | Plain customs wording, not marketing copy
+```
+
+Examples: `Face cream`, `Face serum`, `Cleanser`, `Eye cream`, `Sunscreen`,
+`Cosmetic set`, `Face brush`, `Skin care device`.
+
+#### `=== metafields.shopify--discovery--product_recommendation.related_products ===`
+
+```text
+# Admin UI: Related products | Standard system metafield | List of products | One per line, YuliSkin product handle or full URL
+```
+
+Select complementary products from the same company on YuliSkin whenever possible.
+Verify YuliSkin URLs before linking. If the product does not exist on YuliSkin yet,
+write the plain product name on its own line (no URL).
+
+Rules:
+
+- Do not recommend the same product.
+- Do not recommend products only because they share the company name.
+- Use strict routine or concern logic.
+
+Routine patterns:
+
+```text
+Cleanser / preparation → serum / treatment → concentrate / cream / maintenance
+Preparation → treatment → hydration / soothing / brightening / maintenance
+Mask / treatment → serum / cream / protection
+```
+
+#### `=== metafields.custom.application ===`
+
+```text
+# Admin UI: Application | Multi-line text | Labelled lines
+```
+
+Format:
+
+```text
+Schritt 1:
+Schritt 2:
+Schritt 3:
+Häufigkeit:
+Routine-Hinweis:
+Vorsichtsmaßnahme:
+```
+
+Include amount, frequency, routine sequence, application area, whether to rinse, and
+precautions when verified. Mark unknowns only in `brief.txt`, not here.
+
+#### `=== metafields.custom.effect ===`
+
+```text
+# Admin UI: Effect | Multi-line text | Labelled lines | Compliant cosmetic language
+```
+
+Format:
+
+```text
+Sichtbarer Effekt:
+Textur-Effekt:
+Komfort-Effekt:
+Geeignet für:
+```
+
+#### `=== metafields.custom.ingredients ===`
+
+```text
+# Admin UI: Ingredients | Multi-line text | Customer-facing key ingredients only (not full INCI)
+```
+
+Rules:
+
+- Name exact ingredients when known.
+- Do not use generic labels instead of exact names.
+- Do not output the full INCI unless verified and requested.
+- Do not include editorial notes such as "verify before publishing".
+- Do not invent ingredient roles.
+
+#### `=== metafields.custom.skin_application_areas ===`
+
+```text
+# Admin UI: Skin application areas | List of body_area | One per line
+```
+
+Allowed values only:
+
+```text
+Lippen
+Haende
+Hals
+Gesicht
+Augen
+Dekollete
+Koerper
+```
+
+#### `=== metafields.custom.skin_problem ===`
+
+```text
+# Admin UI: Skin problem | List of skin_problem | One per line
+```
+
+Allowed values only:
+
+```text
+Cellulite
+Post-Treatment (nach Peelings, Laser, Needling)
+Schwellungen
+Schwangerschaft & Stillzeit
+Roetungen & Rosazea
+Pigmentierung / Pigmentflecken / Melasma
+Schuppige Haut (Sebaroe)
+Oelige Haut (erweiterte Poren)
+Falten & feine Linien
+empfindliche / atopische Haut
+Ausgetrocknete Haut
+Augenringe
+Anti-Aging
+Akne / unreine Haut (Pickel, Mitesser)
+```
+
+#### `=== metafields.custom.skin_type ===`
+
+```text
+# Admin UI: Skin type | List of skin_types | One per line
+```
+
+Allowed values only: `Mischhaut`, `Trocken`, `Oelig`, `Normal`.
+
+#### `=== seo.title ===`
+
+```text
+# Admin UI: SEO title | Max 70 chars
+```
+
+Preferred pattern: `[CompanyName] | [Product Name] | [Benefit or concern]`.
+Use product type or concern, not store slogans. Follow Product Strategy, Keyword
+Direction DE, and Meta Direction DE.
+
+#### `=== seo.description ===`
+
+```text
+# Admin UI: SEO description | Max 160 chars
+```
+
+Include company, product name, product type, target concern, and one or two hero
+ingredients when verified. End with a soft YuliSkin or shopping benefit. Follow
+Product Strategy, Keyword Direction DE, Meta Direction DE, and Claim Boundaries.
+
+#### `=== media[].alt ===`
+
+```text
+# Admin UI: Media → Alt text (set per uploaded image) | English ALT options for rotation
+# Image files in this folder (upload these to Shopify):
+#   [CompanyName]-[ProductName]-01.[ext]
+#   [CompanyName]-[ProductName]-02.[ext]
+#   ...
+```
+
+Provide 3 to 6 English ALT options, one per line under the comment block. Include
+company, product name, product code when relevant, packaging, texture, or product
+context. Do not mention people or make medical claims.
+
+## shopify-en.txt — English Locale (translated)
+
+### shopify-en.txt — File Header
+
+The file starts with this exact header block:
+
+```text
+# Shopify product fields — English locale (translated)
+# Banner format: === <shopify-field-path> ===
+# Use these values in Shopify's Translate & Adapt app or any English-locale storefront.
+# Fields not in this file (vendor, SKU, barcode, weight, HS code, country of origin,
+# DHL customs description, related products, skin metafields) reuse the values from
+# shopify-de.txt.
+```
+
+### shopify-en.txt — Banner Order
+
+Generate the banners in this exact order:
+
+```text
+1. === title ===
+2. === descriptionHtml ===
+3. === productType ===
+4. === variants[0].title ===
+5. === metafields.custom.application ===
+6. === metafields.custom.effect ===
+7. === metafields.custom.ingredients ===
+8. === seo.title ===
+9. === seo.description ===
+```
+
+### shopify-en.txt — Per-Banner Specifications
+
+#### `=== title ===`
+
+```text
+# Admin UI (EN locale): Title
+```
+
+Use the English product title when available; otherwise use the official product name.
+
+#### `=== descriptionHtml ===`
+
+```text
+# Admin UI (EN locale): Description | Paste in HTML/Source view, not Rich Text
+```
+
+Same HTML rules as DE. Follow Product Strategy, Description Direction EN, Keyword
+Direction EN, and Claim Boundaries. Do not write a generic category description.
+
+#### `=== productType ===`
+
+```text
+# Admin UI: Product type | Same value as DE; only translate if Shopify requires a separate English value
+```
+
+#### `=== variants[0].title ===`
+
+```text
+# Admin UI (EN locale): Variant title (volume) | Same normalized value as DE
+```
+
+#### `=== metafields.custom.application ===`
+
+```text
+# Admin UI (EN locale): Application | Multi-line text | Labelled lines
+```
+
+Format:
+
+```text
+Step 1:
+Step 2:
+Step 3:
+Frequency:
+Routine note:
+Precaution:
+```
+
+#### `=== metafields.custom.effect ===`
+
+```text
+# Admin UI (EN locale): Effect | Multi-line text | Labelled lines
+```
+
+Format:
+
+```text
+Visible effect:
+Texture effect:
+Comfort effect:
+Best for:
+```
+
+#### `=== metafields.custom.ingredients ===`
+
+```text
+# Admin UI (EN locale): Ingredients | Multi-line text | Customer-facing key ingredients only (not full INCI)
+```
+
+#### `=== seo.title ===`
+
+```text
+# Admin UI (EN locale): SEO title | Max 70 chars
+```
+
+Follow Product Strategy, Keyword Direction EN, and Meta Direction EN.
+
+#### `=== seo.description ===`
+
+```text
+# Admin UI (EN locale): SEO description | Max 160 chars
+```
+
+Follow Product Strategy, Keyword Direction EN, Meta Direction EN, and Claim Boundaries.
+
 ## Final Quality Checklist
 
-- Strategy sections come first.
-- Research Summary, Keyword Research, and Product Strategy are complete before any language or Shopify fields.
-- German section comes before English.
-- German contains all 22 requested Shopify fields.
-- English contains all 9 requested Shopify fields.
-- Supporting sections contain Structured data reminder after the language sections.
-- 2 to 5 product images were downloaded when available and saved with sequential names (`-01` to `-05`) in the product folder.
-- Description HTML uses allowed HTML and no `<h1>`.
-- Plain text sections use labelled lines.
-- Meta title is 70 characters or less.
-- Meta description is 160 characters or less.
-- Product type is exactly one value and either uses an existing allowed value or clearly notes that a new Shopify value must be created.
-- Variant name / volume uses normalized lowercase units.
-- Product weight follows verified source data or the simple `amount + 50 g` fallback.
-- Country of origin uses the brand's declared commercial origin or `Unknown` when it cannot be verified.
-- HS code and DHL customs description are included.
-- SKU and barcode are verified or marked `Unknown`.
-- Related products use verified URLs or product names only.
-- Skin application area, Skin problem, and Skin type use allowed values only.
-- Unknown facts are listed in Research Summary or Product Strategy and excluded from customer-facing copy.
-- Descriptions, meta titles, meta descriptions, related products, and Shopify field choices are derived from the foundation sections.
-- Claims are cosmetic, evidence-aware, and source-supported.
+- All three files (`brief.txt`, `shopify-de.txt`, `shopify-en.txt`) are written in the same run.
+- 2 to 5 product images were downloaded when available and saved with sequential names (`-01` to `-05`).
+- `brief.txt` contains Research Summary, Keyword Research, Product Strategy, and Structured data reminder — and nothing else.
+- `shopify-de.txt` contains the header block and all 21 banners in the documented order.
+- `shopify-en.txt` contains the header block and all 9 banners in the documented order.
+- Every banner uses the exact GraphQL path documented above.
+- Every banner has at least one `# Admin UI:` comment line.
+- `descriptionHtml` uses allowed HTML and no `<h1>`.
+- `productType` is exactly one value and either uses an allowed value or `brief.txt` notes that a new Shopify value must be created.
+- `variants[0].title` uses normalized lowercase units.
+- `variants[0].weight` follows verified source data or the `volume_ml + 50g` fallback.
+- `metafields.shopify.country_of_origin` uses an ISO alpha-2 code or `Unknown`.
+- `metafields.shopify.harmonized_system_code` follows the HS code rules.
+- `variants[0].metafields.dhlapp.customsItemDescription` is English and ≤ 30 characters.
+- `metafields.custom.skin_application_areas`, `skin_problem`, and `skin_type` use allowed values only, one per line.
+- `seo.title` ≤ 70 characters in both files.
+- `seo.description` ≤ 160 characters in both files.
+- Unknown facts appear only in `brief.txt` Research Summary, never in the Shopify files.
+- All Shopify-file values are derived from the strategy sections in `brief.txt`.
