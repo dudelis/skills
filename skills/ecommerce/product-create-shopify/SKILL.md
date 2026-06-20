@@ -69,7 +69,9 @@ not update it.
      settings, collections, or tags.
    - country of origin and HS code when accepted.
    - DHL customs item description variant metafield when accepted.
-   - custom metafields after mapping display labels to existing stored values/options when needed.
+   - free-text custom metafields (`application`, `effect`, `ingredients`) written verbatim.
+   - metaobject lookup metafields (`skin_application_areas`, `skin_problem`, `skin_type`)
+     per the mandatory-fetch rule in "Metaobject lookup fields" below.
    - SEO title and description.
    - English ALT text on attached media (see step 9 for the single upload-and-attach flow).
 9. Attach sequential local product images to the created product in a single operation:
@@ -117,6 +119,35 @@ not update it.
     fields written (including the price set and the computed cost per item), translations
     applied, skipped fields, validation warnings, and manual follow-ups. Always include the
     follow-up: verify the price before switching the product from `DRAFT` to `ACTIVE`.
+
+## Metaobject lookup fields (mandatory fetch — do not deliberate)
+
+Three custom metafields are `list.metaobject_reference` fields. Their values are stored as
+metaobject GIDs, not text. For these fields you must fetch the store's metaobject entries and
+map each banner label to its GID. This is a fixed, required step — do not reason about whether
+it is necessary, and do not ask whether to do it. Just do it.
+
+| Banner / metafield key            | Metaobject type handle |
+| --------------------------------- | ---------------------- |
+| `metafields.custom.skin_application_areas` | `body_area`     |
+| `metafields.custom.skin_problem`           | `skin_problem`  |
+| `metafields.custom.skin_type`              | `skin_types`    |
+
+Rules:
+
+- Presence-gated: for each field, if its banner has a value, fetch that metaobject type's
+  entries (GID + display name) and map. If the banner is empty/absent, skip that type. Nothing
+  else gates the fetch.
+- The type handles above are authoritative. Verify a handle against the live metafield
+  definition only if a fetch returns no entries.
+- Banner values are one label per line. Match each line to a metaobject entry by display name:
+  normalized exact match (lowercase, trim, collapse whitespace, fold umlauts `ö/oe ä/ae ü/ue
+  ß/ss`). The research output already uses Shopify display names, so matches are expected to be
+  exact; the normalization is only a safety net.
+- For an unmatched line, take the closest correspondence; if there is no clear match, skip that
+  one value and report it as a manual follow-up. Never create a new metaobject.
+- Write the matched GIDs to the `list.metaobject_reference` metafield (write the GIDs that
+  matched even if some lines were skipped).
 
 ## Guardrails
 

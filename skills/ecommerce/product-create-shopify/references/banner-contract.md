@@ -59,6 +59,24 @@ media[].alt
 Map these to the default Shopify product, variant, media, SEO, and metafields. German
 is the primary storefront language for YuliSkin.
 
+### Metaobject lookup metafields (mandatory fetch)
+
+These three custom metafields are `list.metaobject_reference` fields. Their values are
+metaobject GIDs, not text. When the banner has a value, always fetch the store's
+metaobject entries for the mapped type and convert each label line to its GID — this is a
+required step, not a judgment call. Free-text custom fields (`application`, `effect`,
+`ingredients`) are written verbatim and are not metaobjects.
+
+| Banner / metafield key                     | Metaobject type handle |
+| ------------------------------------------ | ---------------------- |
+| `metafields.custom.skin_application_areas` | `body_area`            |
+| `metafields.custom.skin_problem`           | `skin_problem`         |
+| `metafields.custom.skin_type`              | `skin_types`           |
+
+Values are one label per line. Match by display name (research already emits Shopify
+display names). If a line has no clear match, skip that value and report a follow-up;
+never create a metaobject. See SKILL.md "Metaobject lookup fields" for the full rule.
+
 Hard-required German values before creation:
 
 ```text
