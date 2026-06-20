@@ -103,8 +103,8 @@ Do not set these from this skill:
 metafields.shopify--discovery--product_recommendation.related_products
 collections
 tags
-price
 compare-at price
+unit price
 inventory quantity
 inventory policy
 tax settings
@@ -126,6 +126,12 @@ exist in the catalog.
   English fallback ALT text.
 - `Unknown` values are allowed for SKU, barcode, and country of origin when research could
   not verify them. Prefer omitting those values in Shopify when the API supports omission.
+- `variants[0].price` is the EUR general price shown on the product page. Set the variant
+  **price** from it (normalize: strip currency symbols/spaces, comma is the decimal
+  separator) and set **Cost per item** (`inventoryItem.unitCost`) to that price ÷ 2, rounded
+  to 2 decimals. If `variants[0].price` is missing or `Unknown`, set neither price nor cost
+  and report a manual follow-up. The price must be verified manually before the product is
+  switched from `DRAFT` to `ACTIVE`.
 - The product status must be `DRAFT` after creation.
 - Product images are uploaded and attached to the product in a single operation; there is
   no separate pre-upload step. Uploading an image once unattached and then uploading a

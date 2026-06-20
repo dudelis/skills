@@ -56,6 +56,17 @@ not update it.
 8. Best-effort apply the remaining German/default fields:
    - `productType` only if Shopify accepts the existing value; do not create product types.
    - first variant title, SKU, barcode, and weight when accepted.
+   - first variant **price** from `variants[0].price` (the general price shown on the
+     product page). Normalize the value before writing: strip currency symbols and spaces
+     and treat a comma as the decimal separator (`€24,90` → `24.90`). Write the price exactly
+     as researched (no rounding of the price itself).
+   - first variant **Cost per item** (`inventoryItem.unitCost`, written via the
+     `inventoryItem.cost` input) = the normalized price ÷ 2, rounded to 2 decimals
+     (half-up). Only set cost when a real numeric price exists.
+   - if `variants[0].price` is absent, empty, or `Unknown`, set neither price nor cost;
+     leave Shopify defaults and report it as a manual follow-up. Never estimate a price.
+   - do not set compare-at price, unit price, inventory quantity, inventory policy, tax
+     settings, collections, or tags.
    - country of origin and HS code when accepted.
    - DHL customs item description variant metafield when accepted.
    - custom metafields after mapping display labels to existing stored values/options when needed.
@@ -93,6 +104,9 @@ not update it.
 12. Re-read the created product from Shopify and verify:
     - Product exists and status is `DRAFT`.
     - German default title/vendor/product type/SEO/metafields are present.
+    - When a price was set: the created variant's **price** equals the normalized
+      `variants[0].price` and its **Cost per item** (`inventoryItem.unitCost`) equals the
+      price ÷ 2 (2 decimals). Report any mismatch as a warning.
     - Images were attached: query the product node's media and confirm the count of
       attached `MediaImage` nodes equals the number of local source images (3 local files
       → exactly 3 attached, no more). Report any mismatch as a warning. Shopify renames
@@ -100,7 +114,9 @@ not update it.
       and is never treated as a duplicate signal. Do not verify by filename.
     - English translations were registered or clearly reported as skipped with a reason.
 13. Return a concise report: product ID, handle, draft status, uploaded image count,
-    fields written, translations applied, skipped fields, validation warnings, and manual follow-ups.
+    fields written (including the price set and the computed cost per item), translations
+    applied, skipped fields, validation warnings, and manual follow-ups. Always include the
+    follow-up: verify the price before switching the product from `DRAFT` to `ACTIVE`.
 
 ## Guardrails
 
@@ -110,9 +126,12 @@ not update it.
   future update skill for updates.
 - Never invent missing commercial data. If price, inventory, SKU, barcode, HS code, or
   country of origin is absent or `Unknown`, leave it empty/unknown when Shopify permits
-  and report the manual follow-up.
-- Do not set price, compare-at price, inventory quantity, inventory policy, tax settings,
-  collections, or tags. Leave Shopify defaults.
+  and report the manual follow-up. When `variants[0].price` is missing or `Unknown`, set
+  neither the general price nor the Cost per item.
+- Set the general price from `variants[0].price` and the Cost per item
+  (`inventoryItem.unitCost`) to half of it. Do not set compare-at price, unit price,
+  inventory quantity, inventory policy, tax settings, collections, or tags. Leave those
+  Shopify defaults.
 - Do not set related/recommended products in v1. Ignore
   `metafields.shopify--discovery--product_recommendation.related_products`; a later skill
   can update related products after the catalog exists.
