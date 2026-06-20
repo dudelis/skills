@@ -12,12 +12,19 @@ from the research file.
 Products/[CompanyName]/[ProductName]/brief.txt
 Products/[CompanyName]/[ProductName]/shopify-de.txt
 Products/[CompanyName]/[ProductName]/shopify-en.txt
-Products/[CompanyName]/[ProductName]/[CompanyName]-[ProductName]-01.[ext]
-Products/[CompanyName]/[ProductName]/[CompanyName]-[ProductName]-02.[ext]
-Products/[CompanyName]/[ProductName]/[CompanyName]-[ProductName]-03.[ext]
-Products/[CompanyName]/[ProductName]/[CompanyName]-[ProductName]-04.[ext]
-Products/[CompanyName]/[ProductName]/[CompanyName]-[ProductName]-05.[ext]
+Products/[CompanyName]/[ProductName]/[image-slug]-01.[ext]
+Products/[CompanyName]/[ProductName]/[image-slug]-02.[ext]
+Products/[CompanyName]/[ProductName]/[image-slug]-03.[ext]
+Products/[CompanyName]/[ProductName]/[image-slug]-04.[ext]
+Products/[CompanyName]/[ProductName]/[image-slug]-05.[ext]
 ```
+
+`[image-slug]` is the exact `handle` value (`{company-slug}-{product-slug}`): lowercase,
+ASCII-only, diacritics transliterated, descriptive/volume/edition/packaging words dropped,
+brand de-duplicated. The parent **folder** names stay readable (real names, German
+characters allowed); only the image **file** names are slugified. Example: company
+`Plamine` + product `Plamine Core Care MINAMOTO – Mineralische Unterstützung …`
+→ `plamine-core-care-minamoto-01.jpg`.
 
 Image rules:
 
@@ -404,6 +411,10 @@ Rules for slugifying each segment:
 - If the product slug already starts with the company slug, do not duplicate it.
 - Collapse repeated hyphens; never start or end with a hyphen.
 
+This same slug is reused verbatim as the `[image-slug]` for downloaded image file names
+(`[image-slug]-01.[ext]`, `-02`, …). Image files therefore never contain German letters
+or the full descriptive product name.
+
 Examples:
 
 | Company          | Product                  | Handle                           |
@@ -758,8 +769,8 @@ Direction DE, the Claim-Safety Lexicon, and Claim Boundaries.
 ```text
 # Admin UI: Media → Alt text (set per uploaded image) | English ALT options for rotation
 # Image files in this folder (upload these to Shopify):
-#   [CompanyName]-[ProductName]-01.[ext]
-#   [CompanyName]-[ProductName]-02.[ext]
+#   [image-slug]-01.[ext]
+#   [image-slug]-02.[ext]
 #   ...
 ```
 
@@ -910,7 +921,7 @@ Claim Boundaries.
 ## Final Quality Checklist
 
 - All three files (`brief.txt`, `shopify-de.txt`, `shopify-en.txt`) are written in the same run.
-- 2 to 5 product images were downloaded when available and saved with sequential names (`-01` to `-05`).
+- 2 to 5 product images were downloaded when available and saved with sequential names (`[image-slug]-01` to `[image-slug]-05`), where `[image-slug]` is the lowercase ASCII `handle` slug — no German letters, no descriptive tail.
 - `brief.txt` contains Research Summary, Keyword Research, Product Strategy, and Structured data reminder — and nothing else.
 - `shopify-de.txt` contains the header block and all 23 banners in the documented order.
 - `shopify-en.txt` contains the header block and all 9 banners in the documented order.

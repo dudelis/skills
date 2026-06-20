@@ -14,7 +14,7 @@ Products/[CompanyName]/[ProductName]/
   brief.txt
   shopify-de.txt
   shopify-en.txt
-  [CompanyName]-[ProductName]-01.[ext]
+  [image-slug]-01.[ext]
   ...
 ```
 

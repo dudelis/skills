@@ -9,7 +9,7 @@ product creation.
 Products/[CompanyName]/[ProductName]/brief.txt
 Products/[CompanyName]/[ProductName]/shopify-de.txt
 Products/[CompanyName]/[ProductName]/shopify-en.txt
-Products/[CompanyName]/[ProductName]/[CompanyName]-[ProductName]-01.[ext]
+Products/[CompanyName]/[ProductName]/[image-slug]-01.[ext]
 ...
 ```
 

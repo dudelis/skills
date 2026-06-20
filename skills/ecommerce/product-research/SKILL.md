@@ -23,18 +23,27 @@ Final output files:
 Products/[CompanyName]/[ProductName]/brief.txt        # research + strategy + structured data reminder
 Products/[CompanyName]/[ProductName]/shopify-de.txt   # German Shopify fields, banner-formatted for copy-paste
 Products/[CompanyName]/[ProductName]/shopify-en.txt   # English Shopify fields, banner-formatted for copy-paste
-Products/[CompanyName]/[ProductName]/[CompanyName]-[ProductName]-01.[ext]
-Products/[CompanyName]/[ProductName]/[CompanyName]-[ProductName]-02.[ext]
-Products/[CompanyName]/[ProductName]/[CompanyName]-[ProductName]-03.[ext]
-Products/[CompanyName]/[ProductName]/[CompanyName]-[ProductName]-04.[ext]
-Products/[CompanyName]/[ProductName]/[CompanyName]-[ProductName]-05.[ext]
+Products/[CompanyName]/[ProductName]/[image-slug]-01.[ext]
+Products/[CompanyName]/[ProductName]/[image-slug]-02.[ext]
+Products/[CompanyName]/[ProductName]/[image-slug]-03.[ext]
+Products/[CompanyName]/[ProductName]/[image-slug]-04.[ext]
+Products/[CompanyName]/[ProductName]/[image-slug]-05.[ext]
 ```
+
+`[image-slug]` is the exact `handle` value defined in [OUTPUT-CONTRACT.md](OUTPUT-CONTRACT.md)
+(`{company-slug}-{product-slug}`: lowercase, ASCII-only, diacritics transliterated
+`ö → o` / `ß → ss`, punctuation and descriptive/volume/edition/packaging words dropped,
+brand de-duplicated). Example: company `Plamine` + product
+`Plamine Core Care MINAMOTO – Mineralische Unterstützung für Energie und Vitalität`
+→ `plamine-core-care-minamoto-01.jpg`.
 
 The Shopify files use Shopify Admin GraphQL field paths as banners (e.g.
 `=== descriptionHtml ===`, `=== metafields.custom.application ===`) so future Shopify
 automation can parse them. Always write all three text files in the same run.
 
-Create the folder if needed. Sanitize the folder and file names only enough to make them valid paths; keep product and company names readable.
+Create the folder if needed. Keep the folder names readable (real product and company
+names, German characters allowed). Image file names use the ASCII `[image-slug]` form
+above — never German letters or the full descriptive product name.
 
 ## Workflow
 
@@ -46,7 +55,7 @@ Create the folder if needed. Sanitize the folder and file names only enough to m
 6. Prepare a short Product Strategy explaining why the product exists, who it is for, which exact ingredients matter, how it fits into the company routine, which complementary products make sense, and how the description, meta title, meta description, and other Shopify fields should be angled.
 7. Write `brief.txt` with Research Summary, Keyword Research, Product Strategy, and the Structured data reminder, following [OUTPUT-CONTRACT.md](OUTPUT-CONTRACT.md).
 8. Download the main product images from verified official sources first, then distributor sources, then competitor sources when needed.
-9. Save 2 to 5 images when available in `Products/[CompanyName]/[ProductName]/` as `[CompanyName]-[ProductName]-01.[ext]`, `[CompanyName]-[ProductName]-02.[ext]`, and so on.
+9. Save 2 to 5 images when available in `Products/[CompanyName]/[ProductName]/` as `[image-slug]-01.[ext]`, `[image-slug]-02.[ext]`, and so on, where `[image-slug]` equals the `handle` value (lowercase, ASCII-only, brand de-duplicated).
 10. Generate `shopify-de.txt` and `shopify-en.txt` using the banner format and per-banner specifications in [OUTPUT-CONTRACT.md](OUTPUT-CONTRACT.md). Every value must be derived from the verified Research Summary, Keyword Research, and Product Strategy in `brief.txt`.
 11. Validate title/meta lengths, HTML structure, language separation, claim safety, allowed metadata values, banner paths, and image outputs before finishing.
 
@@ -198,7 +207,7 @@ When the product nature is **not** a topical cosmetic:
 Before returning the final answer, check:
 
 - All three files were written in the same run: `brief.txt`, `shopify-de.txt`, `shopify-en.txt` under `Products/[CompanyName]/[ProductName]/`.
-- 2 to 5 product images were downloaded when available and saved as `[CompanyName]-[ProductName]-01.[ext]` through `[CompanyName]-[ProductName]-05.[ext]`.
+- 2 to 5 product images were downloaded when available and saved as `[image-slug]-01.[ext]` through `[image-slug]-05.[ext]`, where `[image-slug]` is the lowercase ASCII `handle` slug (no German letters, no descriptive tail).
 - `brief.txt` contains Research Summary, Keyword Research, Product Strategy, and Structured data reminder — and contains no Shopify-pasteable values.
 - `shopify-de.txt` contains the header block plus all 23 banners in the order defined in [OUTPUT-CONTRACT.md](OUTPUT-CONTRACT.md).
 - `shopify-en.txt` contains the header block plus all 9 banners in the order defined in [OUTPUT-CONTRACT.md](OUTPUT-CONTRACT.md).

@@ -106,6 +106,35 @@ Try these strategies in order, stop at first that yields ≥ 5 products:
 Hard cap: **50 unique product URLs.** Normalize URLs before dedup (lowercase host,
 strip trailing slash, strip tracking query params).
 
+**Canonical domain (when multiple URLs are provided):** The **first URL** in the input
+list is the canonical/main domain (e.g. for `plamine.de, plamine.eu` the canonical is
+`plamine.de`). Run discovery across every provided domain, then:
+
+- **Dedup shared products by normalized product slug**, not by full URL. The slug is the
+  last path segment after the product prefix (`/products/`, `/product/`, `/p/`, `/shop/`).
+  Normalize the slug for comparison: lowercase, ASCII-fold diacritics, convert homoglyphs
+  (see below), strip a trailing variant/format token that only differs cosmetically
+  (e.g. `iki-iki` vs `ikiiki` compare equal once non-alphanumerics are stripped).
+- When the same product exists on more than one domain, **keep the canonical-domain URL**
+  and drop the others.
+- Keep a non-canonical URL **only** when that product is unique to that domain (not present
+  on the canonical site at all).
+
+**No Cyrillic in product names.** Some sites publish slugs/titles containing Cyrillic
+homoglyphs that look Latin (e.g. `%D1%81` is Cyrillic `с` U+0441, not Latin `c`). Convert
+every Cyrillic character to its corresponding Latin (German/English) letter in the
+`product_name`. The `product_name` must contain no Cyrillic characters.
+
+**But keep `product_url` byte-exact.** Do **not** rewrite the URL — the page only resolves
+at the address the site actually published, so a Cyrillic/percent-encoded character must
+stay exactly as published or the link 404s. The `product_url` is copied verbatim.
+
+For **dedup comparison only**, normalize the slug in memory (convert homoglyphs, ASCII-fold,
+strip non-alphanumerics) so a Latin and a Cyrillic spelling of the same slug collapse to one
+row — but write the surviving row's URL byte-exact. Add a note in the brief's Discovered
+Products section whenever a kept URL contains a homoglyph, so the user knows the link is
+intentionally non-Latin.
+
 **Manifest exclusion list (drop these URLs at discovery time):**
 
 | Pattern                  | Examples                                                           |
@@ -125,6 +154,9 @@ strip trailing slash, strip tracking query params).
 - Size or shade variants of the same product (URL stem identical except trailing variant segment)
 
 Write `Collections/[CompanyName]/products.csv` with header `product_name,product_url`.
+Write all output files (`brief.txt`, `shopify-de.txt`, `shopify-en.txt`, `products.csv`)
+as **UTF-8 without BOM** so German characters (`ä ö ü ß`), en-dashes (`–`), and `&`
+survive the handoff to `product-research`. Never write CP-1252/Latin-1.
 CSV is the source of truth; the Markdown table inside `brief.txt`'s Discovered Products
 section is a preview.
 
@@ -182,6 +214,9 @@ Before returning, verify:
 - `seo.description` ≤ 160 characters in both Shopify files.
 - `handle` is lowercase, hyphenated, ASCII-only.
 - German fields preserve real German characters (ä/ö/ü/ß); ASCII transliteration appears only in `handle` and file/folder names — including in the brief's German keyword research.
+- All output files are written as UTF-8 without BOM (no mojibake such as `Ã¤` or `â€"`).
+- No Cyrillic characters appear in any `product_name`. URLs are kept byte-exact as published (a homoglyph URL may legitimately retain a percent-encoded Cyrillic character so the link resolves).
+- When multiple input URLs were given, shared products are deduped to the canonical (first) domain, and non-canonical URLs remain only for products unique to that domain.
 - Discovered Products section in `brief.txt` reports: total discovered, total excluded by category, total flagged (sets/variants), final manifest row count.
 - On re-run, the re-run summary block is printed.
 - The closing "next prompt" block is the last thing printed.

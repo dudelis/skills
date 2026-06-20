@@ -26,6 +26,17 @@ product_name,product_url,discovered_at
 run all rows get today's date; on a re-run, existing rows keep their original date
 and only new rows get today's date.
 
+**Encoding:** Write every output file (`brief.txt`, `shopify-de.txt`, `shopify-en.txt`,
+`products.csv`) as **UTF-8 without BOM**. German characters (`ä ö ü ß`), en-dashes
+(`–`), and `&` must round-trip intact. Never write CP-1252/Latin-1.
+
+**Canonical domain & Cyrillic:** When the input lists more than one URL, the first
+URL is the canonical domain. Shared products dedup to the canonical-domain URL; a
+non-canonical URL is kept only for a product unique to that domain. Convert any Cyrillic
+homoglyph to its Latin equivalent in the `product_name` (no Cyrillic in names). Keep the
+`product_url` **byte-exact** as published — do not rewrite homoglyph URLs, or the link
+404s. Dedup compares slugs with homoglyphs normalized in memory, but writes the URL verbatim.
+
 Generate `brief.txt`, `shopify-de.txt`, and `shopify-en.txt` in a single run. If a
 re-run is requested, regenerate all three atomically (do not leave stale Shopify
 files alongside a new brief).
@@ -385,6 +396,9 @@ Before returning, verify:
 - `seo.description` ≤ 160 characters in both Shopify files.
 - `handle` is lowercase, hyphenated, ASCII-only.
 - German fields preserve real German characters (ä/ö/ü/ß); ASCII transliteration is used only for `handle` and file/folder names — including in the brief's German keyword research.
+- All output files are written as UTF-8 without BOM (no mojibake such as `Ã¤` or `â€"`).
+- No Cyrillic characters appear in any `product_name`; `product_url` is kept byte-exact as published (may retain a percent-encoded homoglyph so the link resolves).
+- With multiple input URLs, shared products dedup to the canonical (first) domain; non-canonical URLs remain only for domain-unique products.
 - Discovered Products summary line in `brief.txt` reports total found, excluded breakdown, flagged sets/variants count, and final manifest count.
 - On a re-run, the re-run summary block is printed.
 - The closing "next prompt" block is the last thing printed (per the skill).
