@@ -67,7 +67,6 @@ Certifications:               # vegan, cruelty-free, dermatologist-tested, organ
 Distribution context in DE:   # pharmacy-only, online-only, salon brand, etc.
 Logo status:                  # downloaded | kept_existing | missing
 Verified source URLs:
-Verified YuliSkin URLs:
 Pages fetched (Pass 1):       # which brand-info pages returned 200
 Pages missing (Pass 1):       # which 404'd
 Unknown facts:
@@ -76,8 +75,8 @@ Unknown facts:
 ### Keyword Research
 
 Plain text. Research how customers search for this brand and its products in Google,
-marketplaces, retailer sites, brand sites, and YuliSkin search/category logic.
-Provide German and English keyword directions grouped by intent:
+marketplaces, retailer sites, and brand sites. Provide German and English keyword
+directions grouped by intent:
 
 ```text
 German keywords:
@@ -130,18 +129,16 @@ Description Direction DE:
 Description Direction EN:
 Meta Direction DE:
 Meta Direction EN:
-Related Collections Logic:       # by hero ingredient, concern, routine step, or price tier
 Claim Boundaries:                # what can/cannot be promised
 ```
 
-The description, meta title, meta description, related collections, and Shopify
-field choices in both `shopify-de.txt` and `shopify-en.txt` must follow this strategy.
+The description, meta title, meta description, and Shopify field choices in both
+`shopify-de.txt` and `shopify-en.txt` must follow this strategy.
 
 ### Structured data reminder
 
 A short reminder block listing the Shopify schema fields the merchant must populate
-in Shopify Admin (title, description, image, handle, meta title, meta description)
-plus a note to verify related-collection links resolve.
+in Shopify Admin (title, description, image, handle, meta title, meta description).
 
 ### Discovered Products
 
@@ -213,7 +210,6 @@ Generate the banners in this exact order:
 5. === image.altText ===
 6. === seo.title ===
 7. === seo.description ===
-8. === related_collections ===
 ```
 
 ### shopify-de.txt — Per-Banner Specifications
@@ -295,20 +291,6 @@ May contain one primary keyword from Keyword Research.
 
 Must reflect Meta Direction from the Collection Strategy.
 
-#### `=== related_collections ===`
-
-```text
-# Admin UI: Related collections | Not a native collection field
-# Configure via Shopify navigation menu, theme blocks, or a "Related collections"
-# metafield if your theme supports one. Reference list below — verified YuliSkin
-# URLs or plain collection names with no link.
-```
-
-Up to 5 entries, one per line. For each, prefer a verified YuliSkin collection URL.
-If a URL cannot be verified on yuliskin.de, output the plain collection name without
-a link. Pick related collections by hero ingredient, concern, routine step, or price
-tier. Do not include the same collection. Do not invent URLs.
-
 ## shopify-en.txt — English Locale (translated)
 
 ### shopify-en.txt — File Header
@@ -319,8 +301,7 @@ The file starts with this exact header block:
 # Shopify collection fields — English locale (translated)
 # Banner format: === <shopify-field-path> ===
 # Use these values in Shopify's Translate & Adapt app or any English-locale storefront.
-# Fields not in this file (handle, image, related collections) reuse the values from
-# shopify-de.txt.
+# Fields not in this file (handle, image) reuse the values from shopify-de.txt.
 ```
 
 ### shopify-en.txt — Banner Order
@@ -365,10 +346,21 @@ derived from verified facts and Collection Strategy.
 
 ## Writing Rules
 
-- Store: YuliSkin.
+- Store: YuliSkin Kosmetik Studio (DE) / YuliSkin Cosmetic Studio (EN). The short
+  form `YuliSkin` is fine in headings and SEO fields.
+- The skill never fetches, queries, or verifies anything on yuliskin.de. YuliSkin is
+  only the destination store the copy is written for — name it in the copy, do not
+  crawl it.
 - Store languages: German and English.
 - German uses formal address with `Sie`.
 - English uses polished, neutral ecommerce language.
+- Preserve real German characters in every descriptive or customer-facing field:
+  German umlauts, sharp s, accents, capitalization, and official brand/product
+  spelling must stay as written. ASCII transliteration such as `ae`, `oe`, `ue`, or
+  `ss` is allowed only where the contract explicitly requires ASCII — `handle` and
+  filesystem-safe names. Do not use transliterated German anywhere else: not in the
+  brief's German keyword research, and not in any `shopify-de.txt` value (title,
+  descriptionHtml, seo.title, seo.description).
 - Use the strongest relevant keywords naturally; do not force every keyword into copy.
 - Claims must remain cosmetic and evidence-aware. Avoid medical promises such as
   curing acne, healing rosacea, or treating disease.
@@ -384,7 +376,7 @@ Before returning, verify:
 - `Collections/[CompanyName]/products.csv` exists with header row.
 - Logo was saved, OR `logo_status: missing` is recorded in `brief.txt` Research Summary AND the `=== image ===` banner in `shopify-de.txt` contains the literal value `MISSING — set collection image manually`.
 - `brief.txt` contains Research Summary, Keyword Research, Collection Strategy, Structured data reminder, and Discovered Products — and contains no Shopify-pasteable values.
-- `shopify-de.txt` contains the header block plus all 8 banners in the documented order.
+- `shopify-de.txt` contains the header block plus all 7 banners in the documented order.
 - `shopify-en.txt` contains the header block plus all 4 banners in the documented order.
 - Every banner uses the exact GraphQL path documented above.
 - Every banner has at least one `# Admin UI:` comment line.
@@ -392,7 +384,7 @@ Before returning, verify:
 - `seo.title` ≤ 70 characters in both Shopify files.
 - `seo.description` ≤ 160 characters in both Shopify files.
 - `handle` is lowercase, hyphenated, ASCII-only.
-- `related_collections` entries are either verified YuliSkin URLs or plain names with no link.
+- German fields preserve real German characters (ä/ö/ü/ß); ASCII transliteration is used only for `handle` and file/folder names — including in the brief's German keyword research.
 - Discovered Products summary line in `brief.txt` reports total found, excluded breakdown, flagged sets/variants count, and final manifest count.
 - On a re-run, the re-run summary block is printed.
 - The closing "next prompt" block is the last thing printed (per the skill).

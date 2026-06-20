@@ -66,11 +66,12 @@ competitor sites for brand facts. Verified facts vs unknown facts must be separa
 Then build the brief and Shopify files per [OUTPUT-CONTRACT.md](OUTPUT-CONTRACT.md):
 
 - `Collections/[CompanyName]/brief.txt` — Research Summary, Keyword Research, Collection Strategy, Structured data reminder, Discovered Products.
-- `Collections/[CompanyName]/shopify-de.txt` — 8 banner blocks (title, descriptionHtml, handle, image, image.altText, seo.title, seo.description, related_collections).
+- `Collections/[CompanyName]/shopify-de.txt` — 7 banner blocks (title, descriptionHtml, handle, image, image.altText, seo.title, seo.description).
 - `Collections/[CompanyName]/shopify-en.txt` — 4 banner blocks (title, descriptionHtml, seo.title, seo.description).
 
-For the `related_collections` banner, search yuliskin.de to verify candidate URLs.
-If a URL cannot be verified, output the plain collection name without a link.
+The skill never fetches or verifies anything on yuliskin.de. YuliSkin (full name
+YuliSkin Kosmetik Studio / YuliSkin Cosmetic Studio) is only the destination store
+the copy is written for — name it in the copy, do not crawl it.
 
 ### Pass 2 — Logo download
 
@@ -172,7 +173,7 @@ Before returning, verify:
 - `Collections/[CompanyName]/products.csv` was created (header row present even if 0 data rows).
 - Logo file was saved, OR `logo_status: missing` is set in `brief.txt` Research Summary AND the `=== image ===` banner in `shopify-de.txt` contains the literal value `MISSING — set collection image manually`.
 - `brief.txt` contains Research Summary, Keyword Research, Collection Strategy, Structured data reminder, and Discovered Products — and contains no Shopify-pasteable values.
-- `shopify-de.txt` contains the header block plus all 8 banners in the order defined in [OUTPUT-CONTRACT.md](OUTPUT-CONTRACT.md).
+- `shopify-de.txt` contains the header block plus all 7 banners in the order defined in [OUTPUT-CONTRACT.md](OUTPUT-CONTRACT.md).
 - `shopify-en.txt` contains the header block plus all 4 banners in the order defined in [OUTPUT-CONTRACT.md](OUTPUT-CONTRACT.md).
 - Every banner uses the exact GraphQL path documented in the contract (`=== title ===`, `=== descriptionHtml ===`, `=== handle ===`, etc.).
 - Every banner has at least one `# Admin UI:` comment line.
@@ -180,7 +181,7 @@ Before returning, verify:
 - `seo.title` ≤ 70 characters in both Shopify files.
 - `seo.description` ≤ 160 characters in both Shopify files.
 - `handle` is lowercase, hyphenated, ASCII-only.
-- `related_collections` entries are either verified YuliSkin URLs or plain names with no link.
+- German fields preserve real German characters (ä/ö/ü/ß); ASCII transliteration appears only in `handle` and file/folder names — including in the brief's German keyword research.
 - Discovered Products section in `brief.txt` reports: total discovered, total excluded by category, total flagged (sets/variants), final manifest row count.
 - On re-run, the re-run summary block is printed.
 - The closing "next prompt" block is the last thing printed.
