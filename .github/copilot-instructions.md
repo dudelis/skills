@@ -8,8 +8,7 @@ This repository stores personal AI skills — reusable, self-contained prompt/in
 skills/
   ecommerce/      # Ecommerce product research (distributed)
   engineering/    # Daily code work (distributed)
-  productivity/   # Non-code workflow tools (distributed)
-  misc/           # Rarely used (distributed)
+  productivity/   # Non-code workflow tools (distributed)  tracker/        # Customer/project status tracker (distributed)  misc/           # Rarely used (distributed)
   personal/       # Not distributed
   in-progress/    # Drafts — not distributed
   deprecated/     # No longer used — not distributed
@@ -24,7 +23,7 @@ scripts/
 
 - Every skill lives in `skills/<bucket>/<skill-name>/` with a required `SKILL.md`.
 - `SKILL.md` frontmatter requires `name` (lowercase, hyphens, must match directory name) and `description` (≤1024 chars, third person, "Use when [triggers]").
-- Skills in `ecommerce/`, `engineering/`, `productivity/`, and `misc/` are distributed and should appear in `README.md` and `plugin.json`.
+- Skills in `ecommerce/`, `engineering/`, `productivity/`, `tracker/`, and `misc/` are distributed and should appear in `README.md` and `plugin.json`.
 - Skills in `personal/`, `in-progress/`, `deprecated/` are never installed, and must not appear in `README.md` or `plugin.json`.
 
 ## Install Destinations

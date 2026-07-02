@@ -3,12 +3,13 @@ Skills are organized into bucket folders under `skills/`:
 - `ecommerce/` — ecommerce product research and listing preparation
 - `engineering/` — daily code work
 - `productivity/` — daily non-code workflow tools
+- `tracker/` — personal customer/project status tracker over OneDrive markdown
 - `misc/` — kept around but rarely used
 - `personal/` — tied to my own setup, not promoted
 - `in-progress/` — drafts not yet ready to ship
 - `deprecated/` — no longer used
 
-Every skill in `ecommerce/`, `engineering/`, `productivity/`, or `misc/` must have a reference in the top-level `README.md` and an entry in `.claude-plugin/plugin.json`. Skills in `personal/`, `in-progress/`, and `deprecated/` must not appear in either.
+Every skill in `ecommerce/`, `engineering/`, `productivity/`, `tracker/`, or `misc/` must have a reference in the top-level `README.md` and an entry in `.claude-plugin/plugin.json`. Skills in `personal/`, `in-progress/`, and `deprecated/` must not appear in either.
 
 Each bucket folder has a `README.md` that lists every skill in the bucket with a one-line description, with the skill name linked to its `SKILL.md`.
 

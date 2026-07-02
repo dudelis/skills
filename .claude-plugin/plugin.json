@@ -8,6 +8,14 @@
     "skills/engineering/grill-with-docs/SKILL.md",
     "skills/engineering/to-issues/SKILL.md",
     "skills/productivity/write-a-skill/SKILL.md",
-    "skills/productivity/teach-me/SKILL.md"
+    "skills/productivity/teach-me/SKILL.md",
+    "skills/tracker/tracker-shared/SKILL.md",
+    "skills/tracker/tracker-status/SKILL.md",
+    "skills/tracker/tracker-customer-status/SKILL.md",
+    "skills/tracker/tracker-sweep/SKILL.md",
+    "skills/tracker/tracker-project-update/SKILL.md",
+    "skills/tracker/tracker-project-new/SKILL.md",
+    "skills/tracker/tracker-project-close/SKILL.md",
+    "skills/tracker/tracker-customer-new/SKILL.md"
   ]
 }

@@ -63,6 +63,21 @@ Skills kept around but rarely used.
 | Skill | Description |
 | ----- | ----------- |
 
+### Tracker
+
+A personal customer/project status tracker over markdown files in OneDrive, driven by Microsoft Scout / M365 Copilot. See [skills/tracker/README.md](./skills/tracker/README.md) and the [design brief](./skills/tracker/tracker-design-brief.md).
+
+| Skill | Description |
+| ----- | ----------- |
+| **[tracker-shared](./skills/tracker/tracker-shared/SKILL.md)** | Reference library: storage hierarchy, project/customer schemas, and safety invariants shared by every tracker skill (not a slash command). |
+| **[tracker-status](./skills/tracker/tracker-status/SKILL.md)** | Read-only portfolio overview across all customers; overwrites `Dashboard/Overview.md`. |
+| **[tracker-customer-status](./skills/tracker/tracker-customer-status/SKILL.md)** | Read-only, chat-only deep-dive on one customer with a card per active project. |
+| **[tracker-sweep](./skills/tracker/tracker-sweep/SKILL.md)** | Triage a customer's mail/Teams into the notes ledger. Writes notes only. |
+| **[tracker-project-update](./skills/tracker/tracker-project-update/SKILL.md)** | The single writer of `project.md` frontmatter; auto-stamps and adds a `[manual]` note. |
+| **[tracker-project-new](./skills/tracker/tracker-project-new/SKILL.md)** | Scaffold a new project under an existing customer. |
+| **[tracker-project-close](./skills/tracker/tracker-project-close/SKILL.md)** | Move a project `Active/ → Closed/` and stamp it closed. |
+| **[tracker-customer-new](./skills/tracker/tracker-customer-new/SKILL.md)** | Scaffold a new customer with sweep-matching keys. |
+
 ## Adding a skill
 
 1. Create `skills/<bucket>/<skill-name>/SKILL.md` with YAML frontmatter (`name`, `description`) and Markdown body.
