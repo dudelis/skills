@@ -10,10 +10,10 @@
 
 ## 1. Storage & Hierarchy
 
-Single dedicated OneDrive root: **`Tracker/`**
+Single dedicated folder at the **OneDrive root**: **`/Tracker/`** (top level of OneDrive, **not** inside `Documents/`).
 
 ```
-Tracker/
+/Tracker/
   Dashboard/
     Overview.md                       ← rolling portfolio snapshot (derived, overwritten)
   Customers/

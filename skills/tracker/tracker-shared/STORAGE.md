@@ -1,9 +1,14 @@
 # Tracker — Storage & Hierarchy
 
-Single dedicated OneDrive root: **`Tracker/`**
+Single dedicated folder at the **OneDrive root**: **`/Tracker/`**.
+
+> **Anchor to the OneDrive root, not `Documents/`.** The folder must live at the top level of
+> OneDrive (`/Tracker/`), *not* inside `Documents/` or any other subfolder. When creating or
+> resolving the folder via Graph / Scout, use the drive root path (`/Tracker/…` →
+> `root:/Tracker/…`). If a `Documents/Tracker/` was created by mistake, move it to the root.
 
 ```
-Tracker/
+/Tracker/
   Dashboard/
     Overview.md                       ← rolling portfolio snapshot (derived, overwritten)
   Customers/

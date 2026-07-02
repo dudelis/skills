@@ -1,8 +1,9 @@
 # Tracker
 
-A personal customer/project status tracker. Source of truth is markdown files in OneDrive under
-`Tracker/`; skills read and write them via Microsoft Scout / M365 Copilot (Graph access to
-mail/Teams/files). See [tracker-design-brief.md](./tracker-design-brief.md) for the full design.
+A personal customer/project status tracker. Source of truth is markdown files at the OneDrive
+root under `/Tracker/` (top level of OneDrive, **not** inside `Documents/`); skills read and
+write them via Microsoft Scout / M365 Copilot (Graph access to mail/Teams/files). See
+[tracker-design-brief.md](./tracker-design-brief.md) for the full design.
 
 Shared conventions, schemas, and guardrails live in
 [tracker-shared](./tracker-shared/SKILL.md) and are referenced by every skill below.

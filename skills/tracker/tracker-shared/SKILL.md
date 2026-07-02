@@ -8,7 +8,8 @@ user-invocable: false
 
 The **Tracker** is a personal system for tracking status across many customers and their
 projects. The source of truth is a tree of **markdown files in OneDrive** under a single root
-`Tracker/`. There is no git — OneDrive version history is the audit trail and safety net.
+folder at the **top level of OneDrive** (`/Tracker/`, *not* inside `Documents/`). There is no
+git — OneDrive version history is the audit trail and safety net.
 
 Every `tracker-*` skill shares the conventions in this folder. Read the relevant reference
 before acting:

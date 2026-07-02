@@ -20,7 +20,7 @@ Scaffold a new customer. See
    - **Sweep-matching keys:** `domains`, `aliases`, `key_contacts` — capture these well; they
      drive `tracker-sweep`'s Graph query.
 3. **Show what will be created and confirm.**
-4. Scaffold under `Customers/<Customer>/`:
+4. Scaffold under `/Tracker/Customers/<Customer>/` (OneDrive root — **not** `Documents/`):
    - `customer.md` — frontmatter + an `## About` body (can be brief).
    - `Active/` — empty.
    - `Closed/` — empty.
