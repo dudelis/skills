@@ -39,7 +39,9 @@ brand de-duplicated). Example: company `Plamine` + product
 
 The Shopify files use Shopify Admin GraphQL field paths as banners (e.g.
 `=== descriptionHtml ===`, `=== metafields.custom.application ===`) so future Shopify
-automation can parse them. Always write all three text files in the same run.
+automation can parse them. They also include Shopify product lookup metadata so update
+automation can target an existing product safely. Always write all three text files in
+the same run.
 
 Create the folder if needed. Keep the folder names readable (real product and company
 names, German characters allowed). Image file names use the ASCII `[image-slug]` form
@@ -53,11 +55,16 @@ above — never German letters or the full descriptive product name.
 4. Separate verified facts from unknown facts. If a fact cannot be verified, mark it as unknown and do not use it in customer-facing content.
 5. Research how customers search for this product and similar products in Google, marketplaces, retailer sites, and other search systems when available. Identify German and English keyword clusters, search intent, product-category language, concern language, benefit language, ingredient language, and buyer-intent terms before writing content.
 6. Prepare a short Product Strategy explaining why the product exists, who it is for, which exact ingredients matter, how it fits into the company routine, which complementary products make sense, and how the description, meta title, meta description, and other Shopify fields should be angled.
-7. Write `brief.txt` with Research Summary, Keyword Research, Product Strategy, and the Structured data reminder, following [OUTPUT-CONTRACT.md](OUTPUT-CONTRACT.md).
-8. Download the main product images from verified official sources first, then distributor sources, then competitor sources when needed.
-9. Save 2 to 5 images when available in `Products/[CompanyName]/[ProductName]/` as `[image-slug]-01.[ext]`, `[image-slug]-02.[ext]`, and so on, where `[image-slug]` equals the `handle` value (lowercase, ASCII-only, brand de-duplicated).
-10. Generate `shopify-de.txt` and `shopify-en.txt` using the banner format and per-banner specifications in [OUTPUT-CONTRACT.md](OUTPUT-CONTRACT.md). Every value must be derived from the verified Research Summary, Keyword Research, and Product Strategy in `brief.txt`.
-11. Validate title/meta lengths, HTML structure, language separation, claim safety, allowed metadata values, banner paths, and image outputs before finishing.
+7. Best-effort locate the product in Shopify before writing the final files:
+   - Prefer Shopify Admin/plugin lookup by exact handle, vendor/title, SKU, or barcode when available.
+   - If Admin lookup is unavailable or inconclusive, search the public `yuliskin.de` storefront for the product page and use the discovered URL/handle as supporting metadata.
+   - If there is one confident Admin match, record its product ID/GID, public URL when known, and match confidence.
+   - If lookup is unavailable, ambiguous, or no product exists yet, keep researching and write `Unknown` metadata. Do not block research.
+8. Write `brief.txt` with Research Summary, Keyword Research, Product Strategy, and the Structured data reminder, following [OUTPUT-CONTRACT.md](OUTPUT-CONTRACT.md).
+9. Download the main product images from verified official sources first, then distributor sources, then competitor sources when needed.
+10. Save 2 to 5 images when available in `Products/[CompanyName]/[ProductName]/` as `[image-slug]-01.[ext]`, `[image-slug]-02.[ext]`, and so on, where `[image-slug]` equals the `handle` value (lowercase, ASCII-only, brand de-duplicated).
+11. Generate `shopify-de.txt` and `shopify-en.txt` using the banner format and per-banner specifications in [OUTPUT-CONTRACT.md](OUTPUT-CONTRACT.md). Every customer-facing value must be derived from the verified Research Summary, Keyword Research, and Product Strategy in `brief.txt`; Shopify lookup metadata is automation-only.
+12. Validate title/meta lengths, HTML structure, language separation, claim safety, allowed metadata values, banner paths, Shopify lookup metadata, and image outputs before finishing.
 
 On re-run for an existing product folder, regenerate all three text files atomically. Do not leave stale `shopify-de.txt` / `shopify-en.txt` alongside a freshly regenerated `brief.txt`.
 
@@ -70,6 +77,7 @@ On re-run for an existing product folder, regenerate all three text files atomic
 - Use the strongest relevant keywords naturally in headings, description HTML, meta title, meta description, ALT options, related-product logic, and field choices. Do not force every keyword into the copy.
 - Customer-facing sections must be derived from verified facts and the Product Strategy, not from generic product-category assumptions.
 - Use source assets for image files. Prioritize official brand or product pages, then distributor pages, then competitor pages.
+- Shopify lookup is best-effort and non-blocking. Never invent a Shopify product ID. If a product cannot be confidently matched, write `Unknown` for product ID and explain the match confidence as `not checked`, `no confident match`, or `ambiguous`.
 - Do not copy long source passages. Rewrite in original YuliSkin-appropriate language.
 - Do not invent hero ingredients, full INCI, usage frequency, texture, claims, routine position, SKU, barcode/GTIN/UPC/ISBN, internal links, or related-product URLs. The Shopify product handle is constructed deterministically as `{company-slug}-{product-slug}` per the contract — not researched.
 - Use official, distributor, competitor, and provided Shopify shop sources to verify SKU and barcode data. If SKU or barcode cannot be obtained, mark it as unknown.
@@ -209,11 +217,19 @@ Before returning the final answer, check:
 - All three files were written in the same run: `brief.txt`, `shopify-de.txt`, `shopify-en.txt` under `Products/[CompanyName]/[ProductName]/`.
 - 2 to 5 product images were downloaded when available and saved as `[image-slug]-01.[ext]` through `[image-slug]-05.[ext]`, where `[image-slug]` is the lowercase ASCII `handle` slug (no German letters, no descriptive tail).
 - `brief.txt` contains Research Summary, Keyword Research, Product Strategy, and Structured data reminder — and contains no Shopify-pasteable values.
-- `shopify-de.txt` contains the header block plus all 23 banners in the order defined in [OUTPUT-CONTRACT.md](OUTPUT-CONTRACT.md).
-- `shopify-en.txt` contains the header block plus all 9 banners in the order defined in [OUTPUT-CONTRACT.md](OUTPUT-CONTRACT.md).
+- `brief.txt`, `shopify-de.txt`, and `shopify-en.txt` include Shopify lookup metadata. Product ID may be `Unknown`, but it must never be invented.
+- `shopify-de.txt` contains the header block plus all 26 banners in the order defined in [OUTPUT-CONTRACT.md](OUTPUT-CONTRACT.md).
+- `shopify-en.txt` contains the header block plus all 12 banners in the order defined in [OUTPUT-CONTRACT.md](OUTPUT-CONTRACT.md).
 - `handle` in `shopify-de.txt` follows the format `{company-slug}-{product-slug}` (lowercase, hyphenated, ASCII-only).
-- Every product has at least one variant: the six `variants[0].*` banners (`title`, `price`, `sku`, `barcode`, `weight`, `metafields.dhlapp.customsItemDescription`) are all present in `shopify-de.txt` (use `Unknown` for unverified values — never skip the banner). Additional real variants are listed in `brief.txt` Research Summary.- Every banner uses the exact GraphQL path documented in the contract (`=== title ===`, `=== descriptionHtml ===`, `=== metafields.custom.application ===`, etc.).
-- Every banner has at least one `# Admin UI:` comment line.
+- Every product has at least one variant: the six `variants[0].*` banners (`title`,
+  `price`, `sku`, `barcode`, `weight`, `metafields.dhlapp.customsItemDescription`) are
+  all present in `shopify-de.txt` (use `Unknown` for unverified values — never skip the
+  banner). Additional real variants are listed in `brief.txt` Research Summary.
+- Every Shopify field banner uses the exact GraphQL path documented in the contract
+  (`=== title ===`, `=== descriptionHtml ===`, `=== metafields.custom.application ===`,
+  etc.). Automation metadata banners use the documented `shopify.*` paths.
+- Every customer-facing or Shopify Admin banner has at least one `# Admin UI:` comment
+  line. Automation metadata banners use `# Automation:`.
 - `descriptionHtml` uses allowed HTML and no `<h1>`.
 - Descriptive German fields preserve real German characters; ASCII
   transliteration is used only for `handle` and file names.
@@ -233,4 +249,6 @@ Before returning the final answer, check:
 - `variants[0].metafields.dhlapp.customsItemDescription` is English and ≤ 30 characters.
 - `metafields.custom.skin_application_areas`, `skin_problem`, and `skin_type` use only allowed values from [OUTPUT-CONTRACT.md](OUTPUT-CONTRACT.md), one per line.
 - `metafields.shopify--discovery--product_recommendation.related_products` follows routine or concern logic and does not include the same product.
-- Unknown facts appear only in `brief.txt` Research Summary, never in the Shopify files.
+- Unknown product facts appear only in `brief.txt` Research Summary, never in
+  customer-facing Shopify values. `Unknown` may appear only in automation metadata or
+  protected commercial/logistics banners where the contract explicitly allows it.

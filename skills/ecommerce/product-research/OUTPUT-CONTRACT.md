@@ -38,6 +38,18 @@ Image rules:
 Generate all three text files in a single run. If a re-run is requested, regenerate
 all three atomically (do not leave stale Shopify files alongside a new brief).
 
+## Shopify lookup metadata
+
+During research, best-effort locate the product in Shopify so update automation can
+target an existing product safely. Prefer Shopify Admin/plugin lookup by exact handle,
+vendor/title, SKU, or barcode. If Admin lookup is unavailable or inconclusive, search
+the public `yuliskin.de` storefront for the product page and use the discovered
+URL/handle as supporting metadata.
+
+Lookup is non-blocking. If no confident Admin product is found, write `Unknown` for the
+product ID and record the confidence as `not checked`, `no confident match`, or
+`ambiguous`. Never invent a Shopify product ID.
+
 ## brief.txt — Research File
 
 Plain text. Contains only the thinking layer plus the structured-data reminder. No
@@ -74,6 +86,9 @@ SKU:
 Barcode / GTIN / UPC / ISBN:
 Verified source URLs:
 Verified YuliSkin URLs:
+Shopify product ID:
+Shopify product URL:
+Shopify match confidence:
 Unknown facts:
 ```
 
@@ -178,7 +193,8 @@ block. Each block has three parts:
 
 - Banner = Shopify Admin GraphQL field path. Future Shopify automation parses these.
 - Comment line = human-readable Admin UI label plus validation hints (max chars,
-  format, allowed values). Multiple comment lines are allowed; each must start with `#`.
+  format, allowed values). Automation metadata banners use `# Automation:`. Multiple
+  comment lines are allowed; each must start with `#`.
 - Value = the actual content to paste into Shopify Admin. May be multi-line.
 
 Both files start with a header block that names the locale and reminds the user how
@@ -310,32 +326,64 @@ The file starts with this exact header block:
 Generate the banners in this exact order:
 
 ```text
-1.  === title ===
-2.  === descriptionHtml ===
-3.  === handle ===
-4.  === productType ===
-5.  === vendor ===
-6.  === variants[0].title ===
-7.  === variants[0].price ===
-8.  === variants[0].sku ===
-9.  === variants[0].barcode ===
-10. === variants[0].weight ===
-11. === metafields.shopify.country_of_origin ===
-12. === metafields.shopify.harmonized_system_code ===
-13. === variants[0].metafields.dhlapp.customsItemDescription ===
-14. === metafields.shopify--discovery--product_recommendation.related_products ===
-15. === metafields.custom.application ===
-16. === metafields.custom.effect ===
-17. === metafields.custom.ingredients ===
-18. === metafields.custom.skin_application_areas ===
-19. === metafields.custom.skin_problem ===
-20. === metafields.custom.skin_type ===
-21. === seo.title ===
-22. === seo.description ===
-23. === media[].alt ===
+1.  === shopify.product_id ===
+2.  === shopify.product_url ===
+3.  === shopify.match_confidence ===
+4.  === title ===
+5.  === descriptionHtml ===
+6.  === handle ===
+7.  === productType ===
+8.  === vendor ===
+9.  === variants[0].title ===
+10. === variants[0].price ===
+11. === variants[0].sku ===
+12. === variants[0].barcode ===
+13. === variants[0].weight ===
+14. === metafields.shopify.country_of_origin ===
+15. === metafields.shopify.harmonized_system_code ===
+16. === variants[0].metafields.dhlapp.customsItemDescription ===
+17. === metafields.shopify--discovery--product_recommendation.related_products ===
+18. === metafields.custom.application ===
+19. === metafields.custom.effect ===
+20. === metafields.custom.ingredients ===
+21. === metafields.custom.skin_application_areas ===
+22. === metafields.custom.skin_problem ===
+23. === metafields.custom.skin_type ===
+24. === seo.title ===
+25. === seo.description ===
+26. === media[].alt ===
 ```
 
 ### shopify-de.txt — Per-Banner Specifications
+
+#### `=== shopify.product_id ===`
+
+```text
+# Automation: Shopify product ID | Product GID if an existing product was confidently found; otherwise Unknown
+```
+
+Use the Admin product GID when available, for example
+`gid://shopify/Product/123456789`. If there is no confident match, output `Unknown`.
+This field is automation metadata, not customer-facing copy.
+
+#### `=== shopify.product_url ===`
+
+```text
+# Automation: Shopify product URL | Public product URL if known; otherwise Unknown
+```
+
+Use the public YuliSkin product URL when known. If only an Admin match exists and no
+public URL is verified, output `Unknown`.
+
+#### `=== shopify.match_confidence ===`
+
+```text
+# Automation: Shopify match confidence | e.g. admin exact handle match, storefront URL only, no confident match
+```
+
+Describe how the product was matched. Use clear short phrases such as `admin exact
+handle match`, `admin exact vendor/title match`, `storefront URL only`, `ambiguous`,
+`no confident match`, or `not checked`.
 
 #### `=== title ===`
 
@@ -798,18 +846,33 @@ The file starts with this exact header block:
 Generate the banners in this exact order:
 
 ```text
-1. === title ===
-2. === descriptionHtml ===
-3. === productType ===
-4. === variants[0].title ===
-5. === metafields.custom.application ===
-6. === metafields.custom.effect ===
-7. === metafields.custom.ingredients ===
-8. === seo.title ===
-9. === seo.description ===
+1.  === shopify.product_id ===
+2.  === shopify.product_url ===
+3.  === shopify.match_confidence ===
+4.  === title ===
+5.  === descriptionHtml ===
+6.  === productType ===
+7.  === variants[0].title ===
+8.  === metafields.custom.application ===
+9.  === metafields.custom.effect ===
+10. === metafields.custom.ingredients ===
+11. === seo.title ===
+12. === seo.description ===
 ```
 
 ### shopify-en.txt — Per-Banner Specifications
+
+#### `=== shopify.product_id ===`
+
+Same automation metadata as `shopify-de.txt`. Use the same value.
+
+#### `=== shopify.product_url ===`
+
+Same automation metadata as `shopify-de.txt`. Use the same value.
+
+#### `=== shopify.match_confidence ===`
+
+Same automation metadata as `shopify-de.txt`. Use the same value.
 
 #### `=== title ===`
 
@@ -923,10 +986,13 @@ Claim Boundaries.
 - All three files (`brief.txt`, `shopify-de.txt`, `shopify-en.txt`) are written in the same run.
 - 2 to 5 product images were downloaded when available and saved with sequential names (`[image-slug]-01` to `[image-slug]-05`), where `[image-slug]` is the lowercase ASCII `handle` slug — no German letters, no descriptive tail.
 - `brief.txt` contains Research Summary, Keyword Research, Product Strategy, and Structured data reminder — and nothing else.
-- `shopify-de.txt` contains the header block and all 23 banners in the documented order.
-- `shopify-en.txt` contains the header block and all 9 banners in the documented order.
-- Every banner uses the exact GraphQL path documented above.
-- Every banner has at least one `# Admin UI:` comment line.
+- `shopify-de.txt` contains the header block and all 26 banners in the documented order.
+- `shopify-en.txt` contains the header block and all 12 banners in the documented order.
+- Shopify lookup metadata appears in `brief.txt`, `shopify-de.txt`, and `shopify-en.txt`; product ID may be `Unknown`, but is never invented.
+- Every Shopify field banner uses the exact GraphQL path documented above. Automation
+  metadata banners use the documented `shopify.*` paths.
+- Every customer-facing or Shopify Admin banner has at least one `# Admin UI:` comment
+  line. Automation metadata banners use `# Automation:`.
 - `descriptionHtml` uses allowed HTML and no `<h1>`.
 - `handle` follows the format `{company-slug}-{product-slug}`, is lowercase, hyphenated, ASCII-only, and starts with the brand slug.
 - Descriptive German fields preserve real German characters; ASCII transliteration is used only for `handle` and file/image names.
@@ -949,7 +1015,9 @@ Claim Boundaries.
 - Non-topical products use `Nahrungsergänzung` (ingestible) and leave `skin_application_areas`, `skin_problem`, and `skin_type` empty rather than force-mapping.
 - `seo.description` ≤ 160 characters in both files.
 - Keyword reuse rule satisfied: the Primary keyword from Keyword Direction DE appears in `descriptionHtml`, `seo.title`, and `seo.description` of `shopify-de.txt`; the Primary keyword from Keyword Direction EN appears in the same three banners of `shopify-en.txt`. Two to four secondary or long-tail keywords per locale are woven into description, application, effect, or ingredients prose. No `Terms to avoid` are used. No banner contains a visible `Keywords:` / `Tags:` line.
-- Unknown facts appear only in `brief.txt` Research Summary, never in the Shopify files.
+- Unknown product facts appear only in `brief.txt` Research Summary, never in
+  customer-facing Shopify values. `Unknown` may appear only in automation metadata or
+  protected commercial/logistics banners where the contract explicitly allows it.
 - All Shopify-file values are derived from the strategy sections in `brief.txt`.
 
 ## Voice & Claim-Safety Lexicon

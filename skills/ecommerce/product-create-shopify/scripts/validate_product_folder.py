@@ -13,12 +13,19 @@ import unicodedata
 from pathlib import Path
 
 
-DE_BANNERS = [
+METADATA_BANNERS = [
+    "shopify.product_id",
+    "shopify.product_url",
+    "shopify.match_confidence",
+]
+
+DE_BANNERS = METADATA_BANNERS + [
     "title",
     "descriptionHtml",
     "productType",
     "vendor",
     "variants[0].title",
+    "variants[0].price",
     "variants[0].sku",
     "variants[0].barcode",
     "variants[0].weight",
@@ -39,7 +46,7 @@ DE_BANNERS = [
 
 OPTIONAL_DE_BANNERS = ["handle"]
 
-EN_BANNERS = [
+EN_BANNERS = METADATA_BANNERS + [
     "title",
     "descriptionHtml",
     "productType",

@@ -35,7 +35,9 @@ not update it.
    - If the script reports warnings only, continue and include them in the final report.
    - If the script is unavailable, manually verify the minimum required fields in [references/banner-contract.md](references/banner-contract.md).
 4. Parse banner files by exact `=== <shopify-field-path> ===` headers. Ignore comment
-   lines beginning with `#`; preserve multiline values exactly.
+   lines beginning with `#`; preserve multiline values exactly. Treat
+   `shopify.product_id`, `shopify.product_url`, and `shopify.match_confidence` as
+   update-workflow metadata and ignore them during creation.
 5. Derive the product handle:
    - Use a `handle` banner if present.
    - Otherwise parse company and product from `Products/[CompanyName]/[ProductName]/`.
@@ -155,6 +157,9 @@ Rules:
   `DRAFT`.
 - This skill is create-only. If a duplicate product exists, stop and report it. Use a
   future update skill for updates.
+- Ignore product-update metadata banners (`shopify.product_id`, `shopify.product_url`,
+  `shopify.match_confidence`). Never write them to Shopify and never treat them as
+  creation input.
 - Never invent missing commercial data. If price, inventory, SKU, barcode, HS code, or
   country of origin is absent or `Unknown`, leave it empty/unknown when Shopify permits
   and report the manual follow-up. When `variants[0].price` is missing or `Unknown`, set

@@ -14,7 +14,8 @@ Products/[CompanyName]/[ProductName]/[image-slug]-01.[ext]
 ```
 
 `brief.txt` is context only. Do not parse Shopify values from it. The Shopify source
-of truth is the two banner files.
+of truth is the two banner files. Shopify lookup metadata banners are automation-only
+and must be ignored by create-only workflows.
 
 ## Banner parsing
 
@@ -32,12 +33,16 @@ banner. Preserve multiline values and HTML.
 `shopify-de.txt` normally provides these banners in order:
 
 ```text
+shopify.product_id              # automation metadata; ignored during creation
+shopify.product_url             # automation metadata; ignored during creation
+shopify.match_confidence        # automation metadata; ignored during creation
 title
 descriptionHtml
 handle                          # optional; may be absent in older product folders
 productType
 vendor
 variants[0].title
+variants[0].price
 variants[0].sku
 variants[0].barcode
 variants[0].weight
@@ -99,6 +104,9 @@ in all descriptive fields. If `title` already starts with `vendor`, do not prepe
 `shopify-en.txt` must provide these banners in order:
 
 ```text
+shopify.product_id              # automation metadata; ignored during creation
+shopify.product_url             # automation metadata; ignored during creation
+shopify.match_confidence        # automation metadata; ignored during creation
 title
 descriptionHtml
 productType
@@ -118,6 +126,9 @@ German default product fields with English values.
 Do not set these from this skill:
 
 ```text
+shopify.product_id
+shopify.product_url
+shopify.match_confidence
 metafields.shopify--discovery--product_recommendation.related_products
 collections
 tags
@@ -134,6 +145,9 @@ exist in the catalog.
 ## Required handling notes
 
 - `descriptionHtml` is HTML and must not be escaped into visible markup.
+- `shopify.product_id`, `shopify.product_url`, and `shopify.match_confidence` are
+  product-update metadata. They are never written during creation and never count as
+  duplicate signals by themselves.
 - Descriptive German fields must preserve real German characters; do not apply
   handle-style transliteration outside handles or file names.
 - If the product title already contains the vendor/company name, no descriptive
