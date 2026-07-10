@@ -33,6 +33,7 @@ Skills for ecommerce product research workflows.
 | -------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | **[product-research](./skills/ecommerce/product-research/SKILL.md)** | Researches one skincare or dermocosmetics product, compiles a structured YuliSkin brief, and downloads 2 to 5 main product images into the same product folder with sequential names.                                                                      |
 | **[product-create-shopify](./skills/ecommerce/product-create-shopify/SKILL.md)** | Creates one new draft Shopify product from a product-research folder, using German default fields, best-effort English translations, existing metafields, handle generation, sequential product images, and duplicate-stop safety checks. |
+| **[product-update-shopify](./skills/ecommerce/product-update-shopify/SKILL.md)** | Updates existing Shopify products from regenerated research files with dry-run diffing, guarded bilingual content updates, and append-only media handling. |
 | **[company-research](./skills/ecommerce/company-research/SKILL.md)** | Researches one skincare or dermocosmetics brand, produces a Shopify-ready collection-page brief in German and English, downloads the brand logo, and discovers products from the brand site into a manifest ready for parallel `product-research` fan-out. |
 
 ### Engineering
@@ -43,9 +44,17 @@ Skills for daily code work.
 
 | Skill                                                                | Description                                                                                                                                                                       |
 | -------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| **[codebase-design](./skills/engineering/codebase-design/SKILL.md)** | Guide architecture toward deep modules, stable interfaces, explicit seams, and local knowledge.                                                                                  |
+| **[code-review](./skills/engineering/code-review/SKILL.md)**         | Review committed or uncommitted changes independently against repository standards and the originating specification.                                                           |
 | **[grill-me](./skills/engineering/grill-me/SKILL.md)**               | Interview the user relentlessly about a plan or design until reaching shared understanding, resolving each branch of the decision tree.                                           |
 | **[grill-with-docs](./skills/engineering/grill-with-docs/SKILL.md)** | Grilling session that challenges your plan against the existing domain model, sharpens terminology, and updates documentation (CONTEXT.md, ADRs) inline as decisions crystallise. |
-| **[to-issues](./skills/engineering/to-issues/SKILL.md)**             | Break a plan, spec, or PRD into independently-grabbable issues on the project issue tracker using tracer-bullet vertical slices.                                                  |
+| **[implement](./skills/engineering/implement/SKILL.md)**             | Implement explicit work locally with focused validation, TDD where appropriate, and final code review, leaving changes uncommitted.                                             |
+| **[tdd](./skills/engineering/tdd/SKILL.md)**                         | Apply test-driven development through agreed public seams using small red-green cycles.                                                                                           |
+| **[to-spec](./skills/engineering/to-spec/SKILL.md)**                 | Synthesize an agreed discussion and codebase context into a specification published as a GitHub issue.                                                                           |
+| **[to-tickets](./skills/engineering/to-tickets/SKILL.md)**           | Break a plan or spec into GitHub issues using tracer-bullet vertical slices and explicit blocking edges.                                                                          |
+| **[wayfinder](./skills/engineering/wayfinder/SKILL.md)**             | Map a large uncertain effort as GitHub decision issues and review one frontier decision at a time.                                                                                |
+
+The engineering workflow is explicitly driven: `grill-with-docs` → `to-spec` → `to-tickets` → `implement`. Use `wayfinder` for large uncertain efforts; `codebase-design`, `tdd`, and `code-review` are reusable supporting skills. No stage automatically invokes the next.
 
 ### Productivity
 
