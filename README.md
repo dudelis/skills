@@ -25,6 +25,15 @@ bash skills/scripts/link-skills.sh --claude    # Claude Code only
 
 ## Skills
 
+### Blog
+
+Skills for writing and maintaining Hack the Platform articles.
+
+| Skill | Description |
+| ----- | ----------- |
+| **[write-blog-article](./skills/blog/write-blog-article/SKILL.md)** | Plans, researches, drafts, illustrates, and revises technical MDX articles in the established Hack the Platform style. |
+| **[write-youtube-video](./skills/blog/write-youtube-video/SKILL.md)** | Turns an article or problem description into a recording-ready YouTube script, upload metadata, and thumbnail concept. |
+
 ### Ecommerce
 
 Skills for ecommerce product research workflows.
