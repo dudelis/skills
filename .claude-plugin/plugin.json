@@ -1,6 +1,8 @@
 {
   "name": "dudelis-skills",
   "skills": [
+    "skills/blog/write-blog-article/SKILL.md",
+    "skills/blog/write-youtube-video/SKILL.md",
     "skills/ecommerce/product-research/SKILL.md",
     "skills/ecommerce/product-create-shopify/SKILL.md",
     "skills/ecommerce/product-update-shopify/SKILL.md",
