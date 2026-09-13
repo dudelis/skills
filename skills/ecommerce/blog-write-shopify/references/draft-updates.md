@@ -2,7 +2,8 @@
 
 Use this mode for every change after initial creation, including edits to
 German/English bodies, SEO, section headings, banner, or associated collection.
-Final creation confirmation may cover completion of its reviewed fields on the new article;
+Final creation confirmation may cover completion of its reviewed fields on
+the new article;
 subsequent content revisions always follow this workflow.
 
 ## Resolve and inspect first

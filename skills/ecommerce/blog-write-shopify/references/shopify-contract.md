@@ -120,9 +120,11 @@ the completed content/metadata, and record pending uploads in the manifest.
 Use local asset paths for local previews where needed. Never upload an image
 to Shopify merely to build the preview or prepare a CDN URL for confirmation.
 
-Only after explicit creation confirmation, upload the supplied banner and new external inline images once using the
-available Shopify upload tool. Verify its inputs; use a local file reference
-or public image URL as supported, never a local path in an article URL field.
+Only after explicit creation confirmation, upload the supplied banner and new
+external inline images once using the available Shopify upload tool. Prefer
+the reviewed local asset copies; for a URL-based upload, verify it still matches
+the reviewed image. Changed assets require renewed review and confirmation.
+Verify the tool's inputs; never put a local path in an article URL field.
 Record the hosted CDN URL/file ID and reuse them. Existing Shopify catalog
 images do not need another upload.
 
@@ -148,8 +150,8 @@ products, or collection selections.
 
 Create one German-default unpublished article without scheduling. Completing
 its reviewed metadata, images, and English translations is covered by the
-final creation confirmation. Before each follow-on field/translation write, freshly
-verify it is still a draft. Stop on publication or unverifiable state; never
+final creation confirmation. Before each follow-on field/translation write,
+freshly verify it is still a draft. Stop on publication or unverifiable state; never
 force it back to draft. Changes to the approved payload require update review.
 
 Keep a manifest with operation, article ID once known, blog GID, author,
@@ -165,8 +167,8 @@ Count persisted SEO strings in each language: at most 70 title characters and
 hosted images, unresolved placeholders, local paths, and copied source scripts.
 
 Inspect uncertain or timed-out writes before retrying. Once an article ID
-exists, reuse it and complete only the same creation-confirmed payload; never create
-another article to retry translation or metadata completion. Stop on concurrent
+exists, reuse it and complete only the same creation-confirmed payload; never
+create another article to retry translation or metadata completion. Stop on concurrent
 publication. Report partial results and failures honestly and retain the draft
 and local intended values for recovery. Published articles cannot be repaired
 by this skill until the user returns them to draft and reconfirms the update.
