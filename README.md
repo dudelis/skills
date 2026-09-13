@@ -36,13 +36,14 @@ Skills for writing and maintaining Hack the Platform articles.
 
 ### Ecommerce
 
-Skills for ecommerce product research workflows.
+Skills for ecommerce research and Shopify content workflows.
 
 | Skill                                                                | Description                                                                                                                                                                                                                                                |
 | -------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | **[product-research](./skills/ecommerce/product-research/SKILL.md)** | Researches one skincare or dermocosmetics product, compiles a structured YuliSkin brief, and downloads 2 to 5 main product images into the same product folder with sequential names.                                                                      |
 | **[product-create-shopify](./skills/ecommerce/product-create-shopify/SKILL.md)** | Creates one new draft Shopify product from a product-research folder, using German default fields, best-effort English translations, existing metafields, handle generation, sequential product images, and duplicate-stop safety checks. |
 | **[product-update-shopify](./skills/ecommerce/product-update-shopify/SKILL.md)** | Updates existing Shopify products from regenerated research files with dry-run diffing, guarded bilingual content updates, and append-only media handling. |
+| **[blog-write-shopify](./skills/ecommerce/blog-write-shopify/SKILL.md)** | Prepares complete German/English YuliSkin articles locally, then creates or updates Shopify drafts only after explicit confirmation, using supplied banners and existing associated collections. |
 | **[company-research](./skills/ecommerce/company-research/SKILL.md)** | Researches one skincare or dermocosmetics brand, produces a Shopify-ready collection-page brief in German and English, downloads the brand logo, and discovers products from the brand site into a manifest ready for parallel `product-research` fan-out. |
 | **[company-compare-prices](./skills/ecommerce/company-compare-prices/SKILL.md)** | Monitors one brand across competitor websites, capturing historical prices and promotions into one cumulative CSV file per competitor, compared against distributor recommended prices or YuliSkin.de prices. |
 
