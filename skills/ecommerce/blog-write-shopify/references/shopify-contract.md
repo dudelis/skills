@@ -18,19 +18,20 @@ Do not guess input fields, metafield types, or translation keys.
 
 | Deliverable | Mapping to verify in the live API |
 | --- | --- |
-| Destination blog | `blogId`, using the selected existing Blog GID |
+| Destination blog | `blogId`, the Blog GID of the chosen blog type (`news` or `cosmetics-insider`) |
 | German article title | `title` |
 | German HTML fragment | `body` in the Admin GraphQL input |
 | German HTML excerpt | `summary` |
 | German URL slug | `handle`, unique within the destination blog |
-| Article template | `templateSuffix`, with verified collection binding |
+| Article template | `templateSuffix`: `blog-post-with-collection` with a collection, default `article` without |
 | Author attribution | `author`, using appropriate existing attribution |
 | Supplied banner | `image.url` and `image.altText`, using a hosted image URL |
 | New draft state | `isPublished: false`, with no publication schedule |
 | German SEO title | Article metafield `global.title_tag` |
 | German SEO description | Article metafield `global.description_tag` |
-| Collection below article | `custom.associated_collection`, `collection_reference` |
-| Collection-section heading | `custom.linked_collection_web_part_title`, `single_line_text_field` |
+| Collection below article (optional) | `custom.associated_collection`, `collection_reference` |
+| Collection-section heading (required with a collection) | `custom.linked_collection_web_part_title`, `single_line_text_field` |
+| Body product image | The product's featured media URL and `altText`, placed in the body HTML |
 
 Inspect the actual SEO storage on existing articles and verify the supported
 write mechanism. Do not assume a native `seo` input object or copy a legacy
@@ -70,19 +71,18 @@ change collection membership/order or a shared template for one article.
 
 ### Advisory YuliSkin template notes
 
-The inspection on **2026-09-13** found that
+The inspection on **2026-10-05** found that
 `templates/article.blog-post-with-collection.json` binds both its collection and
-heading to the article's custom fields. Its featured-collection section was
-configured to display up to 12 products.
+heading to the article's custom fields. Its featured-collection section shows
+up to 12 products with a "view all" link, and renders an empty heading when the
+heading metafield is missing.
 
-The inspected `templates/article.blog-post-filtered-collec.json` binds the
-heading dynamically but has `sonnenschutz` fixed as its collection setting.
-That setting does not establish per-article product filtering. Check any
-section overrides before deciding how it behaves.
+`templates/article.blog-post-filtered-collec.json` was an identical duplicate
+on that date. `templates/article.json` has no collection section and suits
+articles without an associated collection.
 
 Use these dated observations as discovery hints and recheck the live bindings
-before selecting a template. Prefer the template verified to read the chosen
-associated collection; preserve shared template settings.
+before selecting a template; preserve shared template settings.
 
 ## English translations
 
@@ -90,7 +90,8 @@ Write German source values first, then fetch `translatableResource` for the
 article to obtain actual keys and digests. Register `en` values against that
 same article using `translationsRegister`. Discover supported equivalents for
 title, body, summary, SEO title/description, and handle; translation keys can
-differ from native input names (`body_html` versus `body`, for example).
+differ from native input names: on 2026-10-05 the article keys were `title`,
+`body_html`, `summary_html`, `handle`, `meta_title`, and `meta_description`.
 Do not overwrite German defaults or create a second article as a fallback.
 
 Translate the collection-section heading separately: retrieve its metafield

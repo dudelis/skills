@@ -9,19 +9,22 @@ description: >
 
 # Blog Write Shopify
 
-Prepare one Shopify article with German defaults and English translations.
-Match relevant existing articles and HTML layouts; address German readers as
-"du". The collection below the article and products featured in its body are
-separate selections.
+Prepare one Shopify article with German defaults and English translations for
+one of two blog types: **Angebote & Neuheiten** (product news and promotions)
+or **Kosmetik Insider** (tips, routines, and why a product is needed). The blog
+type decides the intake questions and the body layout; address German readers
+as "du". The collection below the article and products featured in its body
+are separate selections.
 
 ## Quick start
 
 Example creation request:
 
-> Plan an article about sunscreen for sensitive skin. I will provide product
-> URLs, an existing collection for the section below it, and the banner image.
-> Suggest the angle and additional products before writing. Save the completed
-> article locally and ask for confirmation before writing to Shopify.
+> Plan a Kosmetik Insider article about sunscreen for sensitive skin. I will
+> provide product URLs, an existing collection for the section below it, and
+> the banner image. Suggest the angle and additional products before writing.
+> Save the completed article locally and ask for confirmation before writing
+> to Shopify.
 
 Example update request:
 
@@ -33,8 +36,12 @@ Example update request:
 - The user approves the editorial approach and final body product selections
   before the finished article is written. Additional products are suggestions
   until selected by the user.
-- Use one user-selected existing collection for the section below the article.
-  Never create/change collections or products to make an article work.
+- An Angebote & Neuheiten article features at least one body product. Every
+  body product appears with its featured catalog image, linked to its product
+  page, with ALT text.
+- The section below the article uses one user-selected existing collection
+  plus its heading, or the user's explicit "none". Never create/change
+  collections or products to make an article work.
 - The banner is supplied as a file or image URL. If a generation prompt is
   requested, first ask what exactly the user wants depicted, then write the
   prompt for their separate generator. Do not generate images or edit Canva.
@@ -52,19 +59,26 @@ Example update request:
 
 ## Create an article
 
-1. Gather the available topic/materials, promotion URLs, associated collection,
-   and banner. Ask only for missing inputs. A topic alone starts planning.
-2. Connect to Shopify, verify YuliSkin/locales, inspect two or three relevant
-   articles and their layouts, and discover the resources and working template.
+1. Read [article-templates.md](references/article-templates.md). Ask first
+   which blog type the article is for, then run that type's intake questions:
+   topic, body products, promotion, associated collection and its heading, and
+   banner. Skip what the user already supplied. The intake is complete when
+   every question has an answer or an allowed "none".
+2. Connect to Shopify, verify YuliSkin/locales, resolve the body products and
+   their featured images, inspect two or three articles of the same blog type
+   for tone, and discover the working template.
    Read [shopify-contract.md](references/shopify-contract.md) for field mapping.
 3. Follow [editorial-workflow.md](references/editorial-workflow.md): propose
-   reader problem, angle, keywords, outline, length, internal links, destination
-   blog, resource selections, and banner status. Wait for the user's approval.
-4. Write equivalent, natural German and English HTML, metadata, excerpts, and
-   collection-section headings. Rewrite supplied material with an original
+   reader problem, angle, keywords, outline, length, internal links, resource
+   selections, and banner status. Wait for the user's approval.
+4. Write equivalent, natural German and English HTML from the blog type's
+   outline and building blocks, plus metadata, excerpts, and collection-section
+   headings. Rewrite supplied material with an original
    structure and wording while preserving verified facts and product names.
    Save all completed content, metadata, and image assets locally first.
-5. Check the approved inputs, supplied banner, HTML, URLs, and SEO lengths.
+5. Check the approved inputs, supplied banner, HTML, URLs, and SEO lengths,
+   and the blog type's "done when" criterion: a linked, ALT-tagged row per
+   body product.
    Search for duplicate articles; resolve any likely match with the user.
    Show the local files and creation preview; wait for explicit confirmation
    to create this draft and upload the listed images to the selected Shopify blog.

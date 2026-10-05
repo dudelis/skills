@@ -6,19 +6,21 @@ planning interview.
 
 ## Gather the material and selected resources
 
+Start with the blog type and its intake questions in
+[article-templates.md](article-templates.md); that table is the question list.
 Accept a working name/topic, pasted text in any language, distributor articles,
 source URLs, supplied images, and product/collection links in any combination.
 Reuse information already supplied; ask only for what is still missing.
 
-Ask which products or collections the user wants to promote inside the article.
 Resolve product URLs to actual Shopify catalog entries. External distributor
 links provide source facts; do not invent corresponding storefront URLs.
 Present ambiguous catalog matches for the user's selection.
 
-Separately ask for the existing collection to place below the article. The body
+The collection below the article is a separate, optional selection. The body
 may feature products outside that collection. Do not change collection
-membership to align these two selections. Prepare the collection-section
-heading in German and English as separate structural values.
+membership to align these two selections. When a collection is selected,
+prepare its section heading in German and English as separate structural
+values.
 
 Offer additional relevant catalog products with a reason for each suggestion.
 Prefer products with real customer-facing pages and suitable purchase
@@ -36,10 +38,10 @@ waits for the supplied image; updates reuse the existing banner unless changed.
 ## Inspect the store and plan the SEO approach
 
 Discover the connected store, locales, existing blogs, and relevant articles.
-Inspect two or three examples for German and English writing, HTML, excerpts,
-author attribution, image placement, buttons, metafields, and template usage.
-Recommend an appropriate existing destination blog and layout in the brief.
-Do not invent an expert author or credentials.
+Inspect two or three examples of the chosen blog type for German and English
+writing, excerpts, author attribution, and metafields. Take the HTML layout
+from [article-templates.md](article-templates.md); older articles use
+superseded markup. Do not invent an expert author or credentials.
 
 Analyze the intended reader, concrete problem, search intent, likely search
 phrasing, related questions, and overlap with existing YuliSkin content. A
@@ -81,9 +83,10 @@ Present a concrete brief containing:
 
 - Recommended angle, intended reader, problem to solve, and factual gaps.
 - German/English keyword focus, outline, and proposed length with its reason.
-- Destination blog, author attribution, and suitable existing HTML layout.
-- Requested body promotions and additional product suggestions with reasons.
-- The separate associated collection and German/English section headings.
+- Blog type, author attribution, and the building blocks the outline uses.
+- Body products with their featured image and ALT text, and additional
+  product suggestions with reasons.
+- The associated collection and German/English section headings, or "none".
 - Proposed internal links and any proposed external evidence links.
 - Supplied-banner status or the requested generation prompt.
 
@@ -100,17 +103,14 @@ factually equivalent and include the same approved promotions, while adapting
 wording and keyword phrasing to each language. Avoid unsupported clinical claims,
 invented studies, or expert credentials.
 
-Follow the topic-appropriate store layout. Product-led sections can use the
-existing alternating image/text rows and buttons; explanatory sections can use
-clear paragraphs and headings. Scope embedded CSS to the article body and make
-rows stack sensibly on mobile. Write HTML fragments; the theme supplies the
-article's main title and surrounding document.
+Build each body from the blog type's outline, wrapper, CSS, and building
+blocks in [article-templates.md](article-templates.md). Write HTML fragments;
+the theme supplies the article's main title and surrounding document.
 
-Include real links and suitable verified images for promoted body products and
-collections. Prefer authentic Shopify catalog images. If a promoted collection
-has no image, ask for imagery or approval to use a representative product image.
-Do not invent packaging or add unselected product features. Write descriptive
-ALT text in each HTML body's language.
+Give every body product its row with the featured catalog image, product link,
+and ALT text as defined there. If a promoted collection has no image, ask for
+imagery or approval to use a representative product image. Do not invent
+packaging or add unselected product features.
 
 Use contextual HTML links with descriptive anchors, not arbitrary link or
 keyword counts. Check localized destinations. Keep SEO metadata and collection
