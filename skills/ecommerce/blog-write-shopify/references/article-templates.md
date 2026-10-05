@@ -48,8 +48,13 @@ image**, taken from the live product's existing Shopify CDN URL. Both the image
 and the button link to that product's page, so a click on the image opens the
 product.
 
-- German body: `/products/<handle>`. English body: the verified `/en/…` product
-  URL, using the translated handle when one exists.
+- Write internal links as relative paths, identical in both bodies:
+  `/products/<handle>`, `/collections/<handle>`, `/discount/CODE?redirect=…`.
+  The storefront adds the `/en` prefix itself when the shop is switched to
+  English, so a relative path in the English body carries no locale prefix.
+- Only a full URL in the English body carries the locale:
+  `https://yuliskin.de/en/products/<handle>`. Use a full URL only where a
+  relative path cannot work.
 - ALT text is the image's stored catalog `altText`. When that is empty, use
   `<Brand> <Product name>` exactly as in the product title. The English body
   uses the English translation of the same value.

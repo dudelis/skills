@@ -68,8 +68,9 @@ them in the brief for approval; they are separate from promoted products.
 
 Discover relevant internal destinations: approved products, collections,
 existing articles, and useful pages. Plan descriptive anchors and natural
-placement. Verify real locale-specific URLs instead of guessing translated
-handles. Do not modify other articles to create links to the new post.
+placement. Verify each destination exists, and write links with the locale
+rule in [article-templates.md](article-templates.md). Do not modify other
+articles to create links to the new post.
 
 Choose article length according to the reader's problem and completeness of the
 answer. Do not set a supposed Google-required word count, pad the article,
@@ -113,7 +114,7 @@ imagery or approval to use a representative product image. Do not invent
 packaging or add unselected product features.
 
 Use contextual HTML links with descriptive anchors, not arbitrary link or
-keyword counts. Check localized destinations. Keep SEO metadata and collection
+keyword counts. Keep SEO metadata and collection
 headings outside the body HTML as separate fields.
 
 Prepare titles, HTML summaries/excerpts, SEO titles/descriptions, and section

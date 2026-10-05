@@ -102,7 +102,9 @@ result and report any partial completion.
   spaces, in both languages. Count final strings programmatically.
 - Generate descriptive lowercase ASCII handles with hyphens; preserve German
   characters in prose/metadata. Discover supported English handle translations.
-- Use verified localized links and authentic product images. Inspect the live
+- Use verified links and authentic product images. Relative links are the
+  same in both languages, with no `/en` prefix; only a full URL in the English
+  body contains `/en`. Inspect the live
   schema and validate each GraphQL operation before execution; paginate as needed.
 - Keep the approved brief/source notes, `article-de.html`, `article-en.html`, and
   `shopify.json` together in the chosen directory or `BlogPosts/<article-slug>/`.
