@@ -45,14 +45,11 @@ High-end skincare aesthetic, realistic textures, no plastic look.
 `scripts/prepare_image.py` takes the one image dropped into the slide folder
 (or `--image <path>`), crops to 3:2 from the center, resizes to 1536×1024, and
 saves it as `<handle>.<ext>` in the source's format. That filename becomes the
-CDN URL, so the user uploads this file, not the original.
+CDN URL, so the user uploads this file, not the original. Its tests run from
+`scripts/` with `python -m unittest test_prepare_image`.
 
-- **Exit code 1:** no single source image, an unsupported type, or a missing
-  handle. The message says what to do; SVG gets a "probably a mistake" warning.
-- **Upscaling warning:** the source was smaller than 1536×1024. Show the
-  warning; the user decides whether to regenerate larger.
-- When a center crop cuts the main object, ask the user to regenerate or
-  crop by hand and pass the result with `--image`.
+When a center crop cuts the main object, ask the user to regenerate or crop by
+hand and pass the result with `--image`.
 
 ## Alt text
 

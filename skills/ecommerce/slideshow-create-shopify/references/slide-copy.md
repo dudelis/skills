@@ -49,5 +49,5 @@ A label outside the set is allowed only when the user asks for it; it stays
 - Write English after the German draft, then present both for one approval.
 - Adapt naturally rather than word for word, within the same limits. Keep
   product names, numbers, and dates identical; write dates as "30 November".
-- The link is not translated: one absolute `https://yuliskin.de/...` URL with
-  no `/en` prefix serves both languages.
+- The link is shared by both languages; it is built in
+  [shopify-contract.md](shopify-contract.md#reads).

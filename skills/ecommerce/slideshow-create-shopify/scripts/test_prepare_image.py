@@ -69,6 +69,29 @@ class PrepareImageTest(unittest.TestCase):
             self.assertIn("SVG", output)
             self.assertEqual(sorted(p.name for p in folder.iterdir()), ["brief.md", "slide.svg"])
 
+    def test_explicit_svg_gets_the_svg_warning(self) -> None:
+        with tempfile.TemporaryDirectory() as tmp:
+            folder = make_folder(tmp)
+            svg = Path(tmp) / "logo.svg"
+            svg.write_text("<svg xmlns='http://www.w3.org/2000/svg'/>", encoding="utf-8")
+
+            code, output = run(str(folder), "--image", str(svg))
+
+            self.assertNotEqual(code, 0)
+            self.assertIn("probably a mistake", output)
+
+    def test_svg_next_to_a_raster_image_is_reported_as_ignored(self) -> None:
+        with tempfile.TemporaryDirectory() as tmp:
+            folder = make_folder(tmp)
+            (folder / "draft.svg").write_text("<svg xmlns='http://www.w3.org/2000/svg'/>", encoding="utf-8")
+            Image.new("RGB", (1536, 1024), "white").save(folder / "slide.png")
+
+            code, output = run(str(folder))
+
+            self.assertEqual(code, 0)
+            self.assertIn("draft.svg", output)
+            self.assertTrue((folder / "resens-augen-handpflege.png").exists())
+
     def test_missing_or_ambiguous_image_asks_for_a_path(self) -> None:
         for names in [[], ["one.png", "two.jpg"]]:
             with self.subTest(names=names), tempfile.TemporaryDirectory() as tmp:

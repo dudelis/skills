@@ -17,6 +17,8 @@ Observed on **2026-11-02**; recheck before relying on them:
   `subheading` (single line), `button_label` (single line), `image` (file
   reference), `button_link` (url). Translatable and publishable.
 - Shop locales: `de` (primary), `en` (published).
+- Every live slide block used heading size H1, text alignment center, content
+  background on, and image overlay 20 %; the mapping checklist repeats these.
 
 ## Reads
 
@@ -31,18 +33,20 @@ Observed on **2026-11-02**; recheck before relying on them:
 ## Writes
 
 Before the first write, recheck that the store is YuliSkin and the handle is
-still free. Show what each step will write and wait for an explicit yes. Before
-retrying an uncertain write, read the current state first, so nothing is
-created twice.
+still free. If the handle was taken meanwhile, propose the next free suffix;
+on a yes, update `handle` in the brief, rename the slide folder, and rerun
+`prepare_image.py` so the file name matches. Show what each step will write
+and wait for an explicit yes. Before retrying an uncertain write, read the
+current state first, so nothing is created twice.
 
 1. **Upload the image.** Call the file-upload tool; it opens a picker on the
    user's device. Tell the user to choose `<slide-folder>/<handle>.<ext>`
    and to say when the upload is done. Read the file ID from the widget update
-   or the uploaded-files lookup. If Shopify stored the file under another
-   name, fix it with `fileUpdate` `filename`.
-2. **German alt text.** `fileUpdate(files: [{id, alt}])` with the German alt
-   text. Then query the MediaImage until `fileStatus` is `READY` and the image
-   is 1536×1024; `FAILED` stops the run.
+   or the uploaded-files lookup. Then query the MediaImage until `fileStatus`
+   is `READY` and the image is 1536×1024; `FAILED` stops the run.
+2. **German alt text.** Once the file is `READY`, `fileUpdate(files: [{id, alt}])`
+   with the German alt text. If Shopify stored the file under another name,
+   set `filename` to `<handle>.<ext>` in the same call.
 3. **Metaobject.** `metaobjectCreate` with `type: "slideshow"`, the handle,
    fields `heading`, `subheading`, `button_label` (German), `image` (the
    MediaImage GID), `button_link` (the link), and
@@ -71,7 +75,7 @@ Print this for the user with the slide's values filled in:
    - Button label ← `button_label`
    - Link ← `button_link`
 3. Box position: **`<box_align>`**.
-4. Match the live slides: heading size H1, text alignment center, content
-   background on, image overlay 20 %.
+4. Match the other slides' settings (see [Store facts](#store-facts)): heading
+   size H1, text alignment center, content background on, image overlay 20 %.
 5. Drag the slide to its position, save, and check the storefront in German
    and English (desktop and mobile).

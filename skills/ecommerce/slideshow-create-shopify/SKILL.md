@@ -1,12 +1,9 @@
 ---
 name: slideshow-create-shopify
 description: >
-  Creates one new YuliSkin homepage slide in German and English: intake, copy,
-  an image prompt, image crop-resize, alt text, and a new Shopify `slideshow`
-  metaobject with English translations, ready to wire into the homepage
-  slideshow. Use when the user wants to create, add, or publish a homepage
-  slide, slideshow banner, or hero slide, or continues a slide that is
-  awaiting its image.
+  Creates one new German/English YuliSkin homepage slide and publishes it as a
+  Shopify `slideshow` metaobject. Use when the user wants a new homepage
+  slide, or continues a slide awaiting its image.
 ---
 
 # Slideshow Create Shopify
@@ -39,19 +36,20 @@ generates the image elsewhere and comes back with "continue".
 1. **Intake.** Ask what is still missing, in one message:
    1. Subject type: product, collection, blog article, promotion, or general.
    2. Target (handle or URL). Resolve it read-only in Shopify and confirm it is
-      published; it becomes the link and the fact source.
+      published; it becomes the link and the fact source. Promotion and general
+      slides still need a link target: a collection, page, or `/collections/all`.
    3. What the slide should show (scene, products, mood).
    4. Where the main object (bottles, device, person) sits: left, center, or right.
    5. Key message, or the exact German wording.
    6. Optional: campaign end date.
 
    Intake is complete when every question has an answer or an allowed "none".
-2. **Resolve.** Read [shopify-contract.md](references/shopify-contract.md#reads).
-   Verify the store, resolve the target, pick the handle (`-2`, `-3`, … if
-   taken), and collect fact sources.
+2. **Resolve.** Follow [shopify-contract.md](references/shopify-contract.md#reads).
+   Resolve is complete when the store is verified, the target is published,
+   the handle is free (`-2`, `-3`, … if taken), and every fact source is listed.
 3. **Copy.** Follow [slide-copy.md](references/slide-copy.md). Keep exact
    wording (check limits and claims) or propose 2–3 German options; write the
-   English version. Count lengths in code. Wait for joint DE+EN approval.
+   English version. Wait for joint DE+EN approval.
 4. **Image prompt.** Follow [image.md](references/image.md#prompt): write the
    prompt and derive the Box position from the object position.
 5. **Save and pause.** Write `Slides/<YYYY-MM-DD>-<handle>/brief.md` (format
@@ -71,8 +69,8 @@ generates the image elsewhere and comes back with "continue".
    ```
 
    It writes `<handle>.<ext>` at exactly 1536×1024. On a non-zero exit, relay
-   its message and ask for the image. On an upscaling warning, show it and
-   ask whether to continue.
+   its message and ask for the image. Show every `WARNING` line; on an
+   upscaling warning, ask whether to continue or regenerate larger.
 3. **Alt text.** Look at the processed image and write German and English alt
    text per [image.md](references/image.md#alt-text). Save it to the brief and
    set `status: "ready-to-publish"`.
