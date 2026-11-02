@@ -40,3 +40,17 @@ description: >            # max 1024 chars; third person; "Use when [triggers]"
 - [ ] Add the path to `README.md` (top-level reference table)
 - [ ] Add the path to `.claude-plugin/plugin.json` `skills` array
 - [ ] Run `bash scripts/link-skills.sh` locally to verify it links correctly
+
+## Agent skills
+
+### Issue tracker
+
+Issues live in GitHub Issues on `dudelis/skills` (public), via the `gh` CLI. See `docs/agents/issue-tracker.md`.
+
+### Triage labels
+
+Default vocabulary: `needs-triage`, `needs-info`, `ready-for-agent`, `ready-for-human`, `wontfix`. See `docs/agents/triage-labels.md`.
+
+### Domain docs
+
+Single-context: root `CONTEXT.md` is the glossary; ADRs in `docs/adr/`. See `docs/agents/domain.md`.
