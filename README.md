@@ -1,16 +1,75 @@
 # dudelis-skills
 
-Personal AI skills for [GitHub Copilot CLI](https://docs.github.com/copilot/how-tos/use-copilot-agents/use-copilot-cli) and [Claude Code](https://docs.anthropic.com/en/docs/claude-code).
+Personal AI skills for [Claude Code](https://docs.anthropic.com/en/docs/claude-code), Codex, [GitHub Copilot CLI](https://docs.github.com/copilot/how-tos/use-copilot-agents/use-copilot-cli), and any other agent supported by the [`skills` CLI](https://skills.sh/).
 
-## Quickstart
+## Install
 
-Install all skills with a single command:
+All commands use the `skills` CLI through `npx` (needs Node.js). `-g` installs for your user instead of the current project.
+
+Pick skills interactively:
 
 ```bash
-npx skills@latest add dudelis/skills
+npx skills@latest add dudelis/skills -g
+```
+
+The picker groups skills by bucket folder (Blog, Ecommerce, Engineering, Productivity, Tracker). Selecting a group header selects every skill in it.
+
+Install for specific tools, skipping the agent prompt:
+
+```bash
+npx skills@latest add dudelis/skills -g -a claude-code -a codex -a github-copilot
+```
+
+Install specific skills by repeating `--skill`. Names must match exactly; wildcards such as `shopify-*` are not supported. The CLI has no group flag, so installing only the Ecommerce skills looks like this:
+
+```bash
+npx skills@latest add dudelis/skills -g --skill shopify-product-research --skill shopify-product-create --skill shopify-product-update --skill shopify-blog-write --skill shopify-email-write --skill shopify-slideshow-create --skill shopify-company-research --skill shopify-prices-compare
 ```
 
 Then run `/skills reload` in your AI tool to pick up the changes.
+
+## Update
+
+```bash
+npx skills@latest update -g   # refresh installed skills to their latest version
+npx skills@latest list -g     # show what is installed
+```
+
+`update` only refreshes skills you already have. It does not add skills that are new or were renamed in this repo; install those with `add`.
+
+## Renamed skills
+
+The ecommerce skills now start with `shopify-`:
+
+| Old name                   | New name                   |
+| -------------------------- | -------------------------- |
+| `product-research`         | `shopify-product-research` |
+| `product-create-shopify`   | `shopify-product-create`   |
+| `product-update-shopify`   | `shopify-product-update`   |
+| `blog-write-shopify`       | `shopify-blog-write`       |
+| `email-write-shopify`      | `shopify-email-write`      |
+| `slideshow-create-shopify` | `shopify-slideshow-create` |
+| `company-research`         | `shopify-company-research` |
+| `company-compare-prices`   | `shopify-prices-compare`   |
+
+`update` tracks each skill by its folder path in this repo, so it cannot follow a rename: an old install keeps its old name and stops receiving updates. To start clean, remove every skill installed from `dudelis/skills` (skills from other sources are left alone), then install again:
+
+```bash
+node -e '
+const fs = require("fs"), { join } = require("path"), { spawnSync } = require("child_process");
+const dir = process.env.XDG_STATE_HOME ? join(process.env.XDG_STATE_HOME, "skills") : join(require("os").homedir(), ".agents");
+const file = join(dir, ".skill-lock.json");
+const skills = fs.existsSync(file) ? JSON.parse(fs.readFileSync(file, "utf8")).skills : {};
+const mine = Object.keys(skills).filter((name) => skills[name].source === "dudelis/skills");
+if (!mine.length) { console.log("No skills from dudelis/skills installed."); process.exit(0); }
+console.log("Removing: " + mine.join(" "));
+const r = spawnSync("npx", ["-y", "skills@latest", "remove", "-g", "-y", "--skill", ...mine], { stdio: "inherit", shell: true });
+process.exit(r.status ?? 1);
+'
+npx skills@latest add dudelis/skills -g
+```
+
+The `node` command reads the CLI's global lock file (`~/.agents/.skill-lock.json`), picks the skills whose recorded source is `dudelis/skills`, and removes them from every agent. Paste it into bash or zsh (Git Bash on Windows, macOS, Linux).
 
 ## Local development (symlinks)
 
