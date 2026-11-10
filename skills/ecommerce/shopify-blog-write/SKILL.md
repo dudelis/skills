@@ -1,5 +1,5 @@
 ---
-name: blog-write-shopify
+name: shopify-blog-write
 description: >
   Prepares local German/English YuliSkin articles and writes confirmed Shopify drafts
   from topics, supplied articles, distributor materials, URLs, and images.

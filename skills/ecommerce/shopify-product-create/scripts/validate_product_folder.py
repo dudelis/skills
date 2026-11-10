@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Validate product-research banner files before Shopify writes.
+"""Validate shopify-product-research banner files before Shopify writes.
 
 The create skill blocks only on the minimum needed to create a draft product.
 Everything else is reported as a warning so Shopify writes can continue best-effort.

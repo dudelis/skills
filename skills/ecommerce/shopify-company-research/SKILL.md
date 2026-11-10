@@ -1,12 +1,12 @@
 ---
-name: company-research
+name: shopify-company-research
 description: >
   Researches one skincare or dermocosmetics brand for YuliSkin, produces a Shopify-ready
   collection-page brief in German and English, downloads the brand logo, and discovers
-  products from the brand site into a manifest for parallel product-research fan-out.
+  products from the brand site into a manifest for parallel shopify-product-research fan-out.
   Use when the user provides a brand/company name plus the company website URL and
   wants brand research, collection page copy, logo download, and a product list ready
-  for product-research.
+  for shopify-product-research.
 ---
 
 # Company Research
@@ -15,7 +15,7 @@ description: >
 
 Use this skill to research one skincare or dermocosmetics brand and produce Shopify-ready
 collection-page content for `yuliskin.de`, download the brand logo, and discover the
-brand's products into a manifest for parallel fan-out to the `product-research` skill.
+brand's products into a manifest for parallel fan-out to the `shopify-product-research` skill.
 
 Required input (both mandatory; ask the user if either is missing):
 
@@ -30,7 +30,7 @@ Output files:
 Collections/[CompanyName]/brief.txt                  # research + strategy + structured data reminder + discovered-products preview
 Collections/[CompanyName]/shopify-de.txt              # German Shopify collection fields, banner-formatted for copy-paste
 Collections/[CompanyName]/shopify-en.txt              # English Shopify collection fields, banner-formatted for copy-paste
-Collections/[CompanyName]/products.csv                # discovered-products manifest for product-research fan-out
+Collections/[CompanyName]/products.csv                # discovered-products manifest for shopify-product-research fan-out
 Collections/[CompanyName]/[CompanyName]-logo.[ext]    # SVG preferred, may be missing
 ```
 
@@ -44,7 +44,7 @@ Folder/file naming: brand's own capitalization, ASCII-fold diacritics (`é→e`,
 
 ## Workflow
 
-The skill runs three passes, then stops. It does not invoke `product-research` itself.
+The skill runs three passes, then stops. It does not invoke `shopify-product-research` itself.
 
 ### Pass 1 — Brand research
 
@@ -156,7 +156,7 @@ intentionally non-Latin.
 Write `Collections/[CompanyName]/products.csv` with header `product_name,product_url`.
 Write all output files (`brief.txt`, `shopify-de.txt`, `shopify-en.txt`, `products.csv`)
 as **UTF-8 without BOM** so German characters (`ä ö ü ß`), en-dashes (`–`), and `&`
-survive the handoff to `product-research`. Never write CP-1252/Latin-1.
+survive the handoff to `shopify-product-research`. Never write CP-1252/Latin-1.
 CSV is the source of truth; the Markdown table inside `brief.txt`'s Discovered Products
 section is a preview.
 
@@ -191,7 +191,7 @@ Re-run summary for Collections/[CompanyName]/:
 Manifest written to Collections/[CompanyName]/products.csv (N rows).
 Review the CSV and delete any rows you don't want to research, then reply with:
 
-  Run product-research for all rows in Collections/[CompanyName]/products.csv,
+  Run shopify-product-research for all rows in Collections/[CompanyName]/products.csv,
   3 in parallel, skip products whose brief.txt already exists.
 
 To change concurrency, replace "3" with another number (e.g. 5 or 10).

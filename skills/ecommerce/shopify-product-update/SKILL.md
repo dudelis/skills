@@ -1,13 +1,13 @@
 ---
-name: product-update-shopify
-description: Updates existing Shopify products from freshly generated YuliSkin product-research files, with dry-run diffing, guarded bilingual content updates, and append-only media handling. Use when the user wants to update existing Shopify product descriptions, SEO, descriptive metafields, skin taxonomy, translations, or missing image ALT text from Products/[Company]/[Product]/shopify-de.txt and shopify-en.txt.
+name: shopify-product-update
+description: Updates existing Shopify products from freshly generated YuliSkin shopify-product-research files, with dry-run diffing, guarded bilingual content updates, and append-only media handling. Use when the user wants to update existing Shopify product descriptions, SEO, descriptive metafields, skin taxonomy, translations, or missing image ALT text from Products/[Company]/[Product]/shopify-de.txt and shopify-en.txt.
 ---
 
 # Product Update Shopify
 
 ## Quick start
 
-Use this skill after `product-research` has regenerated a product folder:
+Use this skill after `shopify-product-research` has regenerated a product folder:
 
 ```text
 Products/[CompanyName]/[ProductName]/

@@ -1,13 +1,13 @@
 ---
-name: product-create-shopify
-description: Creates one new draft Shopify product from a YuliSkin product-research output folder, including German default fields, best-effort English translations, metafields, variant data, SEO fields, handle, and product images. Use when the user wants to create a Shopify product from `Products/[CompanyName]/[ProductName]/shopify-de.txt` and `shopify-en.txt`; this skill is create-only, performs a duplicate safety check, and never updates or publishes existing products.
+name: shopify-product-create
+description: Creates one new draft Shopify product from a YuliSkin shopify-product-research output folder, including German default fields, best-effort English translations, metafields, variant data, SEO fields, handle, and product images. Use when the user wants to create a Shopify product from `Products/[CompanyName]/[ProductName]/shopify-de.txt` and `shopify-en.txt`; this skill is create-only, performs a duplicate safety check, and never updates or publishes existing products.
 ---
 
 # Product Create Shopify
 
 ## Quick start
 
-Use this skill after `product-research` has produced a complete folder:
+Use this skill after `shopify-product-research` has produced a complete folder:
 
 ```text
 Products/[CompanyName]/[ProductName]/
@@ -29,7 +29,7 @@ not update it.
    `Products/[CompanyName]/[ProductName]/`. If the path does not resolve to exactly
    one existing folder, stop and ask for the exact folder path.
 2. Read `shopify-de.txt`, `shopify-en.txt`, and the local image list.
-3. Validate the product-research files before using Shopify:
+3. Validate the shopify-product-research files before using Shopify:
    - Run `python scripts/validate_product_folder.py <product-folder>` from this skill folder when available.
    - If the script reports hard errors, stop before touching Shopify.
    - If the script reports warnings only, continue and include them in the final report.

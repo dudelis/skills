@@ -1,5 +1,5 @@
 ---
-name: product-research
+name: shopify-product-research
 description: Researches one skincare or dermocosmetics product, builds a verified strategic foundation for YuliSkin product copy, compiles Shopify-ready fields, and downloads 2 to 5 main product images with sequential file names. Use when the user provides a product name and company and wants facts, keyword direction, image assets, Shopify product data, and ready-to-use bilingual content sections in the YuliSkin format.
 ---
 

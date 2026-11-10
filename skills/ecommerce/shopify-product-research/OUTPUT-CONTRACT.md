@@ -1,6 +1,6 @@
 # Product Research Output Contract
 
-Use this contract when generating product-research output for `yuliskin.de`. The
+Use this contract when generating shopify-product-research output for `yuliskin.de`. The
 deliverables are split into three text files plus image downloads. The research file
 (`brief.txt`) is the thinking layer. The Shopify files (`shopify-de.txt`,
 `shopify-en.txt`) are the copy-paste layer — every value in them must be derived

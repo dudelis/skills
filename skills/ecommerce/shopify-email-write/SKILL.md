@@ -1,5 +1,5 @@
 ---
-name: email-write-shopify
+name: shopify-email-write
 description: >
   Plans and writes German (optionally English) YuliSkin marketing emails as
   paste-ready HTML/Liquid blocks for the Shopify Email Custom Liquid section,

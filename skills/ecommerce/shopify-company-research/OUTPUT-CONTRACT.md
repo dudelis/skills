@@ -1,6 +1,6 @@
 # Company Research Output Contract
 
-Use this contract when generating company-research output for `yuliskin.de`. The
+Use this contract when generating shopify-company-research output for `yuliskin.de`. The
 deliverables are split into a research file plus two Shopify-ready collection files
 and a logo image. The research file (`brief.txt`) is the thinking layer. The Shopify
 files (`shopify-de.txt`, `shopify-en.txt`) are the copy-paste layer — every value in
@@ -164,7 +164,7 @@ Heads-up: X rows look like sets/kits/bundles, Y rows look like size/shade varian
 ```
 
 The Markdown table is a preview only. `products.csv` is the source of truth used by
-the second prompt that fans out to `product-research`.
+the second prompt that fans out to `shopify-product-research`.
 
 ### Re-run summary (only when folder already existed)
 

@@ -18,14 +18,14 @@
       "source": "./",
       "strict": false,
       "skills": [
-        "./skills/ecommerce/product-research",
-        "./skills/ecommerce/product-create-shopify",
-        "./skills/ecommerce/product-update-shopify",
-        "./skills/ecommerce/blog-write-shopify",
-        "./skills/ecommerce/email-write-shopify",
-        "./skills/ecommerce/slideshow-create-shopify",
-        "./skills/ecommerce/company-research",
-        "./skills/ecommerce/company-compare-prices"
+        "./skills/ecommerce/shopify-product-research",
+        "./skills/ecommerce/shopify-product-create",
+        "./skills/ecommerce/shopify-product-update",
+        "./skills/ecommerce/shopify-blog-write",
+        "./skills/ecommerce/shopify-email-write",
+        "./skills/ecommerce/shopify-slideshow-create",
+        "./skills/ecommerce/shopify-company-research",
+        "./skills/ecommerce/shopify-prices-compare"
       ]
     },
     {

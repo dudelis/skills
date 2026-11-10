@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Validate product-research files before update-only Shopify writes."""
+"""Validate shopify-product-research files before update-only Shopify writes."""
 
 from __future__ import annotations
 

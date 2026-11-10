@@ -1,6 +1,6 @@
 # Product Create Shopify Banner Contract
 
-Use this reference when parsing `product-research` output for create-only Shopify
+Use this reference when parsing `shopify-product-research` output for create-only Shopify
 product creation.
 
 ## Input folder

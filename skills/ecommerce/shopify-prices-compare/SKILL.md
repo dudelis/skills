@@ -1,5 +1,5 @@
 ---
-name: company-compare-prices
+name: shopify-prices-compare
 description: Monitors one product brand across competitor websites, capturing historical prices and promotions into one cumulative CSV file per competitor, with dated JSON snapshots and screenshots as evidence. Prefers Shopify products.json when available, falling back to web scraping otherwise; supports comparison against distributor recommended prices or YuliSkin.de prices. Use when the user wants to track competitor pricing for a brand over time, benchmark prices against a distributor price list or YuliSkin.de, or build historical evidence of competitor promotions and discounting.
 ---
 

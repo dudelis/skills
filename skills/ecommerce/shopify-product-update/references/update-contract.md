@@ -1,7 +1,7 @@
 # Product Update Shopify Contract
 
 This reference defines the update-only behavior for applying freshly generated
-`product-research` output to existing Shopify products.
+`shopify-product-research` output to existing Shopify products.
 
 ## Inputs
 

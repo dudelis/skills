@@ -1,5 +1,5 @@
 ---
-name: slideshow-create-shopify
+name: shopify-slideshow-create
 description: >
   Creates one new German/English YuliSkin homepage slide and publishes it as a
   Shopify `slideshow` metaobject. Use when the user wants a new homepage
@@ -55,7 +55,7 @@ generates the image elsewhere and comes back with "continue".
 5. **Save and pause.** Write `Slides/<YYYY-MM-DD>-<handle>/brief.md` (format
    below) with `status: "awaiting-image"`. Show the prompt and tell the user to
    drop the generated image into that folder and run
-   `/slideshow-create-shopify continue`.
+   `/shopify-slideshow-create continue`.
 
 ## Session 2: continue and publish
 

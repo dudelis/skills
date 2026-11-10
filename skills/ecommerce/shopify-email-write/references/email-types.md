@@ -77,7 +77,7 @@ and how a product works.
 
 **Type questions:**
 - The topic and the one key message.
-- The fact sources: product page, brand site, or a product-research brief.
+- The fact sources: product page, brand site, or a shopify-product-research brief.
 - The products to link.
 - A related blog article.
 
