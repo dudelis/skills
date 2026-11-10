@@ -18,6 +18,7 @@ skills/
 scripts/
   install.mjs     # npx installer — copies skills to tool directories
   link-skills.sh  # Local dev — symlinks skills (edits are live)
+  remove-dudelis-skills.mjs  # Removes globally installed dudelis/skills skills (rename migration)
 .claude-plugin/
   marketplace.json  # One plugin per distributed bucket, listing its skill folders
 ```
@@ -26,7 +27,7 @@ scripts/
 
 - Every skill lives in `skills/<bucket>/<skill-name>/` with a required `SKILL.md`.
 - `SKILL.md` frontmatter requires `name` (lowercase, hyphens, must match directory name) and `description` (≤1024 chars, third person, "Use when [triggers]").
-- Skills in `blog/`, `ecommerce/`, `engineering/`, `productivity/`, `tracker/`, and `misc/` are distributed and should appear in `README.md` and in `.claude-plugin/marketplace.json`, under the plugin named after their bucket.
+- Skills in `blog/`, `ecommerce/`, `engineering/`, `productivity/`, `tracker/`, and `misc/` are distributed and should appear in `README.md` and in `.claude-plugin/marketplace.json`, under the plugin named after their bucket. Each non-empty public bucket has exactly one plugin; an empty bucket has none.
 - Skills in `personal/`, `in-progress/`, `deprecated/` are never installed, and must not appear in `README.md` or `marketplace.json`.
 
 ## Install Destinations

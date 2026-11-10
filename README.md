@@ -26,7 +26,7 @@ Install specific skills by repeating `--skill`. Names must match exactly; wildca
 npx skills@latest add dudelis/skills -g --skill shopify-product-research --skill shopify-product-create --skill shopify-product-update --skill shopify-blog-write --skill shopify-email-write --skill shopify-slideshow-create --skill shopify-company-research --skill shopify-prices-compare
 ```
 
-Then run `/skills reload` in your AI tool to pick up the changes.
+Then restart your AI tool or start a new session to pick up the changes. In GitHub Copilot CLI, `/skills reload` loads them without a restart.
 
 ## Update
 
@@ -35,7 +35,7 @@ npx skills@latest update -g   # refresh installed skills to their latest version
 npx skills@latest list -g     # show what is installed
 ```
 
-`update` only refreshes skills you already have. It does not add skills that are new or were renamed in this repo; install those with `add`.
+`update` only refreshes skills you already have. It never installs skills that are new or were renamed in this repo; install those with `add`.
 
 ## Renamed skills
 
@@ -52,24 +52,18 @@ The ecommerce skills now start with `shopify-`:
 | `company-research`         | `shopify-company-research` |
 | `company-compare-prices`   | `shopify-prices-compare`   |
 
-`update` tracks each skill by its folder path in this repo, so it cannot follow a rename: an old install keeps its old name and stops receiving updates. To start clean, remove every skill installed from `dudelis/skills` (skills from other sources are left alone), then install again:
+`update` looks up each installed skill by its recorded folder path in this repo, then by name. A renamed skill matches neither, so `update` reports the old names as "deleted upstream". In an interactive terminal it offers to remove them; with `-y` or outside a terminal it skips that step. Either way it never installs the new names. Use `add` for those.
+
+To start clean, remove every skill installed from `dudelis/skills` and install again. Skills from other sources are left alone. Run this from a clone of the repo; it works in bash, zsh, PowerShell, and cmd:
 
 ```bash
-node -e '
-const fs = require("fs"), { join } = require("path"), { spawnSync } = require("child_process");
-const dir = process.env.XDG_STATE_HOME ? join(process.env.XDG_STATE_HOME, "skills") : join(require("os").homedir(), ".agents");
-const file = join(dir, ".skill-lock.json");
-const skills = fs.existsSync(file) ? JSON.parse(fs.readFileSync(file, "utf8")).skills : {};
-const mine = Object.keys(skills).filter((name) => skills[name].source === "dudelis/skills");
-if (!mine.length) { console.log("No skills from dudelis/skills installed."); process.exit(0); }
-console.log("Removing: " + mine.join(" "));
-const r = spawnSync("npx", ["-y", "skills@latest", "remove", "-g", "-y", "--skill", ...mine], { stdio: "inherit", shell: true });
-process.exit(r.status ?? 1);
-'
-npx skills@latest add dudelis/skills -g
+node scripts/remove-dudelis-skills.mjs --dry-run   # list what would be removed
+node scripts/remove-dudelis-skills.mjs && npx skills@latest add dudelis/skills -g
 ```
 
-The `node` command reads the CLI's global lock file (`~/.agents/.skill-lock.json`), picks the skills whose recorded source is `dudelis/skills`, and removes them from every agent. Paste it into bash or zsh (Git Bash on Windows, macOS, Linux).
+[`scripts/remove-dudelis-skills.mjs`](./scripts/remove-dudelis-skills.mjs) reads the CLI's global lock file (`$XDG_STATE_HOME/skills/.skill-lock.json` when `XDG_STATE_HOME` is set, otherwise `~/.agents/.skill-lock.json`), picks the skills whose recorded source is exactly `dudelis/skills`, and removes them from every agent in one `npx skills@latest remove -g -y` call. `&&` runs the reinstall only if the removal succeeded. Windows PowerShell 5.1 has no `&&`: run the removal first, then run `npx skills@latest add dudelis/skills -g` once it succeeds.
+
+Without a clone, run `npx skills@latest remove -g` with no skill names. It opens an interactive picker of every installed skill, from all sources, so tick the old names from the table above yourself. Then run `npx skills@latest add dudelis/skills -g`.
 
 ## Local development (symlinks)
 
