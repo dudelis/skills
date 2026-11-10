@@ -14,10 +14,12 @@ npx skills@latest add dudelis/skills -g
 
 The picker groups skills by bucket folder (Blog, Ecommerce, Engineering, Productivity, Tracker). Selecting a group header selects every skill in it.
 
-Install for specific tools, skipping the agent prompt:
+In the agent prompt, Codex, GitHub Copilot, Cursor, Gemini CLI and the other "universal" agents are always included: they all read the shared `~/.agents/skills` folder. You only pick additional tools with their own folder, such as Claude Code.
+
+To skip the agent prompt, name the tools with `-a`. Naming one universal agent (here `codex`) covers all of them, because they share one folder:
 
 ```bash
-npx skills@latest add dudelis/skills -g -a claude-code -a codex -a github-copilot
+npx skills@latest add dudelis/skills -g -a claude-code -a codex
 ```
 
 Install specific skills by repeating `--skill`. Names must match exactly; wildcards such as `shopify-*` are not supported. The CLI has no group flag, so installing only the Ecommerce skills looks like this:
