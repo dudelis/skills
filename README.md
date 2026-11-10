@@ -104,7 +104,7 @@ A personal customer/project status tracker over markdown files in OneDrive, driv
 
 1. Create `skills/<bucket>/<skill-name>/SKILL.md` with YAML frontmatter (`name`, `description`) and Markdown body.
 2. Add a row to `skills/<bucket>/README.md` and to the table above.
-3. Add the path to `.claude-plugin/plugin.json`.
+3. Add the skill folder path to its bucket's plugin in `.claude-plugin/marketplace.json`.
 4. Run `bash scripts/link-skills.sh` to test locally.
 
 See [CLAUDE.md](./CLAUDE.md) for the full conventions.

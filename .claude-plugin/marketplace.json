@@ -1,0 +1,72 @@
+{
+  "name": "dudelis-skills",
+  "owner": {
+    "name": "dudelis"
+  },
+  "plugins": [
+    {
+      "name": "blog",
+      "source": "./",
+      "strict": false,
+      "skills": [
+        "./skills/blog/write-blog-article",
+        "./skills/blog/write-youtube-video"
+      ]
+    },
+    {
+      "name": "ecommerce",
+      "source": "./",
+      "strict": false,
+      "skills": [
+        "./skills/ecommerce/product-research",
+        "./skills/ecommerce/product-create-shopify",
+        "./skills/ecommerce/product-update-shopify",
+        "./skills/ecommerce/blog-write-shopify",
+        "./skills/ecommerce/email-write-shopify",
+        "./skills/ecommerce/slideshow-create-shopify",
+        "./skills/ecommerce/company-research",
+        "./skills/ecommerce/company-compare-prices"
+      ]
+    },
+    {
+      "name": "engineering",
+      "source": "./",
+      "strict": false,
+      "skills": [
+        "./skills/engineering/codebase-design",
+        "./skills/engineering/code-review",
+        "./skills/engineering/grill-me",
+        "./skills/engineering/grill-with-docs",
+        "./skills/engineering/implement",
+        "./skills/engineering/tdd",
+        "./skills/engineering/to-spec",
+        "./skills/engineering/to-tickets",
+        "./skills/engineering/wayfinder"
+      ]
+    },
+    {
+      "name": "productivity",
+      "source": "./",
+      "strict": false,
+      "skills": [
+        "./skills/productivity/write-a-skill",
+        "./skills/productivity/teach-me"
+      ]
+    },
+    {
+      "name": "tracker",
+      "source": "./",
+      "strict": false,
+      "skills": [
+        "./skills/tracker/tracker-shared",
+        "./skills/tracker/tracker-status",
+        "./skills/tracker/tracker-customer-status",
+        "./skills/tracker/tracker-sweep",
+        "./skills/tracker/tracker-project-update",
+        "./skills/tracker/tracker-project-new",
+        "./skills/tracker/tracker-project-close",
+        "./skills/tracker/tracker-customer-new"
+      ]
+    }
+  ]
+}

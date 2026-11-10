@@ -1,5 +1,6 @@
 Skills are organized into bucket folders under `skills/`:
 
+- `blog/` — technical blog articles and videos
 - `ecommerce/` — ecommerce product research and listing preparation
 - `engineering/` — daily code work
 - `productivity/` — daily non-code workflow tools
@@ -9,7 +10,7 @@ Skills are organized into bucket folders under `skills/`:
 - `in-progress/` — drafts not yet ready to ship
 - `deprecated/` — no longer used
 
-Every skill in `ecommerce/`, `engineering/`, `productivity/`, `tracker/`, or `misc/` must have a reference in the top-level `README.md` and an entry in `.claude-plugin/plugin.json`. Skills in `personal/`, `in-progress/`, and `deprecated/` must not appear in either.
+Every skill in `blog/`, `ecommerce/`, `engineering/`, `productivity/`, `tracker/`, or `misc/` must have a reference in the top-level `README.md` and an entry in `.claude-plugin/marketplace.json`, listed as a skill folder path under the plugin named after its bucket. Each non-empty public bucket has exactly one plugin; an empty bucket has none. Skills in `personal/`, `in-progress/`, and `deprecated/` must not appear in either.
 
 Each bucket folder has a `README.md` that lists every skill in the bucket with a one-line description, with the skill name linked to its `SKILL.md`.
 
@@ -38,7 +39,7 @@ description: >            # max 1024 chars; third person; "Use when [triggers]"
 - [ ] Create `skills/<bucket>/<skill-name>/SKILL.md`
 - [ ] Add a row to `skills/<bucket>/README.md`
 - [ ] Add the path to `README.md` (top-level reference table)
-- [ ] Add the path to `.claude-plugin/plugin.json` `skills` array
+- [ ] Add the folder path (`./skills/<bucket>/<skill-name>`) to the bucket's plugin `skills` array in `.claude-plugin/marketplace.json`
 - [ ] Run `bash scripts/link-skills.sh` locally to verify it links correctly
 
 ## Agent skills
