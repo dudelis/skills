@@ -1,7 +1,8 @@
 # Slide copy: heading, description, button, English
 
-The three texts map to `slideshow` metaobject fields: `heading` (the slide
-title), `subheading` (shown as the slide description), and `button_label`.
+The three texts are the values the user enters into the `slideshow`
+metaobject: `heading` (the slide title), `subheading` (shown as the slide
+description), and `button_label`.
 
 ## Limits
 
@@ -50,4 +51,4 @@ A label outside the set is allowed only when the user asks for it; it stays
 - Adapt naturally rather than word for word, within the same limits. Keep
   product names, numbers, and dates identical; write dates as "30 November".
 - The link is shared by both languages; it is built in
-  [shopify-contract.md](shopify-contract.md#reads).
+  [shopify-reads.md](shopify-reads.md).

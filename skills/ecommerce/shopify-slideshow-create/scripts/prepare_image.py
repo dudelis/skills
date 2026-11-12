@@ -1,6 +1,8 @@
-"""Crop-resize the slide image in a slide folder to 1536x1024 and name it <handle>.<ext>.
+"""Crop-resize a slide's two images: <handle>.<ext> at 1536x1024 and <handle>-mobile.<ext> at 1536x864.
 
-Usage: python prepare_image.py <slide-folder> [--image <path>]
+The mobile source is the dropped image whose file name ends in -mobile; the other one is the desktop source.
+
+Usage: python prepare_image.py <slide-folder> [--image <path>] [--mobile-image <path>]
 """
 
 from __future__ import annotations
@@ -8,11 +10,29 @@ from __future__ import annotations
 import argparse
 import re
 import sys
+from dataclasses import dataclass
 from pathlib import Path
 
 from PIL import Image, ImageOps
 
-WIDTH, HEIGHT = 1536, 1024
+MOBILE_SUFFIX = "-mobile"
+
+
+@dataclass(frozen=True)
+class Variant:
+    """One of the slide's two images: its target size, output suffix, CLI option, and name in messages."""
+
+    size: tuple[int, int]
+    suffix: str
+    option: str
+    label: str
+
+
+DESKTOP = Variant((1536, 1024), "", "--image", "desktop image")
+MOBILE = Variant((1536, 864), MOBILE_SUFFIX, "--mobile-image", f"mobile image (file name ending in {MOBILE_SUFFIX})")
+# A source more than 20 % off its target's aspect ratio (portrait, square) loses visible content in the
+# center crop. 3:2 for the 16:9 mobile image stays below it: ChatGPT offers no wider landscape size.
+SHAPE_TOLERANCE = 0.20
 # Source suffix -> (output extension, Pillow format). The original format is kept.
 FORMATS = {
     ".png": (".png", "PNG"),
@@ -63,54 +83,81 @@ def check_explicit(image: Path) -> Path:
     return image
 
 
-def find_source(folder: Path, handle: str) -> Path:
-    """Return the one image dropped into the folder, ignoring the processed <handle>.<ext>."""
-    files = [p for p in folder.iterdir() if p.is_file() and p.stem != handle]
-    candidates = [p for p in files if p.suffix.lower() in FORMATS]
-    svgs = [p for p in files if is_svg(p)]
+def is_mobile(path: Path) -> bool:
+    return path.stem.lower().endswith(MOBILE_SUFFIX)
+
+
+def dropped_files(folder: Path, handle: str) -> list[Path]:
+    """Files in the slide folder, ignoring the processed <handle> and <handle>-mobile outputs."""
+    outputs = {handle, f"{handle}{MOBILE_SUFFIX}"}
+    return [p for p in folder.iterdir() if p.is_file() and p.stem not in outputs]
+
+
+def find_source(files: list[Path], folder: Path, variant: Variant) -> Path:
+    """Return the one dropped image for variant: named *-mobile for MOBILE, any other name for DESKTOP."""
+    group = [p for p in files if is_mobile(p) == (variant is MOBILE)]
+    candidates = [p for p in group if p.suffix.lower() in FORMATS]
+    svgs = [p for p in group if is_svg(p)]
     if not candidates and svgs:
         raise SlideImageError(SVG_WARNING.format(name=svgs[0].name))
     if len(candidates) != 1:
         found = ", ".join(p.name for p in candidates) or "none"
         raise SlideImageError(
-            f"Expected exactly one PNG, JPG, or WebP image in {folder} (found: {found}). "
-            "Pass the image explicitly with --image <path>."
+            f"Expected exactly one PNG, JPG, or WebP {variant.label} in {folder} (found: {found}). "
+            f"Pass it explicitly with {variant.option} <path>."
         )
     for svg in svgs:
         print(f"WARNING: ignored {svg.name} (SVG cannot be crop-resized); using {candidates[0].name}.")
     return candidates[0]
 
 
+def prepare(source: Path, size: tuple[int, int], output_stem: Path) -> None:
+    """Center-crop and resize source to size, saved as <output_stem>.<ext> in its own format."""
+    extension, image_format = FORMATS[source.suffix.lower()]
+    output_path = output_stem.with_name(output_stem.name + extension)
+    width, height = size
+    with Image.open(source) as image:
+        if abs((image.width / image.height) / (width / height) - 1) > SHAPE_TOLERANCE:
+            print(
+                f"WARNING: {source.name} is {image.width}x{image.height}, far from the {width}x{height} shape; "
+                f"the center crop may cut off products. Check {output_path.name} or regenerate."
+            )
+        # ImageOps.fit scales by the larger factor, so the source must cover both target sides.
+        scale = max(width / image.width, height / image.height)
+        if scale > 1:
+            print(
+                f"WARNING: source {image.width}x{image.height} was upscaled {scale:.2f}x; "
+                "check it for softness or ask the generator for a larger image."
+            )
+        fitted = ImageOps.fit(image, size, Image.Resampling.LANCZOS)
+        if image_format == "PNG":
+            fitted.save(output_path, image_format)
+        else:
+            fitted.convert("RGB").save(output_path, image_format, quality=90)
+    print(f"OK {output_path} {width}x{height}")
+
+
 def main(argv: list[str] | None = None) -> int:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("folder", type=Path, help="slide folder containing brief.md")
-    parser.add_argument("--image", type=Path, help="image outside the folder to use instead")
+    parser.add_argument("--image", type=Path, help="desktop image to use instead of the dropped one")
+    parser.add_argument("--mobile-image", type=Path, help="mobile image to use instead of the dropped *-mobile one")
     args = parser.parse_args(argv)
 
     handle = read_front_matter(args.folder).get("handle", "")
     try:
         if not handle:
             raise SlideImageError(f"No `handle` in the front matter of {args.folder / 'brief.md'}.")
-        source = check_explicit(args.image) if args.image else find_source(args.folder, handle)
+        files = dropped_files(args.folder, handle)
+        sources = {
+            variant: check_explicit(explicit) if explicit else find_source(files, args.folder, variant)
+            for variant, explicit in ((DESKTOP, args.image), (MOBILE, args.mobile_image))
+        }
     except SlideImageError as error:
         print(error, file=sys.stderr)
         return 1
-    extension, image_format = FORMATS[source.suffix.lower()]
-    output_path = args.folder / f"{handle}{extension}"
-    with Image.open(source) as image:
-        # ImageOps.fit scales by the larger factor, so the source must cover both target sides.
-        scale = max(WIDTH / image.width, HEIGHT / image.height)
-        if scale > 1:
-            print(
-                f"WARNING: source {image.width}x{image.height} was upscaled {scale:.2f}x; "
-                "check it for softness or ask the generator for a larger image."
-            )
-        fitted = ImageOps.fit(image, (WIDTH, HEIGHT), Image.Resampling.LANCZOS)
-        if image_format == "PNG":
-            fitted.save(output_path, image_format)
-        else:
-            fitted.convert("RGB").save(output_path, image_format, quality=90)
-    print(f"OK {output_path} {WIDTH}x{HEIGHT}")
+    for variant, source in sources.items():
+        prepare(source, variant.size, args.folder / f"{handle}{variant.suffix}")
     return 0
 
 
